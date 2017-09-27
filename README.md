@@ -58,6 +58,13 @@ git subtree pull --prefix web/<path_to_subproject>/<package_name> <package_name>
 
 # Contribute back to subtree
 git subtree push --prefix=web/<path_to_subproject>/<package_name> <package_name> master
+
+# Remove a subtree
+git rm -r <path_to_subproject>
+git remote remove <package_name> 
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch -rf <path_to_subproject>' --prune-empty -f HEAD
+git reflog expire --expire-unreachable=now --all
+git gc --prune=now
 ```
 
 
