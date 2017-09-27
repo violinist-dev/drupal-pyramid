@@ -26,32 +26,42 @@ Multi-repos strategy is a flexible way of build up your project for collaboratio
 
 It is based on [Git subtree](https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree).
 
-1. Download it with Composer 
+1. Get your sub-project.
+2. Add the sub-project as remote.
+3. Add the subtree.
+4. Update the subtree.
+5. Contribute back to sub-project.
+
+
+Comands are listed below. 
+
+You need to replace `<namespace>`, `<package_name>` and `<path_to_subproject_subproject>`.
+
 ```
-composer require <namespace>/<package-name>:~1.0
+# Download it with Composer
+composer require <namespace>/<package_name>:~1.0
+# OR clone it
+cd module/custom 
+git clone git@bitbucket.org:<namespace>/<package_name>.git
+
+# Add the remote as read-only
+git remote add -f <package_name> https://bitbucket.org/<namespace>/<package_name>.git
+# OR using SSH to be able to contribute back to it
+git remote add <package_name> ssh://git@bitbucket.org/<namespace>/<package_name>.git
+
+# Add the subtree to the main git
+git subtree add --prefix web/<path_to_subproject>/<package_name> <package_name> master --squash
+
+# Update the subtree
+git fetch <package_name> master
+git subtree pull --prefix web/<path_to_subproject>/<package_name> <package_name> master --squash
+
+# Contribute back to subtree
+git subtree push --prefix=web/<path_to_subproject>/<package_name> <package_name> master
 ```
 
-2. Add the sub-project as remote:
-```
-git remote add -f <package-name> https://bitbucket.org/<namespace>/<package-name>.git
-```
 
-3. Add the subtree:
-```
-git subtree add --prefix web/<path_to>/package-name> <package-name> master --squash
-```
-
-4. Update the subtree:
-```
-git fetch <package-name> master
-git subtree pull --prefix web/<path_to>/<package-name> <package-name> master --squash
-```
-
-5. Contribute back to multi-repos:
-```
-git remote add <package-name> ssh://git@bitbucket.org/<namespace>/<package-name>.git
-git subtree push --prefix=web/<path_to>/<package-name> <package-name> master
-```
+Real-world example can be found in [Pyramid Drupal Theme]()'s README file.
 
 ## Composer-based template
 
