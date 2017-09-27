@@ -1,6 +1,0 @@
-# Ignore generated files
-node_modules/
-css/
-
-# Ignore junk files
-.DS_Store
