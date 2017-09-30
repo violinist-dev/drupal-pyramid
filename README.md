@@ -55,3 +55,29 @@ git filter-branch --index-filter 'git rm --cached --ignore-unmatch -rf <path_to_
 git reflog expire --expire-unreachable=now --all
 git gc --prune=now
 ```
+
+## Add sub-project custom scripts
+
+Your subproject might have to automatic tasks to run. 
+
+Drupal themes for instance surely has to generate assets such as CSS, minify JS...etc
+
+The [Drupal Mastaba theme](https://github.com/MatthieuScarset/drupal_mastaba_theme) is a real-world example of a subproject with custom scripts to generate assets. As you can see in [its README file](https://github.com/MatthieuScarset/drupal_mastaba_theme#getting-started), you have to add your own custom scripts to `composer.json`. 
+
+Add your subproject Composer scripts: 
+```
+  "scripts": {
+    "...",
+    "subproject-script-name": "SubprojectNamespace\\SubprojectClass::taskToRun",
+    "post-install-cmd": [
+      "...",
+      "@subproject-script-name"
+    ],
+    "post-update-cmd": [
+      "...",
+      "@subproject-script-name"
+    ]
+  }
+```
+
+Any questions? Please have a look at [the wiki](https://github.com/MatthieuScarset/drupal-mastaba/wiki) or [open a new issue](https://github.com/MatthieuScarset/drupal-mastaba/issues).
