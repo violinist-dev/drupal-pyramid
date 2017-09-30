@@ -52,8 +52,8 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "drupal-pyramid-theme-build": "DrupalMastabaTheme\\composer\\ScriptHandler::build",
-    "drupal-pyramid-theme-update": "DrupalMastabaTheme\\composer\\ScriptHandler::update",
+    "drupal-pyramid-theme-build": "DrupalPyramidTheme\\composer\\ScriptHandler::build",
+    "drupal-pyramid-theme-update": "DrupalPyramidTheme\\composer\\ScriptHandler::update",
     "pre-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
     ],
