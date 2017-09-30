@@ -1,5 +1,5 @@
 {
-  "name": "matthieuscarset/drupal-mastaba",
+  "name": "matthieuscarset/drupal-pyramid",
   "description": "Composer-based template for Drupal 8 project with multiple sub-projects repositories.",
   "type": "project",
   "license": "GPL-2.0+",
@@ -24,7 +24,7 @@
     "drupal/console": "^1.0.1",
     "drupal/core": "~8.0",
     "drush/drush": "~8.0",
-    "matthieuscarset/drupal_mastaba_theme": "dev-master",
+    "matthieuscarset/drupal_pyramid_theme": "dev-master",
     "webflo/drupal-finder": "^1.0.0",
     "webmozart/path-util": "^2.3"
   },
@@ -52,8 +52,8 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "drupal-mastaba-theme-build": "DrupalMastabaTheme\\composer\\ScriptHandler::build",
-    "drupal-mastaba-theme-update": "DrupalMastabaTheme\\composer\\ScriptHandler::update",
+    "drupal-pyramid-theme-build": "DrupalMastabaTheme\\composer\\ScriptHandler::build",
+    "drupal-pyramid-theme-update": "DrupalMastabaTheme\\composer\\ScriptHandler::update",
     "pre-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
     ],
@@ -62,12 +62,12 @@
     ],
     "post-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-mastaba-theme-build",
+      "@drupal-pyramid-theme-build",
       "@drupal-scaffold"
     ],
     "post-update-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-mastaba-theme-update",
+      "@drupal-pyramid-theme-update",
       "@drupal-scaffold"
     ]
   },
