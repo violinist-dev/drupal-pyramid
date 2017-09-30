@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "942f0ce473cbbdd714100e9bf8e1b2c2",
+    "content-hash": "1087b820c48cb69f4b04947cdbf54b82",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2203,6 +2203,41 @@
                 "xml"
             ],
             "time": "2017-09-04T12:26:28+00:00"
+        },
+        {
+            "name": "matthieuscarset/drupal_mastaba_theme",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MatthieuScarset/drupal_mastaba_theme.git",
+                "reference": "deb0fb372592ff16a7135ca2933d6a23a67c3240"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MatthieuScarset/drupal_mastaba_theme/zipball/deb0fb372592ff16a7135ca2933d6a23a67c3240",
+                "reference": "deb0fb372592ff16a7135ca2933d6a23a67c3240",
+                "shasum": ""
+            },
+            "type": "drupal-theme",
+            "autoload": {
+                "classmap": [
+                    "src/composer/ScriptHandler.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Matthieu SCARSET",
+                    "email": "m@matthieuscarset.com",
+                    "homepage": "http://matthieuscarset.com/",
+                    "role": "Fullstack Drupal developer"
+                }
+            ],
+            "description": "A theme for Drupal Mastaba project theme.",
+            "time": "2017-09-30 15:43:49"
         },
         {
             "name": "nikic/php-parser",
@@ -6131,7 +6166,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "matthieuscarset/drupal_mastaba_theme": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
