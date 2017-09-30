@@ -9,7 +9,7 @@ A solution to work on multiple projects from within a single repository.
 
 Create a new project with Composer:
 ```
-composer create-project matthieuscarset/drupal-mastaba:8.x-dev <your_project_name> --stability dev --no-interaction
+composer create-project matthieuscarset/drupal-mastaba <your_project_name> --stability dev --no-interaction
 ```
 
 Alternatively, you can clone this repo and remove the Git history:
