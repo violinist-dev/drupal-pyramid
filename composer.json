@@ -61,10 +61,14 @@
       "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "post-install-cmd": [
-      "@drupal-pyramid-theme-build"
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
+      "@drupal-pyramid-theme-build",
+      "@drupal-scaffold"
     ],
     "post-update-cmd": [
-      "@drupal-pyramid-theme-build"
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
+      "@drupal-pyramid-theme-update",
+      "@drupal-scaffold"
     ]
   },
   "extra": {
