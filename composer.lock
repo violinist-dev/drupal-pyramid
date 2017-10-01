@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e98bcd01508351e8b08981cb836a460d",
+    "content-hash": "87879f092d56ba9e6167492014ed90ee",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1093,6 +1093,41 @@
             ],
             "description": "Composer Plugin for updating the Drupal scaffold files when using drupal/core",
             "time": "2017-05-05T21:26:28+00:00"
+        },
+        {
+            "name": "drupal-pyramid/drupal_pyramid_theme",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drupal-pyramid/drupal_pyramid_theme.git",
+                "reference": "8d74e79555b203fa5f906f46640186872ad862d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drupal-pyramid/drupal_pyramid_theme/zipball/8d74e79555b203fa5f906f46640186872ad862d8",
+                "reference": "8d74e79555b203fa5f906f46640186872ad862d8",
+                "shasum": ""
+            },
+            "type": "drupal-theme",
+            "autoload": {
+                "classmap": [
+                    "src/composer/ScriptHandler.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Matthieu SCARSET",
+                    "email": "m@matthieuscarset.com",
+                    "homepage": "http://matthieuscarset.com/",
+                    "role": "Fullstack Drupal developer"
+                }
+            ],
+            "description": "A theme for Drupal Pyramid project theme.",
+            "time": "2017-10-01T22:06:54+00:00"
         },
         {
             "name": "drupal/console",
@@ -2207,41 +2242,6 @@
                 "xml"
             ],
             "time": "2017-09-04T12:26:28+00:00"
-        },
-        {
-            "name": "matthieuscarset/drupal_pyramid_theme",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/MatthieuScarset/drupal_pyramid_theme.git",
-                "reference": "f97e3673e6c274aded53a29e61334a09aedc0063"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/MatthieuScarset/drupal_pyramid_theme/zipball/f97e3673e6c274aded53a29e61334a09aedc0063",
-                "reference": "f97e3673e6c274aded53a29e61334a09aedc0063",
-                "shasum": ""
-            },
-            "type": "drupal-theme",
-            "autoload": {
-                "classmap": [
-                    "src/composer/ScriptHandler.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Matthieu SCARSET",
-                    "email": "m@matthieuscarset.com",
-                    "homepage": "http://matthieuscarset.com/",
-                    "role": "Fullstack Drupal developer"
-                }
-            ],
-            "description": "A theme for Drupal Pyramid project theme.",
-            "time": "2017-10-01T00:23:50+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -6171,7 +6171,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "matthieuscarset/drupal_pyramid_theme": 20
+        "drupal-pyramid/drupal_pyramid_theme": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
