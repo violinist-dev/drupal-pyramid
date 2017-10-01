@@ -2214,12 +2214,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/MatthieuScarset/drupal_pyramid_theme.git",
-                "reference": "cb385ff2d0ee826eddf2e25244a0eea7eab45182"
+                "reference": "f97e3673e6c274aded53a29e61334a09aedc0063"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MatthieuScarset/drupal_pyramid_theme/zipball/cb385ff2d0ee826eddf2e25244a0eea7eab45182",
-                "reference": "cb385ff2d0ee826eddf2e25244a0eea7eab45182",
+                "url": "https://api.github.com/repos/MatthieuScarset/drupal_pyramid_theme/zipball/f97e3673e6c274aded53a29e61334a09aedc0063",
+                "reference": "f97e3673e6c274aded53a29e61334a09aedc0063",
                 "shasum": ""
             },
             "type": "drupal-theme",
@@ -2241,7 +2241,7 @@
                 }
             ],
             "description": "A theme for Drupal Pyramid project theme.",
-            "time": "2017-09-30T22:55:35+00:00"
+            "time": "2017-10-01T00:23:50+00:00"
         },
         {
             "name": "nikic/php-parser",
