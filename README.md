@@ -9,12 +9,12 @@ A solution to work on multiple projects from within a single repository.
 
 Create a new project with Composer:
 ```
-composer create-project matthieuscarset/drupal-pyramid <your_project_name> --stability dev --no-interaction
+composer create-project drupal-pyramid/drupal-pyramid <your_project_name> --stability dev --no-interaction
 ```
 
 Alternatively, you can clone this repo and remove the Git history:
 ```
-git clone git@github.com:MatthieuScarset/drupal-pyramid.git <your_project_name>
+git clone git@github.com:drupal-pyramid/drupal-pyramid.git <your_project_name>
 rm -rf <your_project_name>/.git
 git init
 git add .
@@ -62,7 +62,7 @@ Your subproject might have to automatic tasks to run.
 
 Drupal themes for instance surely has to generate assets such as CSS, minify JS...etc
 
-The [Drupal Pyramid theme](https://github.com/MatthieuScarset/drupal_pyramid_theme) is a real-world example of a subproject with custom scripts to generate assets. As you can see in [its README file](https://github.com/MatthieuScarset/drupal_pyramid_theme#getting-started), you have to add your own custom scripts to `composer.json`. 
+The [Drupal Pyramid theme](https://github.com/drupal-pyramid/drupal_pyramid_theme) is a real-world example of a subproject with custom scripts to generate assets. As you can see in [its README file](https://github.com/MatthieuScarset/drupal_pyramid_theme#getting-started), you have to add your own custom scripts to `composer.json`. 
 
 Add your subproject Composer scripts: 
 ```
@@ -80,4 +80,4 @@ Add your subproject Composer scripts:
   }
 ```
 
-Any questions? Please have a look at [the wiki](https://github.com/MatthieuScarset/drupal-pyramid/wiki) or [open a new issue](https://github.com/MatthieuScarset/drupal-pyramid/issues).
+Any questions? Please have a look at [the wiki](https://github.com/drupal-pyramid/drupal-pyramid/wiki) or [open a new issue](https://github.com/drupal-pyramid/drupal-pyramid/issues).

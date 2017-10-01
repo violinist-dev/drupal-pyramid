@@ -1,5 +1,5 @@
 {
-  "name": "matthieuscarset/drupal-pyramid",
+  "name": "drupal-pyramid/drupal-pyramid",
   "description": "Composer-based template for Drupal 8 project with multiple sub-projects repositories.",
   "type": "project",
   "license": "GPL-2.0+",
@@ -24,7 +24,7 @@
     "drupal/console": "^1.0.1",
     "drupal/core": "~8.0",
     "drush/drush": "~8.0",
-    "matthieuscarset/drupal_pyramid_theme": "dev-master",
+    "drupal-pyramid/drupal_pyramid_theme": "dev-master",
     "webflo/drupal-finder": "^1.0.0",
     "webmozart/path-util": "^2.3"
   },
