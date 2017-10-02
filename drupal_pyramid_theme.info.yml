@@ -1,0 +1,15 @@
+name: 'Pyramid Theme'
+type: theme
+description: 'A D8 demo theme.'
+package: Core
+version: VERSION
+core: 8.x
+hidden: false
+base theme: classy
+
+libraries:
+  - drupal_pyramid_theme/base
+
+libraries-extend:
+  node/drupal.node:
+    - drupal_pyramid_theme/node
