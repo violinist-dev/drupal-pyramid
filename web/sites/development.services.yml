@@ -14,11 +14,10 @@ parameters:
     enabled: true
     allowedHeaders: ['*']
     allowedMethods: ['*']
-    allowedOrigins: [
-      'localhost:*',
-      'drupalvm.dev:*',
-      'drupal.docker.localhost:*'
-    ]
+    allowedOrigins:
+      - 'localhost:*'
+      - 'drupalvm.dev:*'
+      - 'drupal.docker.localhost:*'
     exposedHeaders: true
     maxAge: false
     supportsCredentials: false    
