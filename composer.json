@@ -1,15 +1,9 @@
 {
-  "name": "pyramid/pyramid-drupal-project",
-  "description": "Composer-based template for Drupal 8 multi-repos projects.",
+  "name": "drupal-pyramid/drupal-pyramid",
+  "description": "Composer-based template for Drupal 8 project with multiple sub-projects repositories.",
   "type": "project",
   "license": "GPL-2.0+",
   "authors": [
-    {
-      "name": "Appnovation",
-      "role": "Drupal experts",
-      "email": "contact@appnovation.com",
-      "homepage": "https://appnovation.com/"
-    },
     {
       "name": "Matthieu SCARSET",
       "role": "Drupal developer",
