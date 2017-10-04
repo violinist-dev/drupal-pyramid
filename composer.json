@@ -6,7 +6,7 @@
   "authors": [
     {
       "name": "Matthieu SCARSET",
-      "role": "Drupal developer",
+      "role": "Fullstack Drupal developer",
       "email": "m@matthieuscarset.com",
       "homepage": "http://matthieuscarset.com/"
     }
@@ -25,6 +25,7 @@
     "drupal/console": "^1.0.1",
     "drupal/core": "~8.0",
     "drush/drush": "~8.0",
+    "drupal-pyramid/drupal_pyramid_theme": "dev-master",
     "webflo/drupal-finder": "^1.0.0",
     "webmozart/path-util": "^2.3"
   },
@@ -55,6 +56,8 @@
     "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
     "generate-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
     "fix-permissions": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",    
+    "drupal-pyramid-theme-build": "DrupalPyramidTheme\\ScriptHandler::build",
+    "drupal-pyramid-theme-update": "DrupalPyramidTheme\\ScriptHandler::update",
     "pre-install-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
@@ -68,6 +71,7 @@
     ],
     "post-update-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
+      "@drupal-pyramid-theme-build",
       "@drupal-scaffold",
       "@fix-permissions"      
     ]
@@ -96,9 +100,9 @@
     "drupal-scaffold": {
       "excludes": [
         "sites/development.services.yml"
-      ],      
+      ],
       "initial": {
-        "sites/default/default.services.yml": "sites/default/services.yml", 
+        "sites/default/default.services.yml": "sites/default/services.yml",
         "sites/default/default.settings.php": "sites/default/settings.php"
       }
     }
