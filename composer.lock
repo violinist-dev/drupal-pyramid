@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "27c69174a934b51bac4bef89d32a35c6",
+    "content-hash": "0297c7b661efa849473d9ba2d4e2b2dc",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1095,6 +1095,41 @@
             "time": "2017-05-05T21:26:28+00:00"
         },
         {
+            "name": "drupal-pyramid/drupal_pyramid_theme",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drupal-pyramid/drupal_pyramid_theme.git",
+                "reference": "8d74e79555b203fa5f906f46640186872ad862d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drupal-pyramid/drupal_pyramid_theme/zipball/8d74e79555b203fa5f906f46640186872ad862d8",
+                "reference": "8d74e79555b203fa5f906f46640186872ad862d8",
+                "shasum": ""
+            },
+            "type": "drupal-theme",
+            "autoload": {
+                "classmap": [
+                    "src/composer/ScriptHandler.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Matthieu SCARSET",
+                    "email": "m@matthieuscarset.com",
+                    "homepage": "http://matthieuscarset.com/",
+                    "role": "Fullstack Drupal developer"
+                }
+            ],
+            "description": "A theme for Drupal Pyramid project theme.",
+            "time": "2017-10-01T22:06:54+00:00"
+        },
+        {
             "name": "drupal/chatbot_api",
             "version": "dev-1.x",
             "source": {
@@ -1124,35 +1159,11 @@
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
-        },
-        {
-            "name": "drupal-pyramid/drupal_pyramid_theme",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/drupal-pyramid/drupal_pyramid_theme.git",
-                "reference": "8d74e79555b203fa5f906f46640186872ad862d8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drupal-pyramid/drupal_pyramid_theme/zipball/8d74e79555b203fa5f906f46640186872ad862d8",
-                "reference": "8d74e79555b203fa5f906f46640186872ad862d8",
-                "shasum": ""
-            },
-            "type": "drupal-theme",
-            "autoload": {
-                "classmap": [
-                    "src/composer/ScriptHandler.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
->>>>>>> master
             "license": [
                 "GPL-2.0+"
             ],
             "authors": [
                 {
-<<<<<<< HEAD
                     "name": "gambry",
                     "homepage": "https://www.drupal.org/user/400462"
                 },
@@ -1171,16 +1182,6 @@
                 "issues": "https://www.drupal.org/project/issues/chatbot_api"
             },
             "time": "2017-09-19T21:20:31+00:00"
-=======
-                    "name": "Matthieu SCARSET",
-                    "email": "m@matthieuscarset.com",
-                    "homepage": "http://matthieuscarset.com/",
-                    "role": "Fullstack Drupal developer"
-                }
-            ],
-            "description": "A theme for Drupal Pyramid project theme.",
-            "time": "2017-10-01T22:06:54+00:00"
->>>>>>> master
         },
         {
             "name": "drupal/console",
@@ -6224,11 +6225,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-<<<<<<< HEAD
-        "drupal/chatbot_api": 20
-=======
+        "drupal/chatbot_api": 20,
         "drupal-pyramid/drupal_pyramid_theme": 20
->>>>>>> master
     },
     "prefer-stable": true,
     "prefer-lowest": false,
