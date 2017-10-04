@@ -12,9 +12,16 @@ use Composer\Semver\Comparator;
 use DrupalFinder\DrupalFinder;
 use Symfony\Component\Filesystem\Filesystem;
 use Webmozart\PathUtil\Path;
+use Composer\Util\ProcessExecutor;
 
 class ScriptHandler {
 
+  /**
+   * Create necessary files and folders for Drupal install.
+   *
+   * @param Event $event
+   * @return void
+   */
   public static function createRequiredFiles(Event $event) {
     $fs = new Filesystem();
     $drupalFinder = new DrupalFinder();
@@ -95,6 +102,91 @@ class ScriptHandler {
       $io->writeError('<error>Drupal-project requires Composer version 1.0.0 or higher. Please update your Composer before continuing</error>.');
       exit(1);
     }
+  }
+
+  /**
+   * Delete contrib and vendor folders.
+   *
+   * @return void
+   */
+  public static function dependencyCleanup() {
+    $fs = new Filesystem();
+    $root = getcwd();
+
+    $directories = array(
+      "bin",
+      "web/core",
+      "web/libraries",
+      "web/modules/contrib",
+      "web/profiles/contrib",
+      "web/themes/contrib",
+      "drush/contrib",
+      "vendor",
+    );
+
+    $directories = array_map(function ($directory) use ($root) {
+      return $root.'/'.$directory;
+    }, $directories);
+
+    $fs->remove($directories);
+
+    echo "(!) Now you can run 'composer install' to get the latest dependencies.";
+
+  }
+
+  /**
+   * Generate OpenSSL keys.
+   * This is useful for headless Drupal for instance.
+   *
+   * @param Event $event
+   * @return void
+   */
+  public static function generateOpenSslKeys(Event $event) {
+    $root = static::getCertificatesRoot(getcwd());
+    $process = new ProcessExecutor($event->getIO());
+    
+    $event->getIO()->write("Removing old keys");
+    $process->execute("rm -f " . $root . "/*.key");
+    
+    $event->getIO()->write("Generate new keys");
+    $process->execute("openssl genrsa -out " . $root . "/private.key 2048");
+    $process->execute("openssl rsa -in " . $root . "/private.key -pubout > " . $root . "/public.key");
+
+    // Fix keys permissions.
+    self::fixOpenSslKeysPermissions($event);
+  }
+  
+  /**
+   * Fix OpenSSL keys files permission.
+   *
+   * @param Event $event
+   * @return void
+   */
+  public static function fixOpenSslKeysPermissions(Event $event) {
+    $root = static::getCertificatesRoot(getcwd());
+    $process = new ProcessExecutor($event->getIO());
+
+    $event->getIO()->write("Fixing OpenSSL keys permissions");
+    $process->execute("chmod 600 " . $root . "/*.key");
+  }
+  
+  /**
+   * Fix files and folders permissions.
+   *
+   * @see https://www.drupal.org/node/244924 
+   * @param Event $event
+   * @return void
+   */
+  public static function fixPermissions(Event $event) {
+    $root = static::getDrupalRoot(getcwd());
+    $process = new ProcessExecutor($event->getIO());
+    $event->getIO()->write("Fixing files permissions");
+    $process->execute("find " . $root . " -type d -exec chmod u=rwx,g=rx,o= '{}' \;");
+    $event->getIO()->write("Fixing folder permissions");
+    $process->execute("find " . $root . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
+
+    // Fix keys permissions.
+    self::fixOpenSslKeysPermissions($event);        
   }
 
 }

@@ -57,6 +57,9 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "dependency-cleanup": "Drupal\\composer\\ScriptHandler::dependencyCleanup",
+    "generate-openssl-keys": "Drupal\\composer\\ScriptHandler::generateOpenSslKeys",
+    "fix-permissions": "Drupal\\composer\\ScriptHandler::fixPermissions",    
     "pre-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
     ],
@@ -65,11 +68,13 @@
     ],
     "post-install-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-scaffold"
+      "@drupal-scaffold",
+      "@fix-permissions"      
     ],
     "post-update-cmd": [
       "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-scaffold"
+      "@drupal-scaffold",
+      "@fix-permissions"      
     ]
   },
   "extra": {
@@ -94,6 +99,9 @@
       ]
     },
     "drupal-scaffold": {
+      "excludes": [
+        "sites/development.services.yml"
+      ],      
       "initial": {
         "sites/default/default.services.yml": "sites/default/services.yml", 
         "sites/default/default.settings.php": "sites/default/settings.php"
