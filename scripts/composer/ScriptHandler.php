@@ -142,15 +142,22 @@ class ScriptHandler {
    * @return void
    */
   public static function generateOpenSslKeys(Event $event) {
-    $root = static::getCertificatesRoot(getcwd());
+    $fs = new Filesystem();
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $certificatesRoot = $drupalFinder->getComposerRoot() . "/certificates";
     $process = new ProcessExecutor($event->getIO());
     
+    if (!$fs->exists($certificatesRoot)) {
+      $fs->mkdir($certificatesRoot, 0755);
+    }
+
     $event->getIO()->write("Removing old keys");
-    $process->execute("rm -f " . $root . "/*.key");
+    $process->execute("rm -f " . $certificatesRoot . "/*.key");
     
     $event->getIO()->write("Generate new keys");
-    $process->execute("openssl genrsa -out " . $root . "/private.key 2048");
-    $process->execute("openssl rsa -in " . $root . "/private.key -pubout > " . $root . "/public.key");
+    $process->execute("openssl genrsa -out " . $certificatesRoot . "/private.key 2048");
+    $process->execute("openssl rsa -in " . $certificatesRoot . "/private.key -pubout > " . $certificatesRoot . "/public.key");
 
     // Fix keys permissions.
     self::fixOpenSslKeysPermissions($event);
@@ -163,11 +170,14 @@ class ScriptHandler {
    * @return void
    */
   public static function fixOpenSslKeysPermissions(Event $event) {
-    $root = static::getCertificatesRoot(getcwd());
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $certificatesRoot = $drupalFinder->getComposerRoot() . "/certificates";
+
     $process = new ProcessExecutor($event->getIO());
 
     $event->getIO()->write("Fixing OpenSSL keys permissions");
-    $process->execute("chmod 600 " . $root . "/*.key");
+    $process->execute("chmod 600 " . $certificatesRoot . "/*.key");
   }
   
   /**
@@ -178,12 +188,15 @@ class ScriptHandler {
    * @return void
    */
   public static function fixPermissions(Event $event) {
-    $root = static::getDrupalRoot(getcwd());
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $drupalRoot = $drupalFinder->getDrupalRoot();
+    
     $process = new ProcessExecutor($event->getIO());
     $event->getIO()->write("Fixing files permissions");
-    $process->execute("find " . $root . " -type d -exec chmod u=rwx,g=rx,o= '{}' \;");
+    $process->execute("find " . $drupalRoot . " -type d -exec chmod u=rwx,g=rx,o= '{}' \;");
     $event->getIO()->write("Fixing folder permissions");
-    $process->execute("find " . $root . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
+    $process->execute("find " . $drupalRoot . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
 
     // Fix keys permissions.
     self::fixOpenSslKeysPermissions($event);        
