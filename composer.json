@@ -57,22 +57,22 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "dependency-cleanup": "Drupal\\composer\\ScriptHandler::dependencyCleanup",
-    "generate-openssl-keys": "Drupal\\composer\\ScriptHandler::generateOpenSslKeys",
-    "fix-permissions": "Drupal\\composer\\ScriptHandler::fixPermissions",    
+    "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
+    "generate-openssl-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
+    "fix-permissions": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",    
     "pre-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "pre-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "post-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
+      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
       "@drupal-scaffold",
       "@fix-permissions"      
     ],
     "post-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
+      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
       "@drupal-scaffold",
       "@fix-permissions"      
     ]

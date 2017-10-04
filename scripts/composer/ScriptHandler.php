@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \DrupalProject\composer\ScriptHandler.
+ * Contains \DrupalPyramid\composer\ScriptHandler.
  */
 
-namespace DrupalProject\composer;
+namespace DrupalPyramid\composer;
 
 use Composer\Script\Event;
 use Composer\Semver\Comparator;
@@ -130,7 +130,7 @@ class ScriptHandler {
 
     $fs->remove($directories);
 
-    echo "(!) Now you can run 'composer install' to get the latest dependencies.";
+    echo "(!) Now you can run 'composer install' to get the latest dependencies. \n";
 
   }
 
