@@ -58,7 +58,7 @@
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
-    "generate-openssl-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
+    "generate-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
     "fix-permissions": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",    
     "pre-install-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
