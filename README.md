@@ -1,35 +1,65 @@
 # Drupal Pyramid
 
-A solution to work on multiple projects from within a single repository.
+A starter kit for your Drupal projects with instructions to work on multiple subprojects.
 
-![An ancient Egyptian Pyramid](http://drupal-pyramid.org/img/pyramids.jpg)
+![Pyramids](http://drupal-pyramid.org/img/pyramids.jpg)
 
 
 ## Getting started
 
 Create a new project with Composer:
 ```
-composer create-project drupal-pyramid/drupal-pyramid <your_project_name> --stability dev --no-interaction
+composer create-project drupal-pyramid/drupal-pyramid <project_name> --stability dev --no-interaction
 ```
 
 Alternatively, you can clone this repo and remove the Git history:
 ```
-git clone git@github.com:drupal-pyramid/drupal-pyramid.git <your_project_name>
-rm -rf <your_project_name>/.git
+git clone git@github.com:drupal-pyramid/drupal-pyramid.git <project_name>
+rm -rf <project_name>/.git
 git init
 git add .
 git commit -m "Initial commit (Drupal Pyramid project)"
-composer install
 ```
 
-You can now start to add sub-projects to your project.
+# How to install
+
+We recommend you install [Lando](https://docs.devwithlando.io/installation/installing.html).
+
+1. Init your environment
+1. install dependencies
+1. Create local settings file
+1. Install Drupal
+1. Set your website name...etc
+1. Export your new settings
+1. Secure your installation
+1. Commit your work
+1. [Enjoy](http://gph.is/1auVl0T)!
+
+```
+lando init --recipe drupal8 --webroot web --name <project_name>
+lando start
+lando composer install
+sudo cp web/sites/example.settings.local.php web/sites/default/settings.local.php
+lando drush si config_installer -r web -y 
+lando drush config-set system.name "My website name"
+lando drush config-set system.slogan "My slogan"
+lando drush config-set system.mail "your@email.com"
+lando drush config-split-export -r web -y
+lando drush user-create yourname --password="yourpassword" --mail="your@email.com" -r web -y
+lando drush user-add-role "administrator" --name=yourname -r web -y
+lando drush user-password yourname --password=YourVeryLongAnd$ecureP@ssword -r web -y
+lando drush user-block --name="admin" -r web -y
+git init
+git add .
+git commit -m "Initial install and update website info"
+```
+
+You now have working Drupal website at [https://<project_name>.lndo.site](https://<project_name>.lndo.site)
 
 
-## Add a new sub-project
+# How to add many repos
 
-Following is an example of adding a new custom modules as a subproject.
-
-### Download subproject 
+## Download subproject 
 
 Preferably, you would host your subproject in a [Packagist](https://packagist.org/) server so you can download if as a dependency with Composer.
 ```
@@ -41,33 +71,30 @@ Alternatively, you can clone it from a Git repository.
 git clone git@github.com:<namespace>/<subproject_name>.git custom/modules/<subproject_name>
 ```
 
-### Add the subproject as a remote
+## Add a git subtree
 
-Add the subproject as a new Git remote in your main project. 
+1. Add the subproject as a remote
+1. Init the subproject (using SSH to be able to contribute back)
+1. Fetch the subtree
+1. Pull latest changes
 
-Use the SSH address to be able to contribute back to it or the HTTP(S) if you need read-only access only.
 
 ```
 git remote add <subproject_name> ssh://git@github.com/<package_git_url>.git
-```
-
-### Initialize the Git subtree
-
-```
-git subtree add --prefix <path_to_subproject>/<subproject_name> <subproject_name> master --squash
-```
-
-### Update the subtree
-
-```
+git subtree add --prefix <path_to_subproject> <subproject_name> master --squash
 git fetch <subproject_name> master
-git subtree pull --prefix <path_to_subproject>/<subproject_name> <subproject_name> master --squash
+git subtree pull --prefix <path_to_subproject> <subproject_name> master --squash
 ```
 
-### Contribute back to subproject
+### Commit and contribute to subproject
+
+1. Make some changes to any files
+1. Commit your changes
+1. Push changes to your project and to the subproject
 
 ```
-git subtree push --prefix=<path_to_subproject>/<subproject_name> <subproject_name> master
+touch <path_to_subproject>/
+git subtree push --prefix=<path_to_subproject> <subproject_name> master
 ```
 
 ### Remove a subtree
@@ -79,7 +106,9 @@ git filter-branch --index-filter 'git rm --cached --ignore-unmatch -rf <path_to_
 git reflog expire --expire-unreachable=now --all
 git gc --prune=now
 ```
-## Add your custom scripts to Composer
+
+
+# Cstom Composer scripts
 
 Your subproject might need automated tasks to be run.
 

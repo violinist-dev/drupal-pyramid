@@ -1,6 +1,6 @@
 {
   "name": "drupal-pyramid/drupal-pyramid",
-  "description": "Composer-based template for Drupal 8 project with multiple sub-projects repositories.",
+  "description": "Composer-based template for Drupal projects.",
   "type": "project",
   "license": "GPL-2.0+",
   "authors": [
@@ -20,13 +20,17 @@
   "require": {
     "composer/installers": "^1.2",
     "cweagans/composer-patches": "^1.6",
+    "oomphinc/composer-installers-extender": "^1.1",
     "drupal-composer/drupal-scaffold": "^2.2",
-    "drupal/console": "^1.0.1",
-    "drupal/core": "~8.0",
-    "drush/drush": "~8.0",
-    "drupal-pyramid/drupal_pyramid_theme": "dev-master",
     "webflo/drupal-finder": "^1.0.0",
-    "webmozart/path-util": "^2.3"
+    "webmozart/path-util": "^2.3",
+    "drush/drush": "~8.0",
+    "drupal/core": "~8.0",
+    "drupal/console": "^1.0.1",
+    "drupal/config_split": "^1.2",
+    "drupal/config_installer": "^1.5",
+    "drupal-pyramid/drupal_pyramid_theme": "dev-master",
+    "drupal/chatbot_api": "1.x-dev"
   },
   "require-dev": {
     "behat/mink": "~1.7",
@@ -35,7 +39,9 @@
     "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
     "mikey179/vfsstream": "~1.2",
     "phpunit/phpunit": ">=4.8.28 <5",
-    "symfony/css-selector": "~2.8"
+    "symfony/css-selector": "~2.8",
+    "drupal/coder": "~8.0",
+    "drupal/devel": "~1.0"
   },
   "conflict": {
     "drupal/drupal": "*"
@@ -43,7 +49,9 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
-    "sort-packages": true
+    "bin-dir": "bin/",
+    "sort-packages": true,
+    "discard-changes": true
   },
   "autoload": {
     "classmap": [
@@ -52,26 +60,35 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "drupal-pyramid-theme-build": "DrupalPyramidTheme\\ScriptHandler::build",
-    "drupal-pyramid-theme-update": "DrupalPyramidTheme\\ScriptHandler::update",
+    "git-cleanup": "DrupalPyramid\\composer\\ScriptHandler::gitCleanup",
+    "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
+    "generate-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
+    "fix-permissions": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",
     "pre-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "pre-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "post-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-pyramid-theme-build",
-      "@drupal-scaffold"
+      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
+      "@drupal-scaffold",
+      "@generate-keys",
+      "@git-cleanup",
+      "@fix-permissions"      
     ],
     "post-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-pyramid-theme-update",
-      "@drupal-scaffold"
+      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
+      "@drupal-scaffold",
+      "@git-cleanup",
+      "@fix-permissions"      
     ]
   },
   "extra": {
+    "installer-types": [
+      "drupal-config",
+      "drupal-theme-custom"
+    ],
     "installer-paths": {
       "web/core": [
         "type:drupal-core"
@@ -94,6 +111,8 @@
     },
     "drupal-scaffold": {
       "excludes": [
+        "sites/example.settings.local.php",
+        "sites/default/default.settings.php",
         "sites/development.services.yml"
       ],
       "initial": {

@@ -16,8 +16,7 @@ parameters:
     allowedMethods: ['*']
     allowedOrigins:
       - 'localhost:*'
-      - 'drupalvm.dev:*'
-      - 'drupal.docker.localhost:*'
+      - '*.lndo.site'
     exposedHeaders: true
     maxAge: false
     supportsCredentials: false    
