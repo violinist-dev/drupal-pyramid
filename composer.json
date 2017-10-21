@@ -62,8 +62,10 @@
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "git-cleanup": "DrupalPyramid\\composer\\ScriptHandler::gitCleanup",
     "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
+    "generate-salt": "DrupalPyramid\\composer\\ScriptHandler::generateSalt",
     "generate-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
     "fix-permissions": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",
+    "fix-permissions-keys": "DrupalPyramid\\composer\\ScriptHandler::fixOpenSslKeysPermissions",
     "pre-install-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
@@ -73,15 +75,18 @@
     "post-install-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
       "@drupal-scaffold",
+      "@generate-salt",
       "@generate-keys",
       "@git-cleanup",
-      "@fix-permissions"      
+      "@fix-permissions",
+      "@fix-permissions-keys"
     ],
     "post-update-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
       "@drupal-scaffold",
       "@git-cleanup",
-      "@fix-permissions"      
+      "@fix-permissions",
+      "@fix-permissions-keys"
     ]
   },
   "extra": {

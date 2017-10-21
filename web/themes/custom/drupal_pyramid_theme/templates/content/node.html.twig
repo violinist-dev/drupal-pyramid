@@ -1,0 +1,70 @@
+{#
+/**
+ * @file
+ * Theme override to display a node.
+ *
+ * Copy from the Classy theme.
+ *
+ * @see template_preprocess_node()
+ *
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+
+{#
+/**
+ * Attach our custom CSS 
+ */
+ #}
+{{ attach_library('pyramide_drupal_theme/node') }}
+
+{#
+/**
+ * Our default node markup.
+ * We use some {% block ... %} so you can replace/hide
+ * content in others Twig files.
+ */
+ #}
+<article{{ attributes.addClass(classes) }}>
+
+  {# Header block #}
+  {% block header %}
+  {{ title_prefix }}
+  {% if not page %}
+    <h2{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+  {% endblock %}
+
+  {# Content block #}
+  {% block content %}
+  <div{{ content_attributes.addClass('node__content') }}>
+    {{ content }}
+  </div>
+  {% endblock %}
+
+  {# Footer block #}
+  {% block footer %}
+  {% if display_submitted %}
+    <footer class="node__meta">
+      {{ author_picture }}
+      <div{{ author_attributes.addClass('node__submitted') }}>
+        {# Right way to translate #}
+        {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+        {{ metadata }}
+      </div>
+    </footer>
+  {% endif %}
+  {% endblock %}
+
+</article>

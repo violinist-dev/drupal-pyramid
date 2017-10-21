@@ -13,6 +13,7 @@ use DrupalFinder\DrupalFinder;
 use Symfony\Component\Filesystem\Filesystem;
 use Webmozart\PathUtil\Path;
 use Composer\Util\ProcessExecutor;
+use Drupal\Component\Utility\Crypt;
 
 class ScriptHandler {
 
@@ -117,9 +118,7 @@ class ScriptHandler {
     $process = new ProcessExecutor($io);
 
     $directories = [
-      $drupalRoot . '/modules/contrib/',
-      $drupalRoot . '/profiles/contrib/',
-      $drupalRoot . '/themes/contrib/',
+      $drupalRoot,
       './vendor/'
     ];
 
@@ -161,11 +160,44 @@ class ScriptHandler {
   }
 
   /**
+   * Generate Salt file.
+   *
+   * Regenerate salt.txt file and use it settings.php.
+   *
+   * Use `file_get_contents($app_root . '/' . $site_path . '/salt.txt')`;
+   *
+   * @param Composer\Script\Event $event
+   *   Sent by composer.
+   */
+  public static function generateSalt(Event $event) {
+    $io = $event->getIo();
+    $fs = new FileSystem();
+    $process = new ProcessExecutor($io);
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $drupalRoot = $drupalFinder->getDrupalRoot();
+    $salt_file = $drupalRoot . "/sites/default/salt.txt";
+
+    $fs->chmod($drupalRoot . "/sites/default", 0775);
+    if ($fs->exists($salt_file)) {
+      $io->write("Removing old salt.txt file...");
+      $process->execute("rm -f " . $salt_file);
+    }
+
+    $io->write("Generating " . $salt_file);
+    $salt = Crypt::randomBytesBase64(55);
+    $process->execute("touch " . $salt_file);
+    $process->execute("echo " . $salt . " > " . $salt_file);
+    $io->write($salt);
+
+    self::fixPermissions($event, $drupalRoot . '/sites/default');
+  }
+
+  /**
    * Generate OpenSSL keys.
-   * This is useful for headless Drupal for instance.
+   * This is useful for headless Drupal (have a look a ContentaCMS).
    *
    * @param Event $event
-   * @return void
    */
   public static function generateOpenSslKeys(Event $event) {
     $fs = new Filesystem();
@@ -193,7 +225,6 @@ class ScriptHandler {
    * Fix OpenSSL keys files permission.
    *
    * @param Event $event
-   * @return void
    */
   public static function fixOpenSslKeysPermissions(Event $event) {
     $drupalFinder = new DrupalFinder();
@@ -213,19 +244,19 @@ class ScriptHandler {
    * @param Event $event
    * @return void
    */
-  public static function fixPermissions(Event $event) {
+  public static function fixPermissions(Event $event, $path = FALSE) {    
     $drupalFinder = new DrupalFinder();
     $drupalFinder->locateRoot(getcwd());
     $drupalRoot = $drupalFinder->getDrupalRoot();
-    
+
+    $dir = is_string($path) ? $path : $drupalRoot;
+
     $process = new ProcessExecutor($event->getIO());
     $event->getIO()->write("Fixing files permissions");
-    $process->execute("find " . $drupalRoot . " -type d -exec chmod u=rwx,g=rx,o= '{}' \;");
+    $process->execute("find " . $dir . " -type d -exec chmod u=rwx,g=rx,o= '{}' \;");
     $event->getIO()->write("Fixing folder permissions");
-    $process->execute("find " . $drupalRoot . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
-
-    // Fix keys permissions.
-    self::fixOpenSslKeysPermissions($event);        
+    $process->execute("find " . $dir . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
+        
   }
 
 }
