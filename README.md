@@ -39,7 +39,7 @@ sudo cp web/sites/example.settings.local.php web/sites/default/settings.local.ph
 lando drush si config_installer -r web -y 
 lando drush user-create yourname --password="yourpassword" --mail="your@email.com" -r web -y
 lando drush user-add-role "administrator" --name=yourname -r web -y
-lando drush user-password admin --password=admin -r web -y
+lando drush user-password yourname --password=YourVeryLongAnd$ecureP@ssword -r web -y
 lando drush user-block --name="admin" -r web -y
 ```
 
