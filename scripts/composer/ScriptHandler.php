@@ -17,6 +17,18 @@ use Composer\Util\ProcessExecutor;
 class ScriptHandler {
 
   /**
+   * Get Drupal root.
+   *
+   * @return string
+   *    Drupal root folder path.
+   */
+  protected static function getDrupalRoot() {
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    return $drupalFinder->getDrupalRoot();
+  }  
+
+  /**
    * Create necessary files and folders for Drupal install.
    *
    * @param Event $event
@@ -24,9 +36,7 @@ class ScriptHandler {
    */
   public static function createRequiredFiles(Event $event) {
     $fs = new Filesystem();
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $drupalRoot = $drupalFinder->getDrupalRoot();
+    $drupalRoot = self::getDrupalRoot();
 
     $dirs = [
       'modules',
@@ -102,6 +112,30 @@ class ScriptHandler {
       $io->writeError('<error>Drupal-project requires Composer version 1.0.0 or higher. Please update your Composer before continuing</error>.');
       exit(1);
     }
+  }
+
+  /**
+   * Delete git from contrib and vendor folders.
+   *
+   * @return void
+   */
+  public static function gitCleanup(Event $event) {
+    $io = $event->getIo();
+    $drupalRoot = self::getDrupalRoot();
+    $process = new ProcessExecutor($io);
+
+    $directories = [
+      $drupalRoot . '/modules/contrib/',
+      $drupalRoot . '/profiles/contrib/',
+      $drupalRoot . '/themes/contrib/',
+      './vendor/'
+    ];
+
+    foreach ($directories as $dir) {
+      $process->execute('find ' . $dir . ' -type d -name ".git" | xargs rm -rf');
+      $io->write("Done! Git submodules removed from " . $dir);
+    }
+
   }
 
   /**
