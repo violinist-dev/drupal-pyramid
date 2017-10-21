@@ -38,17 +38,24 @@ We recommend you install [Lando](https://docs.devwithlando.io/installation/insta
 ```
 lando init --recipe drupal8 --webroot web --name <project_name>
 lando start
+
 lando composer install
+
 sudo cp web/sites/example.settings.local.php web/sites/default/settings.local.php
+
 lando drush si config_installer -r web -y 
-lando drush config-set system.name "My website name"
-lando drush config-set system.slogan "My slogan"
-lando drush config-set system.mail "your@email.com"
+
+lando drush config-set system.site name "My website name"
+lando drush config-set system.site slogan "My slogan"
+lando drush config-set system.site mail "your@email.com"
+
 lando drush config-split-export -r web -y
+
 lando drush user-create yourname --password="yourpassword" --mail="your@email.com" -r web -y
 lando drush user-add-role "administrator" --name=yourname -r web -y
 lando drush user-password yourname --password=YourVeryLongAnd$ecureP@ssword -r web -y
 lando drush user-block --name="admin" -r web -y
+
 git init
 git add .
 git commit -m "Initial install and update website info"
