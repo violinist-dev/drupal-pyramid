@@ -19,13 +19,16 @@ web/.gitattributes
 web/.htaccess
 web/index.php
 web/robots.txt
-web/sites/default/default.settings.php
 web/sites/default/default.services.yml
-# web/sites/development.services.yml
-web/sites/example.settings.local.php
 web/sites/example.sites.php
 web/update.php
-web.config
+web/web.config
+
+# Do NOT ignore settings files because we customize them.
+# Those files are also exclude from Drupal Scaffold (see composer.json).
+# web/sites/default/default.settings.php
+# web/sites/development.services.yml
+# web/sites/example.settings.local.php
 
 # Ignore sensitive information
 /web/sites/*/settings.php
