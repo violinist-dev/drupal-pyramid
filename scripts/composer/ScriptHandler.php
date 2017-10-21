@@ -117,9 +117,7 @@ class ScriptHandler {
     $process = new ProcessExecutor($io);
 
     $directories = [
-      $drupalRoot . '/modules/contrib/',
-      $drupalRoot . '/profiles/contrib/',
-      $drupalRoot . '/themes/contrib/',
+      $drupalRoot,
       './vendor/'
     ];
 
