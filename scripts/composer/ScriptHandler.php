@@ -36,6 +36,7 @@ class ScriptHandler {
    */
   public static function createRequiredFiles(Event $event) {
     $fs = new Filesystem();
+    $drupalFinder = new DrupalFinder();
     $drupalRoot = self::getDrupalRoot();
 
     $dirs = [
