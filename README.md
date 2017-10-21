@@ -9,21 +9,46 @@ A solution to work on multiple projects from within a single repository.
 
 Create a new project with Composer:
 ```
-composer create-project drupal-pyramid/drupal-pyramid <your_project_name> --stability dev --no-interaction
+composer create-project drupal-pyramid/drupal-pyramid <project_name> --stability dev --no-interaction
 ```
 
 Alternatively, you can clone this repo and remove the Git history:
 ```
-git clone git@github.com:drupal-pyramid/drupal-pyramid.git <your_project_name>
-rm -rf <your_project_name>/.git
+git clone git@github.com:drupal-pyramid/drupal-pyramid.git <project_name>
+rm -rf <project_name>/.git
 git init
 git add .
 git commit -m "Initial commit (Drupal Pyramid project)"
-composer install
 ```
 
-You can now start to add sub-projects to your project.
+# How to install
 
+We recommend you install [Lando]().
+
+Init your environment and install dependencies:
+```
+lando init --recipe drupal8 --webroot web --name <project_name>
+lando start
+lando composer install
+```
+
+Install Drupal:
+```
+sudo cp web/sites/example.settings.local.php web/sites/default/settings.local.php
+lando drush si config_installer -r web -y 
+```
+
+Secure your installation:
+```
+lando drush user-create yourname --password="yourpassword" --mail="your@email.com" -r web -y
+lando drush user-add-role "administrator" --name=yourname -r web -y
+lando drush user-password admin --password=admin -r web -y
+lando drush user-block --name="admin" -r web -y
+```
+
+You now have working Drupal website at [https://<project_name>.lndo.site](https://<project_name>.lndo.site)
+
+Done! And it works... :) [Happy now](https://media.giphy.com/media/13r9tgg7ZisiT6/giphy.gif)?
 
 ## Add a new sub-project
 
