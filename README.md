@@ -23,12 +23,16 @@ git commit -m "Initial commit (Drupal Pyramid project)"
 
 # How to install
 
-We recommend you install [Lando]().
+We recommend you install [Lando](https://docs.devwithlando.io/installation/installing.html).
 
 1. Init your environment
 1. install dependencies
+1. Create local settings file
 1. Install Drupal
+1. Set your website name...etc
+1. Export your new settings
 1. Secure your installation
+1. Commit your work
 1. [Enjoy](http://gph.is/1auVl0T)!
 
 ```
@@ -37,10 +41,17 @@ lando start
 lando composer install
 sudo cp web/sites/example.settings.local.php web/sites/default/settings.local.php
 lando drush si config_installer -r web -y 
+lando drush config-set system.name "My website name"
+lando drush config-set system.slogan "My slogan"
+lando drush config-set system.mail "your@email.com"
+lando drush config-split-export -r web -y
 lando drush user-create yourname --password="yourpassword" --mail="your@email.com" -r web -y
 lando drush user-add-role "administrator" --name=yourname -r web -y
 lando drush user-password yourname --password=YourVeryLongAnd$ecureP@ssword -r web -y
 lando drush user-block --name="admin" -r web -y
+git init
+git add .
+git commit -m "Initial install and update website info"
 ```
 
 You now have working Drupal website at [https://<project_name>.lndo.site](https://<project_name>.lndo.site)
