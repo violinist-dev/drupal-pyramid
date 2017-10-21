@@ -111,7 +111,9 @@ class ScriptHandler {
    */
   public static function gitCleanup(Event $event) {
     $io = $event->getIo();
-    $drupalRoot = self::getDrupalRoot();
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $drupalRoot = $drupalFinder->getDrupalRoot();    
     $process = new ProcessExecutor($io);
 
     $directories = [
