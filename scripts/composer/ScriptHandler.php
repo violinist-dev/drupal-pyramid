@@ -17,18 +17,6 @@ use Composer\Util\ProcessExecutor;
 class ScriptHandler {
 
   /**
-   * Get Drupal root.
-   *
-   * @return string
-   *    Drupal root folder path.
-   */
-  protected static function getDrupalRoot() {
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    return $drupalFinder->getDrupalRoot();
-  }  
-
-  /**
    * Create necessary files and folders for Drupal install.
    *
    * @param Event $event
@@ -37,7 +25,8 @@ class ScriptHandler {
   public static function createRequiredFiles(Event $event) {
     $fs = new Filesystem();
     $drupalFinder = new DrupalFinder();
-    $drupalRoot = self::getDrupalRoot();
+    $drupalFinder->locateRoot(getcwd());
+    $drupalRoot = $drupalFinder->getDrupalRoot();
 
     $dirs = [
       'modules',
