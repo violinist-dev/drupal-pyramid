@@ -129,8 +129,14 @@ $databases['default']['default'] = array (
 );
 
 /**
+ * Installation info.
+ */
+$settings['install_profile'] = 'config_installer';
+
+/**
  * Configuration management
  */
+$config_directories['sync'] = '../config/sync';
 $config['config_split.config_split.local']['status'] = true;
 $config['config_split.config_split.dev']['status'] = true;
 $config['config_split.config_split.stage']['status'] = false;
