@@ -134,29 +134,34 @@ class ScriptHandler {
    *
    * @return void
    */
-  public static function dependencyCleanup() {
+  public static function dependencyCleanup(Event $event) {
     $fs = new Filesystem();
-    $root = getcwd();
-
+    $io = $event->getIO();
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $drupalRoot = $drupalFinder->getDrupalRoot();    
+    
     $directories = array(
       "bin",
-      "web/core",
-      "web/libraries",
-      "web/modules/contrib",
-      "web/profiles/contrib",
-      "web/themes/contrib",
-      "drush/contrib",
       "vendor",
+      "drush/contrib",
+      $drupalRoot . "/core",
+      $drupalRoot . "/libraries",
+      $drupalRoot . "/modules/contrib",
+      $drupalRoot . "/profiles/contrib",
+      $drupalRoot . "/themes/contrib",
     );
 
-    $directories = array_map(function ($directory) use ($root) {
-      return $root.'/'.$directory;
-    }, $directories);
-
+    $io->write("Removing directories (bin, vendor, core, libraries and contrib)."); 
     $fs->remove($directories);
 
-    echo "(!) Now you can run 'composer install' to get the latest dependencies. \n";
-
+    $io->write("Removing composer.lock file."); 
+    if ($fs->exists('composer.lock')) { 
+      $fs->remove('composer.lock'); 
+    } 
+ 
+    $io->write("Everything's clean!");
+    $io->write("Now run 'composer install' to get latest dependencies."); 
   }
 
   /**
