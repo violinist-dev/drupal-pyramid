@@ -8,6 +8,6 @@ site:
   slogan: "Website slogan."
   mail: "admin@email.com"
 account:
-  name: admin
-  password: admin
+  name: drupal
+  password: drupal
   mail: your@email.com

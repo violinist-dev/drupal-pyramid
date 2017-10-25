@@ -342,10 +342,8 @@ class ScriptHandler {
       }
     }
 
-    $process = new ProcessExecutor($io);
-    $event->getIO()->write("Reinstall and reset website");
     self::siteInstall($event);
-    self::siteReset($event);
+    self::siteConfig($event);
     self::siteResetUser($event);
     $process->execute($drush . ' config-split-export -y -r ' . $drupalRoot);
   }
@@ -360,7 +358,7 @@ class ScriptHandler {
     $drupalRoot = self::getDrupalRoot();
     $settings = self::getSettings();
 
-    $process = new ProcessExecutor($io);
+    $process = new ProcessExecutor($event->getIO());
     $event->getIO()->write("Reinstall and reset website");    
     $process->execute($drush . " site-install config_installer -y -r " . $drupalRoot);      
   }
