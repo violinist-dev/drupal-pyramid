@@ -345,6 +345,8 @@ class ScriptHandler {
     self::siteInstall($event);
     self::siteConfig($event);
     self::siteResetUser($event);
+    
+    $process = new ProcessExecutor($event->getIO());
     $process->execute($drush . ' config-split-export -y -r ' . $drupalRoot);
   }
 
