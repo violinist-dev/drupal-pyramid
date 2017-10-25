@@ -9,13 +9,61 @@ namespace DrupalPyramid\composer;
 
 use Composer\Script\Event;
 use Composer\Semver\Comparator;
-use DrupalFinder\DrupalFinder;
-use Symfony\Component\Filesystem\Filesystem;
-use Webmozart\PathUtil\Path;
 use Composer\Util\ProcessExecutor;
+use DrupalFinder\DrupalFinder;
 use Drupal\Component\Utility\Crypt;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml;
+use Webmozart\PathUtil\Path;
 
 class ScriptHandler {
+
+  /**
+   * Drush config file.
+   *
+   * @var string $configFile
+   */
+  public static $configFile = '.drush.yml';
+
+  /**
+   * Parse the config file and return settings.
+   *
+   * @param boolean $var
+   * @return mixed
+   *    The array of settings OR the requested setting value.
+   */
+  public static function getSettings($var = FALSE) {
+    $configFile = file_get_contents(self::$configFile);
+    $defaultSettings = file_get_contents('example' . self::$configFile);
+    $settings = array_merge(
+      Yaml::parse($defaultSettings),
+      Yaml::parse($configFile)
+    );
+    return ($var && isset($settings[$var])) ? $settings[$var] : $settings;
+  }
+
+  /**
+   * Get path to Drush bin.
+   *
+   * @return string
+   *    The absolute path to Drush bin file.
+   */
+  public static function getDrush() {
+    return 'bin/drush';
+  }
+
+  /**
+   * Get Drupal webroot.
+   *
+   * @return string
+   *    The absolute path to Drupal webroot.
+   */
+  public static function getDrupalRoot() {
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $drupalRoot = $drupalFinder->getDrupalRoot();
+    return $drupalRoot;
+  }
 
   /**
    * Create necessary files and folders for Drupal install.
@@ -25,9 +73,7 @@ class ScriptHandler {
    */
   public static function createRequiredFiles(Event $event) {
     $fs = new Filesystem();
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $drupalRoot = $drupalFinder->getDrupalRoot();
+    $drupalRoot = self::getDrupalRoot();
 
     $dirs = [
       'modules',
@@ -59,12 +105,26 @@ class ScriptHandler {
       $event->getIO()->write("Create a sites/default/settings.php file with chmod 0666");
     }
 
+    // Prepare the settings file for installation
+    if (!$fs->exists($drupalRoot . '/sites/default/settings.local.php') and $fs->exists($drupalRoot . '/sites/example.settings.local.php')) {
+      $fs->copy($drupalRoot . '/sites/example.settings.local.php', $drupalRoot . '/sites/default/settings.local.php');
+      $fs->chmod($drupalRoot . '/sites/default/settings.local.php', 0666);
+      $event->getIO()->write("Create a sites/default/settings.local.php file with chmod 0666");
+    }
+
     // Create the files directory with chmod 0777
     if (!$fs->exists($drupalRoot . '/sites/default/files')) {
       $oldmask = umask(0);
       $fs->mkdir($drupalRoot . '/sites/default/files', 0777);
       umask($oldmask);
       $event->getIO()->write("Create a sites/default/files directory with chmod 0777");
+    }
+
+    // Create the files directory with chmod 0777
+    if (!$fs->exists(self::$configFile) and $fs->exists('example' . self::$configFile)) {
+      $fs->copy('example' . self::$configFile, self::$configFile);
+      $fs->chmod(self::$configFile, 0666);
+      $event->getIO()->write("Create " . self::$configFile . " file with chmod 0666");
     }
   }
 
@@ -112,14 +172,13 @@ class ScriptHandler {
    */
   public static function gitCleanup(Event $event) {
     $io = $event->getIo();
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $drupalRoot = $drupalFinder->getDrupalRoot();    
+    $drupalRoot = self::getDrupalRoot();   
     $process = new ProcessExecutor($io);
 
     $directories = [
       $drupalRoot,
-      './vendor/'
+      'vendor/',
+      'config/'
     ];
 
     foreach ($directories as $dir) {
@@ -137,9 +196,7 @@ class ScriptHandler {
   public static function dependencyCleanup(Event $event) {
     $fs = new Filesystem();
     $io = $event->getIO();
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $drupalRoot = $drupalFinder->getDrupalRoot();    
+    $drupalRoot = self::getDrupalRoot();  
     
     $directories = array(
       "bin",
@@ -178,9 +235,8 @@ class ScriptHandler {
     $io = $event->getIo();
     $fs = new FileSystem();
     $process = new ProcessExecutor($io);
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $drupalRoot = $drupalFinder->getDrupalRoot();
+    $drupalRoot = self::getDrupalRoot();
+
     $salt_file = $drupalRoot . "/sites/default/salt.txt";
 
     $fs->chmod($drupalRoot . "/sites/default", 0775);
@@ -250,9 +306,7 @@ class ScriptHandler {
    * @return void
    */
   public static function fixPermissions(Event $event, $path = FALSE) {    
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $drupalRoot = $drupalFinder->getDrupalRoot();
+    $drupalRoot = self::getDrupalRoot();
 
     $dir = is_string($path) ? $path : $drupalRoot;
 
@@ -263,5 +317,85 @@ class ScriptHandler {
     $process->execute("find " . $dir . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
         
   }
+
+  /**
+   * Re install Drupal.
+   *
+   * @param Event $event
+   */
+  public static function siteReset(Event $event) {
+    $io = $event->getIO();
+    $args = $event->getArguments();
+
+    $drush = self::getDrush();
+    $drupalRoot = self::getDrupalRoot();
+    $settings = self::getSettings();
+
+    // Quiet deletion.
+    $auto = isset($args[0]) && $args[0] == 'y' ? TRUE : FALSE;
+    if (!$auto) {
+      $io->write("You're about to delete your current site.");
+      $continue = $io->ask("Are you OK? (y/n) ");
+      if ($continue != 'y') {
+        $io->write("You're website is safe... :)");
+        return;
+      }
+    }
+
+    self::siteInstall($event);
+    self::siteConfig($event);
+    self::siteResetUser($event);
+    $process->execute($drush . ' config-split-export -y -r ' . $drupalRoot);
+  }
+
+  /**
+   * Reset Drupal site settings.
+   *
+   * @param Event $event
+   */
+  public static function siteInstall(Event $event) {
+    $drush = self::getDrush();
+    $drupalRoot = self::getDrupalRoot();
+    $settings = self::getSettings();
+
+    $process = new ProcessExecutor($event->getIO());
+    $event->getIO()->write("Reinstall and reset website");    
+    $process->execute($drush . " site-install config_installer -y -r " . $drupalRoot);      
+  }
+
+  /**
+   * Reset Drupal site settings.
+   *
+   * @param Event $event
+   */
+  public static function siteConfig(Event $event) {
+    $drush = self::getDrush();
+    $drupalRoot = self::getDrupalRoot();
+    $settings = self::getSettings();
+    
+    $process = new ProcessExecutor($event->getIO());
+    $process->execute($drush . ' config-set system.site name "' . $settings['site']['name'] . '" -y -r ' . $drupalRoot);
+    $process->execute($drush . ' config-set system.site slogan "' . $settings['site']['slogan'] . '" -y -r ' . $drupalRoot);
+    $process->execute($drush . ' config-set system.site mail "' . $settings['site']['mail'] . '" -y -r ' . $drupalRoot);
+  }
+
+  /**
+   * Reset Drupal user.
+   *
+   * @param Event $event
+   */
+  public static function siteResetUser(Event $event) {
+    $drush = self::getDrush();
+    $drupalRoot = self::getDrupalRoot();
+    $settings = self::getSettings();
+
+    $process = new ProcessExecutor($event->getIO());
+    $event->getIO()->write("Reset site user");
+    $process->execute($drush . ' user-create ' . $settings['account']['name'] . ' --password="' . $settings['account']['password'] . '" --mail="' . $settings['account']['mail'] . '" -y -r ' . $drupalRoot);
+    $process->execute($drush . ' user-add-role "administrator" --name="' . $settings['account']['name'] . '" -y -r ' . $drupalRoot);
+    $process->execute($drush . ' user-password ' . $settings['account']['name'] . ' --password="' . $settings['account']['password'] . '" -y -r ' . $drupalRoot);
+    $process->execute($drush . ' user-block --name="admin" -y -r ' . $drupalRoot);
+  }
+
 
 }

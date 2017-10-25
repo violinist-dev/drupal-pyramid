@@ -50,6 +50,7 @@
 /.idea/
 /.vscode/
 .lando.yml
+.drush.yml
 
 # Ignore junk files
 .DS_Store
