@@ -235,6 +235,7 @@ class ScriptHandler {
     $io = $event->getIo();
     $fs = new FileSystem();
     $process = new ProcessExecutor($io);
+    $drupalRoot = self::getDrupalRoot();
 
     $salt_file = $drupalRoot . "/sites/default/salt.txt";
 
