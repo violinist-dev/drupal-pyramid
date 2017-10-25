@@ -60,6 +60,7 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "site-reset": "DrupalPyramid\\composer\\ScriptHandler::siteReset",
     "git-cleanup": "DrupalPyramid\\composer\\ScriptHandler::gitCleanup",
     "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
     "generate-salt": "DrupalPyramid\\composer\\ScriptHandler::generateSalt",
@@ -78,6 +79,7 @@
       "@generate-salt",
       "@generate-keys",
       "@git-cleanup",
+      "@site-reset",
       "@fix-permissions",
       "@fix-permissions-keys"
     ],

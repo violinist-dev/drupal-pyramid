@@ -318,7 +318,39 @@ class ScriptHandler {
   }
 
   /**
-   * Install Drupal
+   * Re install Drupal.
+   *
+   * @param Event $event
+   */
+  public static function siteReset(Event $event) {
+    $io = $event->getIO();
+    $args = $event->getArguments();
+
+    $drush = self::getDrush();
+    $drupalRoot = self::getDrupalRoot();
+    $settings = self::getSettings();
+
+    // Quiet deletion.
+    $auto = isset($args[0]) && $args[0] == 'y' ? TRUE : FALSE;
+    if (!$auto) {
+      $io->write("You're about to delete your current site.");
+      $continue = $io->ask("Are you OK? (y/n) ");
+      if ($continue != 'y') {
+        $io->write("You're website is safe... :)");
+        return;
+      }
+    }
+
+    $process = new ProcessExecutor($io);
+    $event->getIO()->write("Reinstall and reset website");
+    self::siteInstall($event);
+    self::siteReset($event);
+    self::siteResetUser($event);
+    $process->execute($drush . ' config-split-export -y -r ' . $drupalRoot);
+  }
+
+  /**
+   * Reset Drupal site settings.
    *
    * @param Event $event
    */
@@ -327,13 +359,9 @@ class ScriptHandler {
     $drupalRoot = self::getDrupalRoot();
     $settings = self::getSettings();
 
-    $process = new ProcessExecutor($event->getIO());
-    $event->getIO()->write("Reinstall and reset website");
-    $process->execute($drush . " site-install config_installer -y -r " . $drupalRoot);    
-    self::siteReset($event);
-    self::siteResetUser($event);
-    $process->execute($drush . ' config-split-export -y -r ' . $drupalRoot);
-    
+    $process = new ProcessExecutor($io);
+    $event->getIO()->write("Reinstall and reset website");    
+    $process->execute($drush . " site-install config_installer -y -r " . $drupalRoot);      
   }
 
   /**
@@ -341,7 +369,7 @@ class ScriptHandler {
    *
    * @param Event $event
    */
-  public static function siteReset(Event $event) {
+  public static function siteConfig(Event $event) {
     $drush = self::getDrush();
     $drupalRoot = self::getDrupalRoot();
     $settings = self::getSettings();
@@ -369,5 +397,6 @@ class ScriptHandler {
     $process->execute($drush . ' user-password ' . $settings['account']['name'] . ' --password="' . $settings['account']['password'] . '" -y -r ' . $drupalRoot);
     $process->execute($drush . ' user-block --name="admin" -y -r ' . $drupalRoot);
   }
+
 
 }
