@@ -1,0 +1,4 @@
+name: pyramid
+recipe: drupal8
+config:
+  webroot: web
