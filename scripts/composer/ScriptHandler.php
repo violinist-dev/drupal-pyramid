@@ -376,9 +376,9 @@ class ScriptHandler {
     $settings = self::getSettings();
     
     $process = new ProcessExecutor($event->getIO());
-    $process->execute($drush . ' config-set system.site name "' . $settings['site']['name'] . '" -y -r ' . $drupalRoot);
-    $process->execute($drush . ' config-set system.site slogan "' . $settings['site']['slogan'] . '" -y -r ' . $drupalRoot);
-    $process->execute($drush . ' config-set system.site mail "' . $settings['site']['mail'] . '" -y -r ' . $drupalRoot);
+    foreach ($settings['site'] as $key => $value) {
+      $process->execute($drush . ' config-set system.site ' . $key . ' "' . $value . '" -y -r ' . $drupalRoot);
+    }
   }
 
   /**
