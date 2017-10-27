@@ -371,13 +371,24 @@ class ScriptHandler {
    * @param Event $event
    */
   public static function siteResetConfig(Event $event) {
+    $io = $event->getIO();
     $drush = self::getDrush();
     $drupalRoot = self::getDrupalRoot();
     $settings = self::getSettings();
-    
-    $process = new ProcessExecutor($event->getIO());
+    if (!isset($settings['site'])) {
+      $io->write("Site settings not found in " . self::$configFile);
+      return;
+    }
+
+    $process = new ProcessExecutor($io);
     foreach ($settings['site'] as $key => $value) {
       $process->execute($drush . ' config-set system.site ' . $key . ' "' . $value . '" -y -r ' . $drupalRoot);
+    }
+    $io->write("=============");
+    $io->write("New settings");
+    $io->write("=============");
+    foreach ($settings['site'] as $key => $value) {
+      $io->write($key . " = " . $value);
     }
   }
 
