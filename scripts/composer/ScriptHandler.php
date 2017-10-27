@@ -343,7 +343,7 @@ class ScriptHandler {
     }
 
     self::siteInstall($event);
-    self::siteConfig($event);
+    self::siteResetConfig($event);
     self::siteResetUser($event);
     
     $process = new ProcessExecutor($event->getIO());
