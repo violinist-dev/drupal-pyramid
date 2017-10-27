@@ -2,8 +2,6 @@
 
 A starter kit for your Drupal projects with instructions to work on multiple subprojects.
 
-![Pyramids](http://drupal-pyramid.org/img/pyramids.jpg)
-
 
 ## Getting started
 
@@ -55,6 +53,8 @@ You now have working Drupal website at [https://<project_name>.lndo.site](https:
 ## How to add subproject
 
 ### TL;DR
+
+![Git subtree workflow](http://drupal-pyramid.org/img/git_subtree_cmds.jpg)
 
 You should have a look at the [Drupal Pyramid theme](https://github.com/drupal-pyramid/drupal_pyramid_theme). This is a real-world example of a subproject with a **custom Composer type** and **custom Composer scripts** to generate assets. Read [its README file](https://github.com/drupal-pyramid/drupal_pyramid_theme#getting-started) to understand how to add this as a Git subtree to your current project.
 
