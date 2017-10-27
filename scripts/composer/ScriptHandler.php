@@ -370,7 +370,7 @@ class ScriptHandler {
    *
    * @param Event $event
    */
-  public static function siteConfig(Event $event) {
+  public static function siteResetConfig(Event $event) {
     $drush = self::getDrush();
     $drupalRoot = self::getDrupalRoot();
     $settings = self::getSettings();

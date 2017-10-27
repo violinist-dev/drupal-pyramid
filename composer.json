@@ -60,7 +60,10 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "site-install": "DrupalPyramid\\composer\\ScriptHandler::siteInstall",
     "site-reset": "DrupalPyramid\\composer\\ScriptHandler::siteReset",
+    "site-reset-user": "DrupalPyramid\\composer\\ScriptHandler::siteResetUser",
+    "site-reset-config": "DrupalPyramid\\composer\\ScriptHandler::siteResetConfig",
     "git-cleanup": "DrupalPyramid\\composer\\ScriptHandler::gitCleanup",
     "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
     "generate-salt": "DrupalPyramid\\composer\\ScriptHandler::generateSalt",
@@ -79,7 +82,6 @@
       "@generate-salt",
       "@generate-keys",
       "@git-cleanup",
-      "@site-reset",
       "@fix-permissions",
       "@fix-permissions-keys"
     ],
@@ -129,6 +131,7 @@
         "sites/default/default.services.yml": "sites/default/services.yml",
         "sites/default/default.settings.php": "sites/default/settings.php"
       }
-    }
+    },
+    "patches": {}
   }
 }
