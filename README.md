@@ -2,8 +2,6 @@
 
 A starter kit for your Drupal projects with instructions to work on multiple subprojects.
 
-![Pyramids](http://drupal-pyramid.org/img/pyramids.jpg)
-
 
 ## Getting started
 
@@ -21,45 +19,29 @@ git add .
 git commit -m "Initial commit (Drupal Pyramid project)"
 ```
 
-# How to install
+## How to install
 
 We recommend you install [Lando](https://docs.devwithlando.io/installation/installing.html).
 
-1. Init your environment
-1. install dependencies
-1. Create local settings file
-1. Install Drupal
-1. Set your website name...etc
-1. Export your new settings
-1. Secure your installation
-1. Commit your work
-1. [Enjoy](http://gph.is/1auVl0T)!
+* Init your environment
+* install dependencies
+* Create local settings file
+* Install Drupal
+* Set your website name...etc
+* Export your new settings
+* Secure your installation
+* Commit your work
+* [Enjoy](http://gph.is/*uVl0T)!
 
 ```
 lando init --recipe drupal8 --webroot web --name <project_name>
 cd <project_name>
+cp example.drush.yml .drush.yml
 lando start
 lando composer install
-
-sudo cp drush/example.drushrc.php drush/drushcr.php
-sudo cp web/sites/example.settings.local.php web/sites/default/settings.local.php
-
-cd web # (or add -r web to all following drush commands)
-
-lando drush si config_installer -y 
-
-lando drush config-set system.site name "My website name"
-lando drush config-set system.site slogan "My slogan"
-lando drush config-set system.site mail "your@email.com"
-
-lando drush config-split-export -y
-
-lando drush user-create yourname --password="yourpassword" --mail="your@email.com" -y
-lando drush user-add-role "administrator" --name=yourname -y
-lando drush user-password yourname --password=YourVeryLongAnd$ecureP@ssword -y
-
-lando drush user-block --name="admin" -y # (recommended for Production)
-
+lando composer site-install
+lando composer site-reset-user
+lando composer site-reset-config
 git init
 git add .
 git commit -m "Initial install and update website info"
@@ -68,47 +50,93 @@ git commit -m "Initial install and update website info"
 You now have working Drupal website at [https://<project_name>.lndo.site](https://<project_name>.lndo.site)
 
 
-# How to add many repos
+## How to add subproject
 
-## Download subproject 
+### TL;DR
 
-Preferably, you would host your subproject in a [Packagist](https://packagist.org/) server so you can download if as a dependency with Composer.
+![Git subtree workflow](http://drupal-pyramid.org/img/git_subtree_cmds.jpg)
+
+You should have a look at the [Drupal Pyramid theme](https://github.com/drupal-pyramid/drupal_pyramid_theme). This is a real-world example of a subproject with a **custom Composer type** and **custom Composer scripts** to generate assets. Read [its README file](https://github.com/drupal-pyramid/drupal_pyramid_theme#getting-started) to understand how to add this as a Git subtree to your current project.
+
+You should also read [that great tutorial](https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree) from Atlassian.
+
+
+### Step-by-step
+
+1) Add a composer.json file to your subproject:
 ```
-composer require <namespace>/<subproject_name>:~1.0
+{
+  "name": "drupal-pyramid/drupal_pyramid_theme",
+  "description": "A theme for Drupal Pyramid project theme.",
+  "type": "drupal-theme-custom",
+  ...
 ```
 
-Alternatively, you can clone it from a Git repository.
+2) Back in this project, add the subproject Git URL:
 ```
-git clone git@github.com:<namespace>/<subproject_name>.git custom/modules/<subproject_name>
+"repositories": [
+  {
+    "type": "composer",
+    "url": "https://packages.drupal.org/8"
+  },
+  {
+    "type": "git",
+    "url": "ssh://git@github.com:<namespace>/<subproject_name>.git"
+  }    
+],
 ```
 
-## Add a git subtree
+3) Add your custom composer type to this project `composer.json` file.  
 
-1. Add the subproject as a remote
-1. Init the subproject (using SSH to be able to contribute back)
-1. Fetch the subtree
-1. Pull latest changes
-
+This is possible thanks to the `oomphinc/composer-installers-extender` dependency.
 
 ```
-git remote add <subproject_name> ssh://git@github.com/<package_git_url>.git
+ "extra": {
+    "installer-types": [
+      "drupal-config",
+      "drupal-theme-custom"
+    ],
+    "installer-paths": {
+      ...
+      "web/themes/custom/{$name}": [
+        "type:drupal-theme-custom"
+      ],
+      "config/{$name}": [
+        "type:drupal-config"
+      ],
+      "drush/contrib/{$name}": [
+        "type:drupal-drush"
+      ]
+    },
+    ...
+```
+
+4) Add the subproject as a remote
+5) Init the subproject (using SSH to be able to contribute back)
+6) Fetch the subtree
+7) Pull latest changes
+```
+git remote add <subproject_name> git@github.com/<package_git_url>.git
 git subtree add --prefix <path_to_subproject> <subproject_name> master --squash
 git fetch <subproject_name> master
 git subtree pull --prefix <path_to_subproject> <subproject_name> master --squash
 ```
 
-### Commit and contribute to subproject
-
-1. Make some changes to any files
-1. Commit your changes
-1. Push changes to your project and to the subproject
-
+8) Make some changes and commit your changes
 ```
 touch <path_to_subproject>/
+git add .
+git commit -m "Made some changes to something interesting."
+```
+
+9) Push changes to your project and to the subproject
+```
+git push
 git subtree push --prefix=<path_to_subproject> <subproject_name> master
 ```
 
-### Remove a subtree
+
+## How to remove a subtree project
 
 ```
 git rm -r <path_to_subproject>
@@ -119,7 +147,7 @@ git gc --prune=now
 ```
 
 
-# Cstom Composer scripts
+## How to use subproject custom scripts
 
 Your subproject might need automated tasks to be run.
 
@@ -141,8 +169,31 @@ You need to manually those custom Composer scripts to your main project, as foll
   }
 ```
 
-The [Drupal Pyramid theme](https://github.com/drupal-pyramid/drupal_pyramid_theme) is a real-world example of a subproject with custom scripts to generate assets. As you can see in [its README file](https://github.com/MatthieuScarset/drupal_pyramid_theme#getting-started), you have to add your own custom scripts to `composer.json`. 
+
+## How to apply patches
+
+We use `cweagans/composer-patches` to add patches to our dependencies.
+
+You can add patches under the `extra` object in `composer.json` as follow:
+
+```
+"extra": {
+  ...
+  "patches": {
+    "drupal/address": {
+      "Drupal Addess fix default syncing": "https://www.drupal.org/files/issues/address_syncing.patch"     
+    }
+  },
+  ...
+```
+
+Now you can apply it with Composer:
+```
+lando composer update drupal/address
+```
+
 
 ---
+
 
 Any questions? Please have a look at [the wiki](https://github.com/drupal-pyramid/drupal-pyramid/wiki) or [open a new issue](https://github.com/drupal-pyramid/drupal-pyramid/issues).

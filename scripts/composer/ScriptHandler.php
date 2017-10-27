@@ -343,7 +343,7 @@ class ScriptHandler {
     }
 
     self::siteInstall($event);
-    self::siteConfig($event);
+    self::siteResetConfig($event);
     self::siteResetUser($event);
     
     $process = new ProcessExecutor($event->getIO());
@@ -370,15 +370,26 @@ class ScriptHandler {
    *
    * @param Event $event
    */
-  public static function siteConfig(Event $event) {
+  public static function siteResetConfig(Event $event) {
+    $io = $event->getIO();
     $drush = self::getDrush();
     $drupalRoot = self::getDrupalRoot();
     $settings = self::getSettings();
-    
-    $process = new ProcessExecutor($event->getIO());
-    $process->execute($drush . ' config-set system.site name "' . $settings['site']['name'] . '" -y -r ' . $drupalRoot);
-    $process->execute($drush . ' config-set system.site slogan "' . $settings['site']['slogan'] . '" -y -r ' . $drupalRoot);
-    $process->execute($drush . ' config-set system.site mail "' . $settings['site']['mail'] . '" -y -r ' . $drupalRoot);
+    if (!isset($settings['site'])) {
+      $io->write("Site settings not found in " . self::$configFile);
+      return;
+    }
+
+    $process = new ProcessExecutor($io);
+    foreach ($settings['site'] as $key => $value) {
+      $process->execute($drush . ' config-set system.site ' . $key . ' "' . $value . '" -y -r ' . $drupalRoot);
+    }
+    $io->write("=============");
+    $io->write("New settings");
+    $io->write("=============");
+    foreach ($settings['site'] as $key => $value) {
+      $io->write($key . " = " . $value);
+    }
   }
 
   /**

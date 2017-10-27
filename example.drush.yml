@@ -1,12 +1,10 @@
-# Environment variables
-# @TODO Create different settings by environment DEV / STAGING / PROD.
-env: 'DEV'
-# Site config
+# Site config.
 site:
-  # uuid: 11111111-1111-1111-1111-11111111111a
   name: "Drupal site name"
-  slogan: "Website slogan."
-  mail: "admin@email.com"
+  slogan: "Website slogan." # optional
+  mail: "admin@email.com" 
+  uuid: 11111111-1111-1111-1111-11111111111a # optional
+# Admin account
 account:
   name: drupal
   password: drupal

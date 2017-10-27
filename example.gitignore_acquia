@@ -1,0 +1,25 @@
+# We need to commit everything to Acquia Cloud 
+# except the following files and folders.
+
+# Ignore junk files
+.DS_Store
+*.css.map
+node_modules
+bower_modules
+
+# Ignore dev files
+/.idea/
+/.vscode/
+/.vagrant/
+.lando.yml
+.drush.yml
+example.*
+
+# Ignore sensitive info
+/**/sites/*/settings.local.php
+/**/sites/*/default.settings.php
+/**/sites/*/default.services.yml
+/**/sites/example.settings.local.php
+/**/sites/example.sites.php
+/**/sites/*/files/
+/**/sites/simpletest
