@@ -1134,7 +1134,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/chatbot_api",
-                "reference": "47771c363cd8a701b8d1c72aa32d29314094e426"
+                "reference": "7302e3149ea33bff15db1192cf1aad03ef3b0525"
             },
             "require": {
                 "drupal/core": "~8.0"
@@ -1149,8 +1149,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.x-dev",
-                    "datestamp": "1507212844",
+                    "version": "8.x-1.0-rc01+1-dev",
+                    "datestamp": "1521802084",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -1180,7 +1180,7 @@
                 "source": "http://cgit.drupalcode.org/chatbot_api",
                 "issues": "https://www.drupal.org/project/issues/chatbot_api"
             },
-            "time": "2017-10-05T14:11:45+00:00"
+            "time": "2018-03-24T20:51:29+00:00"
         },
         {
             "name": "drupal/config_filter",
@@ -5298,7 +5298,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/klausi/coder.git",
+                "url": "https://git.drupal.org/project/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
