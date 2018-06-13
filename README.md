@@ -2,6 +2,7 @@
 
 A starter kit for your Drupal projects with instructions to work on multiple subprojects.
 
+![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=BvpY1y5yRRsxyUxUVDLJ)
 
 ## Getting started
 
