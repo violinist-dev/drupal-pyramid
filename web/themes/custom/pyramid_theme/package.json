@@ -4,10 +4,13 @@
   "description": "D8 demo theme",
   "main": "pyramid_theme.theme",
   "scripts": {
-    "build:all": "npm rum build:css",
+    "build": "npm run build:css",
     "build:css": "node-sass --include-path scss scss/ -o css/",
+    "build:js": "echo 'No JS for now'",
+    "watch": "npm run watch:css",
+    "watch:css": "node-sass -w --include-path scss scss/ -o css/",
     "test": "echo 'Bravo!'"
-  },
+  },  
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:MatthieuScarset/drupal-pyramid-theme.git"

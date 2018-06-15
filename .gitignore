@@ -51,6 +51,7 @@
 /.vscode/
 .lando.yml
 .drush.yml
+.gitstats.*
 
 # Ignore junk files
 .DS_Store

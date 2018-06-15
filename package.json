@@ -18,7 +18,7 @@
     "gitstats_args": "--file-types=html,twig,php,theme,module,scss,js,patch --timeline=true --hard=true --metrics=true --grading=true"
   },
   "scripts": {
-    "reset": "cd $npm_package_config_theme_path && rm -rf node_modules/ && npm install && npm run build",
+    "stats": "./node_modules/.bin/gitinspector --format=html $npm_package_config_gitstats_args > .gitstats.html",
     "lint:js": "./node_modules/.bin/jslint $npm_package_config_theme_js_path > errors_js.log; echo 'Done. Look at errors_js.log'; exit 0;",
     "lint:css": "./node_modules/.bin/stylelint $npm_package_config_theme_sass_path -q --fix --config $npm_package_config_stylelintrc_file > errors_css.log; echo 'Done. Look at errors_css.log'; exit 0;",
     "lint": "npm run lint:js && npm run lint:css",
@@ -26,6 +26,8 @@
     "build:css": "cd $npm_package_config_theme_path && node_modules/.bin/node-sass scss scss/ -o css/",
     "build": "npm run build:css && npm run build:js",
     "watch": "npm run build && cd $npm_package_config_theme_path && node_modules/.bin/node-sass --include-path -w scss scss/ -o css/",
+    "start": "cd $npm_package_config_theme_path && rm -rf node_modules/ && npm install && npm run build",
+    "reset": "npm run start",
     "test": "echo 'Test' && exit 0"
   },
   "repository": {
