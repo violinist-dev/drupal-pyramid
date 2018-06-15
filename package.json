@@ -1,0 +1,42 @@
+{
+  "name": "drupal-pyramid",
+  "version": "1.0.0",
+  "description": "A wonderful Drupal 8 composer-based project.",
+  "main": "composer.json",
+  "dependencies": {},
+  "devDependencies": {
+    "jslint": "^0.11.0",
+    "stylelint": "^8.4.0",
+    "stylelint-config-standard": "^18.0.0",
+    "gitinspector": "^0.5.0-dev-1"
+  },
+  "config": {
+    "stylelintrc_file": ".stylelintrc.json",
+    "theme_path": "web/themes/custom/pyramid_theme",
+    "theme_sass_path": "web/themes/custom/pyramid_theme/scss/**/*.scss",
+    "theme_js_path": "web/themes/custom/pyramid_theme/js/**/*.js",
+    "gitstats_args": "--file-types=html,twig,php,theme,module,scss,js,patch --timeline=true --hard=true --metrics=true --grading=true"
+  },
+  "scripts": {
+    "reset": "cd $npm_package_config_theme_path && rm -rf node_modules/ && npm install && npm run build",
+    "lint:js": "./node_modules/.bin/jslint $npm_package_config_theme_js_path > errors_js.log; echo 'Done. Look at errors_js.log'; exit 0;",
+    "lint:css": "./node_modules/.bin/stylelint $npm_package_config_theme_sass_path -q --fix --config $npm_package_config_stylelintrc_file > errors_css.log; echo 'Done. Look at errors_css.log'; exit 0;",
+    "lint": "npm run lint:js && npm run lint:css",
+    "build:js": "cd $npm_package_config_theme_path && node_modules/.bin/node-sass scss scss/ -o css/",
+    "build:css": "cd $npm_package_config_theme_path && node_modules/.bin/node-sass scss scss/ -o css/",
+    "build": "npm run build:css && npm run build:js",
+    "watch": "npm run build && cd $npm_package_config_theme_path && node_modules/.bin/node-sass --include-path -w scss scss/ -o css/",
+    "test": "echo 'Test' && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/MatthieuScarset/drupal-pyramid.git"
+  },
+  "author": {
+    "name": "Matthieu Scarset",
+    "email": "m@matthieuscarset.com",
+    "url": "https://matthieuscarset.com"
+  },
+  "license": "ISC",
+  "homepage": "https://drupal-pyramid.org/"
+}
