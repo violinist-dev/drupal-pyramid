@@ -1,0 +1,10 @@
+{
+  "block-title": "Pyramid - Contact block",
+  "title": "Need some help?",
+  "text": "Speak to us... we are humans after all.",
+  "cta": {
+    "uri": "internal:#contact",
+    "title": "Contact us now",
+    "class": "btn btn-default"
+  }
+}
