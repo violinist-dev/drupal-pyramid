@@ -36,6 +36,7 @@ class PyramidContentCommands extends DrushCommands {
    * {@inheritDoc}
    */
   public function __construct() {
+    $this->entityRepository = \Drupal::service('entity.repository');
     $path = drupal_get_path('module', 'pyramid_content');
     $this->pathToContent = $path . '/data';
     $this->pathToImages = $path . '/images';
@@ -50,7 +51,7 @@ class PyramidContentCommands extends DrushCommands {
    * @aliases pyci-home
    */
   public function createHomePage() {
-    $content = file_get_contents($path . "/contents/homepage.json");
+    $content = file_get_contents($this->pathToContent . "/page-homepage.json");
     $json = json_decode($content, TRUE);
     
     // Defaults.
@@ -79,15 +80,16 @@ class PyramidContentCommands extends DrushCommands {
       'field_image' => ['target_id' => ($media) ? $media->id() : NULL],
       'field_link' => [$links],
     ]);
-    $hero_banner->save();      
-    // Create the homepage.
+    $hero_banner->save();
+    $components[] = $hero_banner;
+    
+    // Update or create the homepage.
     $page = Node::create([
-      'type' => 'page',
-      'title' => $json['title'],
-      'field_hero_banner' => [$hero_banner],
-      'field_components' => $components,
-      'uuid' => $this::HOMEPAGE_UUID,
-    ]);
+        'type' => 'page',
+        'title' => $json['title'],
+        'field_components' => $components,
+        'uuid' => $this::HOMEPAGE_UUID,
+      ]);
     $page->save();
   }
 
