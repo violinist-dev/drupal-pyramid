@@ -1,0 +1,5 @@
+# Minimal file for your local env.
+name: pyramid
+recipe: drupal8
+config:
+  webroot: web
