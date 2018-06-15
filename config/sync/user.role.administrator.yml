@@ -1,49 +1,11 @@
-uuid: 9e764ed7-bdd3-46e5-b05a-82a86a23a295
+uuid: 789dea12-b7ba-475f-80d1-a07addeb4daf
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: Om6FEO7vZZMkPIbVvfxtdkWerQ2PvQM4sWUd6Q3ZnfI
 id: administrator
 label: Administrator
 weight: 2
-is_admin: null
-permissions:
-  - 'access administration pages'
-  - 'access content overview'
-  - 'access devel information'
-  - 'access files overview'
-  - 'access kint'
-  - 'access site in maintenance mode'
-  - 'access site reports'
-  - 'access toolbar'
-  - 'access user profiles'
-  - 'administer account settings'
-  - 'administer blocks'
-  - 'administer configuration split'
-  - 'administer content translation'
-  - 'administer content types'
-  - 'administer filters'
-  - 'administer languages'
-  - 'administer menu'
-  - 'administer modules'
-  - 'administer nodes'
-  - 'administer permissions'
-  - 'administer site configuration'
-  - 'administer software updates'
-  - 'administer themes'
-  - 'administer users'
-  - 'bypass node access'
-  - 'cancel account'
-  - 'change own username'
-  - 'create content translations'
-  - 'delete all revisions'
-  - 'delete content translations'
-  - 'execute php code'
-  - 'link to any page'
-  - 'revert all revisions'
-  - 'select account cancellation method'
-  - 'switch users'
-  - 'translate any entity'
-  - 'update content translations'
-  - 'view all revisions'
-  - 'view own unpublished content'
-  - 'view the administration theme'
+is_admin: true
+permissions: {  }
