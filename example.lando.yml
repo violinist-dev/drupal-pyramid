@@ -36,3 +36,52 @@ tooling:
 #  appserver:
 #    - "yoursite.lndo.site"
 #    - "*.yousite.lndo.site"
+# ==========================
+# Custom event
+# ==========================
+events:
+  # ==========================
+  # After lando start
+  # ==========================
+  post-start:
+    # 
+    # Commands for first install
+    # 
+    - echo "=========================="
+    - echo "First install"
+    - echo "=========================="
+    - appserver: "cd $LANDO_MOUNT/ && composer install"
+    - appserver: "cd $LANDO_MOUNT/ && composer generate-salt"
+    - appserver: "cd $LANDO_MOUNT/ && composer fix-permissions"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush site-install config_installer -r docroot"
+    - echo ""
+    - echo "=========================="
+    - echo "Building theme assets..."
+    - echo "=========================="
+    - node: "cd $LANDO_MOUNT && npm install"
+    - node: "cd $LANDO_MOUNT && npm run start"
+    #
+    # Uncomment all lines below after first install
+    #
+    #- echo "=========================="
+    #- echo "Update database..."
+    #- echo "=========================="
+    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush cim -r docroot"
+    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush entup -r docroot"
+    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush updb -r docroot"
+    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush locale-update -r docroot"
+    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush cr -r docroot"
+    #- echo ""
+    #- echo "=========================="
+    #- echo "Building theme assets..."
+    #- echo "=========================="
+    #- node: "cd $LANDO_MOUNT && npm install"
+    #- node: "cd $LANDO_MOUNT && npm run reset"
+    #- node: "cd $LANDO_MOUNT && npm run build"
+    #- echo ""
+    #- echo "=========================="
+    #- echo "Doing code review..."
+    #- echo "=========================="
+    #- appserver: "cd $LANDO_MOUNT/ && composer code-review"
+    #- node: "cd $LANDO_MOUNT && npm run lint"
+    #- node: "cd $LANDO_MOUNT && npm run stats"    

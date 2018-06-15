@@ -49,6 +49,9 @@
 # Ignore dev files
 /.idea/
 /.vscode/
+/.env
+/php.ini
+/database
 .lando.yml
 .drush.yml
 .gitstats.*
@@ -58,3 +61,4 @@
 *.css.map
 node_modules
 bower_modules
+*.log
