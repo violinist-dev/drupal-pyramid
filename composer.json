@@ -88,8 +88,12 @@
     "generate-salt": "DrupalPyramid\\composer\\ScriptHandler::generateSalt",
     "generate-files": "DrupalPyramid\\composer\\ScriptHandler::generateFiles",
     "generate-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
-    "fix-permissions": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",
+    "fix-permissions-all": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",
     "fix-permissions-keys": "DrupalPyramid\\composer\\ScriptHandler::fixOpenSslKeysPermissions",
+    "fix-permissions": [
+      "@fix-permissions-all",
+      "@fix-permissions-keys"
+    ],
     "reset-files": "DrupalPyramid\\composer\\ScriptHandler::resetFiles",
     "clean-npm": "DrupalPyramid\\composer\\ScriptHandler::cleanNpm",
     "clean-keys": "DrupalPyramid\\composer\\ScriptHandler::cleanKeys",
@@ -123,10 +127,7 @@
     "pre-update-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
-    "post-install-cmd": [
-      "@code-review",
-      "@run-tests"
-    ],
+    "post-install-cmd": [],
     "post-update-cmd": [
       "@code-review",
       "@run-tests"

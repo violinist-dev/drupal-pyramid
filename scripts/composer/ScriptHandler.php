@@ -239,9 +239,6 @@ class ScriptHandler {
     $event->getIO()->write("Generate new keys");
     $process->execute("openssl genrsa -out " . $certificatesRoot . "/private.key 2048");
     $process->execute("openssl rsa -in " . $certificatesRoot . "/private.key -pubout > " . $certificatesRoot . "/public.key");
-
-    // Fix keys permissions.
-    self::fixOpenSslKeysPermissions($event);
   }
 
   /**

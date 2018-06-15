@@ -192,6 +192,27 @@ Now you can apply it with Composer:
 lando composer update drupal/address
 ```
 
+--- 
+
+## Known issues
+
+Sometimes, you can have permission issues with the `sites/default` folder.
+
+```bash
+[ErrorException]
+  file_put_contents(/app/web/sites/default/settings.php): failed to open stream: Permission denied
+```
+
+**Solution** => `lando composer fix-permissions`
+
+
+
+Sometimes, you can have permission issues with the `node_modules` folder.
+
+```bash
+```
+
+**Solution** => `lando npm run reset`
 
 ---
 

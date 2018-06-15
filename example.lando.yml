@@ -37,7 +37,9 @@ events:
     - echo "First install from config"
     - echo "=========================="
     - appserver: "cd $LANDO_MOUNT/ && composer first-install"
-    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush site-install config_installer -r web"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush site-install config_installer -y"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush upwd admin admin"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush import-content"
     # ==========================
     - echo ""
     - echo "=========================="
