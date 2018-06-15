@@ -210,6 +210,17 @@ Sometimes, you can have permission issues with the `sites/default` folder.
 Sometimes, you can have permission issues with the `node_modules` folder.
 
 ```bash
+sh: 1: node_modules/.bin/node-sass: Permission denied
+npm info lifecycle drupal-pyramid@1.0.0~build:css: Failed to exec build:css script
+npm ERR! Linux 4.15.0-22-generic
+npm ERR! argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "build:css"
+npm ERR! node v6.10.3
+npm ERR! npm  v3.10.10
+npm ERR! code ELIFECYCLE
+npm ERR! drupal-pyramid@1.0.0 build:css: `cd $npm_package_config_theme_path && node_modules/.bin/node-sass scss scss/ -o css/`
+npm ERR! Exit status 126
+npm ERR!
+npm ERR! Failed at the drupal-pyramid@1.0.0 build:css script 'cd $npm_package_config_theme_path && node_modules/.bin/node-sass scss scss/ -o css/'.
 ```
 
 **Solution** => `lando npm run reset`
