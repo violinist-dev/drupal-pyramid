@@ -25,14 +25,15 @@
 /**/index.php
 /**/robots.txt
 /**/sites/default/default.services.yml
+/**/sites/default/default.*
 /**/sites/example.sites.php
 /**/update.php
 /**/web.config
 
 # Do NOT ignore settings files because we customize them.
 # Those files are also exclude from Drupal Scaffold (see composer.json).
-# /**/sites/default/default.settings.php
-# /**/sites/development.services.yml
+# /**/sites/example.services.development.yml
+# /**/sites/example.settings.php
 # /**/sites/example.settings.local.php
 
 # Ignore sensitive information

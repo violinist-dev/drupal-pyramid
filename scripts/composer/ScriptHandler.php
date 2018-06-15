@@ -66,6 +66,19 @@ class ScriptHandler {
     ];
   }
 
+  /**
+   * Get the list of folders with custom code.
+   * @return array
+   */
+  public static function getTestGroups() {
+    $drupalRoot = self::getDrupalRoot();
+    return [
+      // 'core',
+      'pyramid_base',
+      'pyramid_content',
+    ];
+  }
+
   // REQUIREMENTS.
 
   /**
@@ -111,7 +124,7 @@ class ScriptHandler {
    * @param Event $event
    * @return void
    */
-  public static function createRequiredFiles(Event $event) {
+  public static function generateFiles(Event $event) {
     $fs = new Filesystem();
     $composerRoot = static::getComposerRoot();
     $drupalRoot = static::getDrupalRoot();
@@ -131,15 +144,15 @@ class ScriptHandler {
     }
 
     // Create the DotEnv file
-    if (!$fs->exists($composerRoot . '.env') and $fs->exists($composerRoot . 'example.env')) {
+    if (!$fs->exists($composerRoot . '.env') and $fs->exists($composerRoot . '/example.env')) {
       $fs->copy($composerRoot . '/example.env', $composerRoot . '/.env');
       $fs->chmod($composerRoot . '/.env', 0666);
       $event->getIO()->write("Create the .env filed with chmod 0666");
     }
 
     // Prepare the settings file for installation
-    if (!$fs->exists($drupalRoot . '/sites/default/settings.php') and $fs->exists($drupalRoot . '/sites/default/default.settings.php')) {
-      $fs->copy($drupalRoot . '/sites/default/default.settings.php', $drupalRoot . '/sites/default/settings.php');
+    if ($fs->exists($drupalRoot . '/sites/example.settings.php')) {
+      $fs->copy($drupalRoot . '/sites/example.settings.php', $drupalRoot . '/sites/default/settings.php');
       require_once $drupalRoot . '/core/includes/bootstrap.inc';
       require_once $drupalRoot . '/core/includes/install.inc';
       $settings['config_directories'] = [
@@ -154,17 +167,17 @@ class ScriptHandler {
     }
 
     // Prepare the local settings file for installation with chmod 666.
-    if (!$fs->exists($drupalRoot . '/sites/default/settings.local.php') and $fs->exists($drupalRoot . '/sites/example.settings.local.php')) {
-      $fs->copy($drupalRoot . '/sites/default/example.settings.local.php', $drupalRoot . '/sites/default/settings.local.php');
+    if ($fs->exists($drupalRoot . '/sites/example.settings.local.php')) {
+      $fs->copy($drupalRoot . '/sites/example.settings.local.php', $drupalRoot . '/sites/default/settings.local.php');
       $fs->chmod($drupalRoot . '/sites/default/settings.local.php', 0666);
       $event->getIO()->write("Create a sites/default/settings.local.php file with chmod 0666");
     }
 
     // Prepare the local services file for development.
-    if (!$fs->exists($drupalRoot . '/sites/default/services.development.yml') and $fs->exists($drupalRoot . '/sites/development.services.yml')) {
-      $fs->copy($drupalRoot . '/sites/default/example.services.development.yml', $drupalRoot . '/sites/default/services.development.yml');
+    if ($fs->exists($drupalRoot . '/sites/example.services.development.yml')) {
+      $fs->copy($drupalRoot . '/sites/example.services.development.yml', $drupalRoot . '/sites/default/services.development.yml');
       $fs->chmod($drupalRoot . '/sites/default/services.development.yml', 0666);
-      $event->getIO()->write("Create a sites/default/settings.local.php file with chmod 0666");
+      $event->getIO()->write("Create a sites/default/services.development.yml file with chmod 0666");
     }
 
     // Create the files directory with chmod 0777
@@ -268,7 +281,7 @@ class ScriptHandler {
    *
    * @return void
    */
-  public static function gitCleanup(Event $event) {
+  public static function cleanGit(Event $event) {
     $io = $event->getIo();
     $drupalRoot = self::getDrupalRoot();   
     $process = new ProcessExecutor($io);
@@ -291,7 +304,7 @@ class ScriptHandler {
    *
    * @return void
    */
-  public static function npmCleanup(Event $event) {
+  public static function cleanNpm(Event $event) {
     $io = $event->getIo();
     $drupalRoot = static::getDrupalRoot();   
     $process = new ProcessExecutor($io);
@@ -309,7 +322,7 @@ class ScriptHandler {
    *
    * @return void
    */
-  public static function keysCleanup(Event $event) {
+  public static function cleanKeys(Event $event) {
     $fs = new Filesystem();
     $composerRoot = static::getComposerRoot();
     $certificatesRoot = $composerRoot . "/certificates";
@@ -324,7 +337,7 @@ class ScriptHandler {
    * @param Event $event
    * @return void
    */
-  public static function dependencyCleanup(Event $event) {
+  public static function cleanVendors(Event $event) {
     $fs = new Filesystem();
     $io = $event->getIO();
     $root = self::getComposerRoot();
@@ -358,23 +371,14 @@ class ScriptHandler {
    *
    * @return void
    */
-  public static function filesCleanup(Event $event) {
+  public static function resetFiles(Event $event) {
     $io = $event->getIo();
     $drupalRoot = static::getDrupalRoot();   
     $process = new ProcessExecutor($io);
     $files = [
       // Files at project root.
-      '.env',
-      '.lando.yml',
-      '*.example',
-      'php.ini',
-      // Files in sites folder.
-      $drupalRoot . '/sites/example.*',
-      $drupalRoot . '/sites/development.services.yml',
-      // Files in sites/default.
-      $drupalRoot . '/sites/default/default.*',
-      $drupalRoot . '/sites/default/example.*',
-      // $drupalRoot . '/sites/default/*.local.php', // We want to keep local files :)
+      $drupalRoot . '/sites/salt.txt',
+      $drupalRoot . '/sites/default/settings.*',
     ];
     foreach ($files as $file) {
       $process->execute('find ' . $file . ' -type f | xargs rm -f');
@@ -417,6 +421,34 @@ class ScriptHandler {
     $process->execute('./bin/phpcs --standard=Drupal --ignore="node_modules,bower_modules,vendor,*.md" --extensions="php,inc/php,module/php,theme/php" ' . implode(' ', $folders) . ' > logs/errors_coding_standard.log');
     $process->execute('cat ./logs/errors_coding_standard.log');
     $event->getIO()->write("PHPCodeSniffer completed");
+  }
+
+  public static function unitTests(Event $event) {
+    $groups = self::getTestGroups();
+    $process = new ProcessExecutor($event->getIO());
+    $event->getIO()->write("====================");
+    $event->getIO()->write("Start Unit Test");
+    $event->getIO()->write("====================");
+
+    foreach($groups as $group) {
+      $process->execute('./bin/phpunit -c ' . $group . '  > ./logs/unit_tests_' . $group . '.log');
+      $process->execute('cat ./logs/unit_tests_' . $group . '.log');
+    }
+    $event->getIO()->write("Tests completed");
+  }
+
+  public static function functionalTests(Event $event) {
+    $groups = self::getTestGroups();
+    $process = new ProcessExecutor($event->getIO());
+    $event->getIO()->write("====================");
+    $event->getIO()->write("No functional tests yet");
+    $event->getIO()->write("====================");
+
+    foreach($groups as $group) {
+      $process->execute('./bin/phpunit -c ' . $group . '  > ./logs/unit_tests_' . $group . '.log');
+      $process->execute('cat ./logs/unit_tests_' . $group . '.log');
+    }
+    $event->getIO()->write("Tests completed");
   }
 
   // CUSTOM COMNANDS.

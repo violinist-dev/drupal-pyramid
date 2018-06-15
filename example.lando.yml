@@ -1,11 +1,5 @@
 name: pyramid
-# ==========================
-# Install a default D8 LAMP
-# ==========================
 recipe: drupal8
-# ==========================
-# Custom settings
-# ==========================
 config:
   webroot: web
   # ==========================
@@ -15,20 +9,14 @@ config:
   # xdebug: true
   # conf: 
   #   php: .vscode/php.ini
-# ==========================
-# NodeJS
-# ==========================
 services:
   node:
     type: node:6.10
     build:
-      - npm run build
-# ==========================
-# Expose NPM to your CLI
-# ==========================
+      - echo 'Bravo! You NodeJS container is up and running!'
 tooling:
   npm:
-    service: node    
+    service: node
 # ==========================
 # Custom domains
 # ==========================
@@ -36,52 +24,46 @@ tooling:
 #  appserver:
 #    - "yoursite.lndo.site"
 #    - "*.yousite.lndo.site"
-# ==========================
-# Custom event
-# ==========================
 events:
-  # ==========================
-  # After lando start
-  # ==========================
   post-start:
-    # 
-    # Commands for first install
-    # 
     - echo "=========================="
-    - echo "First install"
+    - echo "Install"
     - echo "=========================="
     - appserver: "cd $LANDO_MOUNT/ && composer install"
-    - appserver: "cd $LANDO_MOUNT/ && composer generate-salt"
-    - appserver: "cd $LANDO_MOUNT/ && composer fix-permissions"
-    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush site-install config_installer -r docroot"
+    # ==========================
+    # REMOVE THIS PART AFTER FIRST INSTALL
+    - echo ""
+    - echo "=========================="
+    - echo "First install from config"
+    - echo "=========================="
+    - appserver: "cd $LANDO_MOUNT/ && composer first-install"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush site-install config_installer -r web"
+    # ==========================
     - echo ""
     - echo "=========================="
     - echo "Building theme assets..."
     - echo "=========================="
     - node: "cd $LANDO_MOUNT && npm install"
     - node: "cd $LANDO_MOUNT && npm run start"
-    #
-    # Uncomment all lines below after first install
-    #
-    #- echo "=========================="
-    #- echo "Update database..."
-    #- echo "=========================="
-    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush cim -r docroot"
-    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush entup -r docroot"
-    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush updb -r docroot"
-    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush locale-update -r docroot"
-    #- appserver: "cd $LANDO_MOUNT/ && ./bin/drush cr -r docroot"
-    #- echo ""
-    #- echo "=========================="
-    #- echo "Building theme assets..."
-    #- echo "=========================="
-    #- node: "cd $LANDO_MOUNT && npm install"
-    #- node: "cd $LANDO_MOUNT && npm run reset"
-    #- node: "cd $LANDO_MOUNT && npm run build"
-    #- echo ""
-    #- echo "=========================="
-    #- echo "Doing code review..."
-    #- echo "=========================="
-    #- appserver: "cd $LANDO_MOUNT/ && composer code-review"
-    #- node: "cd $LANDO_MOUNT && npm run lint"
-    #- node: "cd $LANDO_MOUNT && npm run stats"    
+    - echo ""
+    - echo "=========================="
+    - echo "Update database..."
+    - echo "=========================="
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush cim -r web"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush entup -r web"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush updb -r web"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush locale-update -r web"
+    - appserver: "cd $LANDO_MOUNT/ && ./bin/drush cr -r web"
+    - echo ""
+    - echo "=========================="
+    - echo "Building theme assets..."
+    - echo "=========================="
+    - node: "cd $LANDO_MOUNT && npm run start"
+    - echo ""
+    - echo "=========================="
+    - echo "Doing code review..."
+    - echo "=========================="
+    - appserver: "cd $LANDO_MOUNT/ && composer code-review"
+    - appserver: "cd $LANDO_MOUNT/ && composer run-tests"
+    - node: "cd $LANDO_MOUNT && npm run lint"
+    - node: "cd $LANDO_MOUNT && npm run stats"    

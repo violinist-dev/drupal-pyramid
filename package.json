@@ -26,8 +26,8 @@
     "build:css": "cd $npm_package_config_theme_path && node_modules/.bin/node-sass scss scss/ -o css/",
     "build": "npm run build:css && npm run build:js",
     "watch": "npm run build && cd $npm_package_config_theme_path && node_modules/.bin/node-sass --include-path -w scss scss/ -o css/",
-    "start": "cd $npm_package_config_theme_path && rm -rf node_modules/ && npm install && npm run build",
-    "reset": "npm run start",
+    "start": "cd $npm_package_config_theme_path && npm install && npm run build",
+    "reset": "cd $npm_package_config_theme_path && rm -rf node_modules/ && rm -rf css/ && npm install && npm run build",
     "test": "echo 'Test' && exit 0"
   },
   "repository": {

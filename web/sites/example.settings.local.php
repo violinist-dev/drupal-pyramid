@@ -7,21 +7,13 @@ assert_options(ASSERT_ACTIVE, TRUE);
 \Drupal\Component\Assertion\Handle::register();
 
 // If devel is present set kint maxLevels.
-if (file_exists($app_root . '/modules/contrib/devel/kint/kint/Kint.class.php')) {
-  require_once $app_root . '/modules/contrib/devel/kint/kint/Kint.class.php';
+if (file_exists(DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php')) {
+  require_once DRUPAL_ROOT . '/modules/contrib/devel/kint/kint/Kint.class.php';
   Kint::$maxLevels = 5;
 }
 
-// Trusted hosts.
-$settings['trusted_host_patterns'] = array(
-  '^localhost$',
-  "^.+\.lndo.site$",
-  '^example\.org$',
-  '^.+\.example\.org$',
-);
-
 // Enable local development services.
-$settings['container_yamls'][] = $app_root . '/' . $site_path . '/development.services.yml';
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 
 // Show all error messages, with backtrace information.
 $config['system.logging']['error_level'] = 'verbose';

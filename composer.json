@@ -86,18 +86,36 @@
     "drush": "DrupalPyramid\\composer\\ScriptHandler::doDrush",
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "generate-salt": "DrupalPyramid\\composer\\ScriptHandler::generateSalt",
+    "generate-files": "DrupalPyramid\\composer\\ScriptHandler::generateFiles",
     "generate-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
     "fix-permissions": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",
     "fix-permissions-keys": "DrupalPyramid\\composer\\ScriptHandler::fixOpenSslKeysPermissions",
-    "npm-cleanup": "DrupalPyramid\\composer\\ScriptHandler::npmCleanup",
-    "keys-cleanup": "DrupalPyramid\\composer\\ScriptHandler::keysCleanup",
-    "dependency-cleanup": "DrupalPyramid\\composer\\ScriptHandler::dependencyCleanup",
-    "files-cleanup": "DrupalPyramid\\composer\\ScriptHandler::filesCleanup",
+    "reset-files": "DrupalPyramid\\composer\\ScriptHandler::resetFiles",
+    "clean-npm": "DrupalPyramid\\composer\\ScriptHandler::cleanNpm",
+    "clean-keys": "DrupalPyramid\\composer\\ScriptHandler::cleanKeys",
+    "clean-vendors": "DrupalPyramid\\composer\\ScriptHandler::cleanVendors",
+    "clean": [
+      "@clean-npm",
+      "@clean-keys",
+      "@clean-vendors"
+    ],
     "code-check-practice": "DrupalPyramid\\composer\\ScriptHandler::phpcbf",
     "code-check-standard": "DrupalPyramid\\composer\\ScriptHandler::phpcs",
     "code-review": [
       "@code-check-practice",
       "@code-check-standard"
+    ],
+    "run-tests": [
+      "DrupalPyramid\\composer\\ScriptHandler::unitTests",
+      "DrupalPyramid\\composer\\ScriptHandler::functionalTests"
+    ],
+    "first-install": [
+      "@drupal-scaffold",
+      "@generate-files",
+      "@generate-salt",
+      "@generate-keys",
+      "@fix-permissions",
+      "@fix-permissions-keys"
     ],
     "pre-install-cmd": [
       "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
@@ -106,19 +124,12 @@
       "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "post-install-cmd": [
-      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-scaffold",
-      "@generate-salt",
-      "@generate-keys",
-      "@fix-permissions",
-      "@fix-permissions-keys"
+      "@code-review",
+      "@run-tests"
     ],
     "post-update-cmd": [
-      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles",
-      "@drupal-scaffold",
-      "@git-cleanup",
-      "@fix-permissions",
-      "@fix-permissions-keys"
+      "@code-review",
+      "@run-tests"
     ]
   },
   "extra": {
@@ -149,21 +160,22 @@
         "type:drupal-drush"
       ]
     },
-    "drupal-scaffold": {
-      "excludes": [
-        "sites/example.settings.local.php",
-        "sites/default/default.settings.php",
-        "sites/development.services.yml"
-      ],
-      "initial": {
-        "sites/default/default.services.yml": "sites/default/services.yml",
-        "sites/default/default.settings.php": "sites/default/settings.php"
-      }
-    },
     "patches": {
       "drupal/paragraphs": {
         "#2764681 - Allow paragraph type deletion if content exists": "https://www.drupal.org/files/issues/2764681-allow-paragraphs-type-deletion-if-content-exists-55.patch"
       }      
+    },
+    "drupal-scaffold": {
+      "source": "https://cgit.drupalcode.org/drupal/plain/{path}?h={version}",
+      "excludes": [
+        "sites/example.settings.local.php",
+        "sites/example.settings.php"
+      ],
+      "initial": {
+        "sites/default/example.services.development.yml": "sites/default/services.development.yml",
+        "sites/default/example.settings.local.php": "sites/default/settings.local.php",
+        "sites/default/example.settings.php": "sites/default/settings.php"
+      }
     }
   }
 }
