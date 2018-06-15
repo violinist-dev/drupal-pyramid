@@ -1,8 +1,8 @@
 {
-  "name": "drupal_pyramid_theme",
+  "name": "pyramid_theme",
   "version": "1.0.0",
   "description": "D8 demo theme",
-  "main": "drupal_pyramid_theme.theme",
+  "main": "pyramid_theme.theme",
   "scripts": {
     "build:all": "npm rum build:css",
     "build:css": "node-sass --include-path scss scss/ -o css/",
@@ -14,7 +14,6 @@
   },
   "keywords": [
     "drupal-theme",
-    "gitsubtree",
     "pyramid"
   ],
   "author": {
