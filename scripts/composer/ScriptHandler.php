@@ -11,35 +11,36 @@ use Composer\Script\Event;
 use Composer\Semver\Comparator;
 use Composer\Util\ProcessExecutor;
 use DrupalFinder\DrupalFinder;
-use Drupal\Component\Utility\Crypt;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 use Webmozart\PathUtil\Path;
+use Drupal\Component\Utility\Crypt;
 
 class ScriptHandler {
 
-  /**
-   * Drush config file.
-   *
-   * @var string $configFile
-   */
-  public static $configFile = '.drush.yml';
+  // BASICS.
 
   /**
-   * Parse the config file and return settings.
+   * Get the Drupal root folder.
    *
-   * @param boolean $var
-   * @return mixed
-   *    The array of settings OR the requested setting value.
+   * @return string
    */
-  public static function getSettings($var = FALSE) {
-    $configFile = file_get_contents(self::$configFile);
-    $defaultSettings = file_get_contents('example' . self::$configFile);
-    $settings = array_merge(
-      Yaml::parse($defaultSettings),
-      Yaml::parse($configFile)
-    );
-    return ($var && isset($settings[$var])) ? $settings[$var] : $settings;
+  protected static function getDrupalRoot() {
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $drupalRoot = $drupalFinder->getDrupalRoot();    
+    return $drupalRoot;
+  }
+  
+  /**
+   * Get the project root folder.
+   *
+   * @return string
+   */
+  protected static function getComposerRoot() {
+    $drupalFinder = new DrupalFinder();
+    $drupalFinder->locateRoot(getcwd());
+    $composerRoot = $drupalFinder->getComposerRoot();
+    return $composerRoot;
   }
 
   /**
@@ -48,85 +49,37 @@ class ScriptHandler {
    * @return string
    *    The absolute path to Drush bin file.
    */
-  public static function getDrush() {
-    return 'bin/drush';
+  protected static function getDrush() {
+    return static::getComposerRoot() . '/bin/drush';
   }
 
   /**
-   * Get Drupal webroot.
-   *
-   * @return string
-   *    The absolute path to Drupal webroot.
+   * Get the list of folders with custom code.
+   * @return array
    */
-  public static function getDrupalRoot() {
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $drupalRoot = $drupalFinder->getDrupalRoot();
-    return $drupalRoot;
-  }
-
-  /**
-   * Create necessary files and folders for Drupal install.
-   *
-   * @param Event $event
-   * @return void
-   */
-  public static function createRequiredFiles(Event $event) {
-    $fs = new Filesystem();
+  public static function getCustomFolders() {
     $drupalRoot = self::getDrupalRoot();
-
-    $dirs = [
-      'modules',
-      'profiles',
-      'themes',
+    return [
+      // $drupalRoot . '/profiles/custom/',
+      $drupalRoot . '/modules/custom/',
+      $drupalRoot . '/themes/custom/',
     ];
-
-    // Required for unit testing
-    foreach ($dirs as $dir) {
-      if (!$fs->exists($drupalRoot . '/'. $dir)) {
-        $fs->mkdir($drupalRoot . '/'. $dir);
-        $fs->touch($drupalRoot . '/'. $dir . '/.gitkeep');
-      }
-    }
-
-    // Prepare the settings file for installation
-    if (!$fs->exists($drupalRoot . '/sites/default/settings.php') and $fs->exists($drupalRoot . '/sites/default/default.settings.php')) {
-      $fs->copy($drupalRoot . '/sites/default/default.settings.php', $drupalRoot . '/sites/default/settings.php');
-      require_once $drupalRoot . '/core/includes/bootstrap.inc';
-      require_once $drupalRoot . '/core/includes/install.inc';
-      $settings['config_directories'] = [
-        CONFIG_SYNC_DIRECTORY => (object) [
-          'value' => Path::makeRelative($drupalFinder->getComposerRoot() . '/config/sync', $drupalRoot),
-          'required' => TRUE,
-        ],
-      ];
-      drupal_rewrite_settings($settings, $drupalRoot . '/sites/default/settings.php');
-      $fs->chmod($drupalRoot . '/sites/default/settings.php', 0666);
-      $event->getIO()->write("Create a sites/default/settings.php file with chmod 0666");
-    }
-
-    // Prepare the settings file for installation
-    if (!$fs->exists($drupalRoot . '/sites/default/settings.local.php') and $fs->exists($drupalRoot . '/sites/example.settings.local.php')) {
-      $fs->copy($drupalRoot . '/sites/example.settings.local.php', $drupalRoot . '/sites/default/settings.local.php');
-      $fs->chmod($drupalRoot . '/sites/default/settings.local.php', 0666);
-      $event->getIO()->write("Create a sites/default/settings.local.php file with chmod 0666");
-    }
-
-    // Create the files directory with chmod 0777
-    if (!$fs->exists($drupalRoot . '/sites/default/files')) {
-      $oldmask = umask(0);
-      $fs->mkdir($drupalRoot . '/sites/default/files', 0777);
-      umask($oldmask);
-      $event->getIO()->write("Create a sites/default/files directory with chmod 0777");
-    }
-
-    // Create the files directory with chmod 0777
-    if (!$fs->exists(self::$configFile) and $fs->exists('example' . self::$configFile)) {
-      $fs->copy('example' . self::$configFile, self::$configFile);
-      $fs->chmod(self::$configFile, 0666);
-      $event->getIO()->write("Create " . self::$configFile . " file with chmod 0666");
-    }
   }
+
+  /**
+   * Get the list of folders with custom code.
+   * @return array
+   */
+  public static function getTestGroups() {
+    $drupalRoot = self::getDrupalRoot();
+    return [
+      // 'core',
+      'pyramid_base',
+      'pyramid_content',
+    ];
+  }
+
+  // REQUIREMENTS.
 
   /**
    * Checks if the installed version of Composer is compatible.
@@ -166,11 +119,166 @@ class ScriptHandler {
   }
 
   /**
+   * Create required settings files.
+   *
+   * @param Event $event
+   * @return void
+   */
+  public static function generateFiles(Event $event) {
+    $fs = new Filesystem();
+    $composerRoot = static::getComposerRoot();
+    $drupalRoot = static::getDrupalRoot();
+
+    $dirs = [
+      'modules',
+      'profiles',
+      'themes',
+    ];
+
+    // Required for unit testing
+    foreach ($dirs as $dir) {
+      if (!$fs->exists($drupalRoot . '/'. $dir)) {
+        $fs->mkdir($drupalRoot . '/'. $dir);
+        $fs->touch($drupalRoot . '/'. $dir . '/.gitkeep');
+      }
+    }
+
+    // Create the DotEnv file
+    if (!$fs->exists($composerRoot . '.env') and $fs->exists($composerRoot . '/example.env')) {
+      $fs->copy($composerRoot . '/example.env', $composerRoot . '/.env');
+      $fs->chmod($composerRoot . '/.env', 0666);
+      $event->getIO()->write("Create the .env filed with chmod 0666");
+    }
+
+    // Prepare the settings file for installation
+    if ($fs->exists($drupalRoot . '/sites/example.settings.php')) {
+      $fs->copy($drupalRoot . '/sites/example.settings.php', $drupalRoot . '/sites/default/settings.php');
+      require_once $drupalRoot . '/core/includes/bootstrap.inc';
+      require_once $drupalRoot . '/core/includes/install.inc';
+      $settings['config_directories'] = [
+        CONFIG_SYNC_DIRECTORY => (object) [
+          'value' => Path::makeRelative($composerRoot . '/config/sync', $drupalRoot),
+          'required' => TRUE,
+        ],
+      ];
+      drupal_rewrite_settings($settings, $drupalRoot . '/sites/default/settings.php');
+      $fs->chmod($drupalRoot . '/sites/default/settings.php', 0666);
+      $event->getIO()->write("Create a sites/default/settings.php file with chmod 0666");
+    }
+
+    // Prepare the local settings file for installation with chmod 666.
+    if ($fs->exists($drupalRoot . '/sites/example.settings.local.php')) {
+      $fs->copy($drupalRoot . '/sites/example.settings.local.php', $drupalRoot . '/sites/default/settings.local.php');
+      $fs->chmod($drupalRoot . '/sites/default/settings.local.php', 0666);
+      $event->getIO()->write("Create a sites/default/settings.local.php file with chmod 0666");
+    }
+
+    // Prepare the local services file for development.
+    if ($fs->exists($drupalRoot . '/sites/example.services.development.yml')) {
+      $fs->copy($drupalRoot . '/sites/example.services.development.yml', $drupalRoot . '/sites/default/services.development.yml');
+      $fs->chmod($drupalRoot . '/sites/default/services.development.yml', 0666);
+      $event->getIO()->write("Create a sites/default/services.development.yml file with chmod 0666");
+    }
+
+    // Create the files directory with chmod 0777
+    if (!$fs->exists($drupalRoot . '/sites/default/files')) {
+      $oldmask = umask(0);
+      $fs->mkdir($drupalRoot . '/sites/default/files', 0777);
+      umask($oldmask);
+      $event->getIO()->write("Create a sites/default/files directory with chmod 0777");
+    }
+  }
+
+  /**
+   * Generate Salt file.
+   *
+   * Regenerate salt.txt file and use it settings.php.
+   *
+   * Use `file_get_contents($app_root . '/' . $site_path . '/salt.txt')`;
+   *
+   * @param Composer\Script\Event $event
+   *   Sent by composer.
+   */
+  public static function generateSalt(Event $event) {
+    $io = $event->getIo();
+    $fs = new FileSystem();
+    $process = new ProcessExecutor($io);
+    $drupalRoot = static::getDrupalRoot();
+    $salt_file = $drupalRoot . "/sites/default/salt.txt";
+    $fs->chmod($drupalRoot . "/sites/default", 0775);
+    if ($fs->exists($salt_file)) {
+      $io->write("Removing old salt.txt file...");
+      $process->execute("rm -f " . $salt_file);
+    }
+    $io->write("Generating " . $salt_file);
+    $salt = Crypt::randomBytesBase64(55);
+    $process->execute("touch " . $salt_file);
+    $process->execute("echo " . $salt . " > " . $salt_file);
+    $io->write($salt);
+  }
+
+  /**
+   * Generate OpenSSL keys.
+   * This is useful for headless Drupal (have a look a ContentaCMS).
+   *
+   * @param Event $event
+   */
+  public static function generateOpenSslKeys(Event $event) {
+    $fs = new Filesystem();
+    $composerRoot = static::getComposerRoot();
+    $certificatesRoot = $composerRoot . "/certificates";
+    $process = new ProcessExecutor($event->getIO());
+    
+    if (!$fs->exists($certificatesRoot)) {
+      $fs->mkdir($certificatesRoot, 0755);
+    }
+
+    $event->getIO()->write("Removing old keys");
+    $process->execute("rm -f " . $certificatesRoot . "/*.key");
+    
+    $event->getIO()->write("Generate new keys");
+    $process->execute("openssl genrsa -out " . $certificatesRoot . "/private.key 2048");
+    $process->execute("openssl rsa -in " . $certificatesRoot . "/private.key -pubout > " . $certificatesRoot . "/public.key");
+  }
+
+  /**
+   * Apply recommended permissions on Files and Folders.
+   *
+   * @param Event $event
+   * @return void
+   */
+  public static function fixPermissions(Event $event) {
+    $drupalRoot = static::getDrupalRoot();
+    $process = new ProcessExecutor($event->getIO());
+    $event->getIO()->write("Fixing files permissions");
+    $process->execute("find " . $drupalRoot . " -type d -exec chmod u=rwx,g=rx,o= '{}' \;");
+    $event->getIO()->write("Fixing folder permissions");
+    $process->execute("find " . $drupalRoot . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
+  }
+  
+  /**
+   * Fix OpenSSL keys files permission.
+   *
+   * @param Event $event
+   */
+  public static function fixOpenSslKeysPermissions(Event $event) {
+    $composerRoot = static::getComposerRoot();
+    $certificatesRoot = $composerRoot . "/certificates";
+
+    $process = new ProcessExecutor($event->getIO());
+
+    $event->getIO()->write("Fixing OpenSSL keys permissions");
+    $process->execute("chmod 600 " . $certificatesRoot . "/*.key");
+  }
+
+  // CLEANING.
+
+  /**
    * Delete git from contrib and vendor folders.
    *
    * @return void
    */
-  public static function gitCleanup(Event $event) {
+  public static function cleanGit(Event $event) {
     $io = $event->getIo();
     $drupalRoot = self::getDrupalRoot();   
     $process = new ProcessExecutor($io);
@@ -189,15 +297,49 @@ class ScriptHandler {
   }
 
   /**
-   * Delete contrib and vendor folders.
+   * Delete node_modules or bower_modules folders.
    *
    * @return void
    */
-  public static function dependencyCleanup(Event $event) {
+  public static function cleanNpm(Event $event) {
+    $io = $event->getIo();
+    $drupalRoot = static::getDrupalRoot();   
+    $process = new ProcessExecutor($io);
+    $directories = self::getCustomFolders();
+    $io->write("Deleting node_modules and bower_modules folders...");
+    foreach ($directories as $dir) {
+      $process->execute('find ' . $dir . ' -type d -name "node_modules" | xargs rm -rf');
+      $process->execute('find ' . $dir . ' -type d -name "bower_modules" | xargs rm -rf');
+      $io->write("Done! Garbage folders removed from " . $dir);
+    }  
+  }  
+
+  /**
+   * Delete app keys.
+   *
+   * @return void
+   */
+  public static function cleanKeys(Event $event) {
+    $fs = new Filesystem();
+    $composerRoot = static::getComposerRoot();
+    $certificatesRoot = $composerRoot . "/certificates";
+    $process = new ProcessExecutor($event->getIO());    
+    $process->execute('rm -f ' . $certificatesRoot . '/*.key');
+    $event->getIO()->write("Removed old keys");
+  }  
+
+  /**
+   * Remove vendors for a clean Composer reinstall.
+   *
+   * @param Event $event
+   * @return void
+   */
+  public static function cleanVendors(Event $event) {
     $fs = new Filesystem();
     $io = $event->getIO();
-    $drupalRoot = self::getDrupalRoot();  
-    
+    $root = self::getComposerRoot();
+    $drupalRoot = static::getDrupalRoot();  
+
     $directories = array(
       "bin",
       "vendor",
@@ -212,203 +354,113 @@ class ScriptHandler {
     $io->write("Removing directories (bin, vendor, core, libraries and contrib)."); 
     $fs->remove($directories);
 
-    $io->write("Removing composer.lock file."); 
-    if ($fs->exists('composer.lock')) { 
-      $fs->remove('composer.lock'); 
-    } 
- 
+    if ($fs->exists($root . '/composer.lock')) {
+      $event->getIo()->write("Removing composer.lock file");
+      $fs->remove($root . '/composer.lock');
+    }
+
     $io->write("Everything's clean!");
     $io->write("Now run 'composer install' to get latest dependencies."); 
   }
 
   /**
-   * Generate Salt file.
+   * Delete local files for a clean deploy.
    *
-   * Regenerate salt.txt file and use it settings.php.
-   *
-   * Use `file_get_contents($app_root . '/' . $site_path . '/salt.txt')`;
-   *
-   * @param Composer\Script\Event $event
-   *   Sent by composer.
-   */
-  public static function generateSalt(Event $event) {
-    $io = $event->getIo();
-    $fs = new FileSystem();
-    $process = new ProcessExecutor($io);
-    $drupalRoot = self::getDrupalRoot();
-
-    $salt_file = $drupalRoot . "/sites/default/salt.txt";
-
-    $fs->chmod($drupalRoot . "/sites/default", 0775);
-    if ($fs->exists($salt_file)) {
-      $io->write("Removing old salt.txt file...");
-      $process->execute("rm -f " . $salt_file);
-    }
-
-    $io->write("Generating " . $salt_file);
-    $salt = Crypt::randomBytesBase64(55);
-    $process->execute("touch " . $salt_file);
-    $process->execute("echo " . $salt . " > " . $salt_file);
-    $io->write($salt);
-
-    self::fixPermissions($event, $drupalRoot . '/sites/default');
-  }
-
-  /**
-   * Generate OpenSSL keys.
-   * This is useful for headless Drupal (have a look a ContentaCMS).
-   *
-   * @param Event $event
-   */
-  public static function generateOpenSslKeys(Event $event) {
-    $fs = new Filesystem();
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $certificatesRoot = $drupalFinder->getComposerRoot() . "/certificates";
-    $process = new ProcessExecutor($event->getIO());
-    
-    if (!$fs->exists($certificatesRoot)) {
-      $fs->mkdir($certificatesRoot, 0755);
-    }
-
-    $event->getIO()->write("Removing old keys");
-    $process->execute("rm -f " . $certificatesRoot . "/*.key");
-    
-    $event->getIO()->write("Generate new keys");
-    $process->execute("openssl genrsa -out " . $certificatesRoot . "/private.key 2048");
-    $process->execute("openssl rsa -in " . $certificatesRoot . "/private.key -pubout > " . $certificatesRoot . "/public.key");
-
-    // Fix keys permissions.
-    self::fixOpenSslKeysPermissions($event);
-  }
-  
-  /**
-   * Fix OpenSSL keys files permission.
-   *
-   * @param Event $event
-   */
-  public static function fixOpenSslKeysPermissions(Event $event) {
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
-    $certificatesRoot = $drupalFinder->getComposerRoot() . "/certificates";
-
-    $process = new ProcessExecutor($event->getIO());
-
-    $event->getIO()->write("Fixing OpenSSL keys permissions");
-    $process->execute("chmod 600 " . $certificatesRoot . "/*.key");
-  }
-  
-  /**
-   * Fix files and folders permissions.
-   *
-   * @see https://www.drupal.org/node/244924 
-   * @param Event $event
    * @return void
    */
-  public static function fixPermissions(Event $event, $path = FALSE) {    
-    $drupalRoot = self::getDrupalRoot();
-
-    $dir = is_string($path) ? $path : $drupalRoot;
-
-    $process = new ProcessExecutor($event->getIO());
-    $event->getIO()->write("Fixing files permissions");
-    $process->execute("find " . $dir . " -type d -exec chmod u=rwx,g=rx,o= '{}' \;");
-    $event->getIO()->write("Fixing folder permissions");
-    $process->execute("find " . $dir . " -type f -exec chmod u=rw,g=r,o= '{}' \;");
-        
+  public static function resetFiles(Event $event) {
+    $io = $event->getIo();
+    $drupalRoot = static::getDrupalRoot();   
+    $process = new ProcessExecutor($io);
+    $files = [
+      // Files at project root.
+      $drupalRoot . '/sites/salt.txt',
+      $drupalRoot . '/sites/default/settings.*',
+    ];
+    foreach ($files as $file) {
+      $process->execute('find ' . $file . ' -type f | xargs rm -f');
+      $io->write("Done! File deleted: " . $file);
+    }  
   }
+  
+  // TESTING.
 
   /**
-   * Re install Drupal.
+   * PHPCodeSniffer automatically fixing coding standards.
    *
    * @param Event $event
    */
-  public static function siteReset(Event $event) {
-    $io = $event->getIO();
-    $args = $event->getArguments();
-
-    $drush = self::getDrush();
-    $drupalRoot = self::getDrupalRoot();
-    $settings = self::getSettings();
-
-    // Quiet deletion.
-    $auto = isset($args[0]) && $args[0] == 'y' ? TRUE : FALSE;
-    if (!$auto) {
-      $io->write("You're about to delete your current site.");
-      $continue = $io->ask("Are you OK? (y/n) ");
-      if ($continue != 'y') {
-        $io->write("You're website is safe... :)");
-        return;
-      }
-    }
-
-    self::siteInstall($event);
-    self::siteResetConfig($event);
-    self::siteResetUser($event);
+  public static function phpcbf(Event $event) {
+    $folders = self::getCustomFolders();
     
     $process = new ProcessExecutor($event->getIO());
-    $process->execute($drush . ' config-split-export -y -r ' . $drupalRoot);
+    $event->getIO()->write("============");
+    $event->getIO()->write("Start PHPCBF");
+    $event->getIO()->write("============");
+    $process->execute('./bin/phpcbf --config-set installed_paths vendor/drupal/coder/coder_sniffer');
+    $process->execute('./bin/phpcbf --standard=Drupal --ignore="node_modules,bower_modules,vendor,*.md" --extensions="php,inc/php,module/php,theme/php" --colors ' . implode(' ', $folders) . ' > logs/errors_coding_practice.log');
+    $process->execute('cat ./logs/errors_coding_practice.log');
+    $event->getIO()->write("PHPCBF completed");
   }
 
   /**
-   * Reset Drupal site settings.
+   * PHPCodeSniffer.
    *
    * @param Event $event
    */
-  public static function siteInstall(Event $event) {
-    $drush = self::getDrush();
-    $drupalRoot = self::getDrupalRoot();
-    $settings = self::getSettings();
-
+  public static function phpcs(Event $event) {
+    $folders = self::getCustomFolders();
     $process = new ProcessExecutor($event->getIO());
-    $event->getIO()->write("Reinstall and reset website");    
-    $process->execute($drush . " site-install config_installer -y -r " . $drupalRoot);      
+    $event->getIO()->write("====================");
+    $event->getIO()->write("Start PHPCodeSniffer");
+    $event->getIO()->write("====================");
+    $process->execute('./bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer');
+    $process->execute('./bin/phpcs --standard=Drupal --ignore="node_modules,bower_modules,vendor,*.md" --extensions="php,inc/php,module/php,theme/php" ' . implode(' ', $folders) . ' > logs/errors_coding_standard.log');
+    $process->execute('cat ./logs/errors_coding_standard.log');
+    $event->getIO()->write("PHPCodeSniffer completed");
   }
 
-  /**
-   * Reset Drupal site settings.
-   *
-   * @param Event $event
-   */
-  public static function siteResetConfig(Event $event) {
-    $io = $event->getIO();
-    $drush = self::getDrush();
-    $drupalRoot = self::getDrupalRoot();
-    $settings = self::getSettings();
-    if (!isset($settings['site'])) {
-      $io->write("Site settings not found in " . self::$configFile);
-      return;
-    }
-
-    $process = new ProcessExecutor($io);
-    foreach ($settings['site'] as $key => $value) {
-      $process->execute($drush . ' config-set system.site ' . $key . ' "' . $value . '" -y -r ' . $drupalRoot);
-    }
-    $io->write("=============");
-    $io->write("New settings");
-    $io->write("=============");
-    foreach ($settings['site'] as $key => $value) {
-      $io->write($key . " = " . $value);
-    }
-  }
-
-  /**
-   * Reset Drupal user.
-   *
-   * @param Event $event
-   */
-  public static function siteResetUser(Event $event) {
-    $drush = self::getDrush();
-    $drupalRoot = self::getDrupalRoot();
-    $settings = self::getSettings();
-
+  public static function unitTests(Event $event) {
+    $groups = self::getTestGroups();
     $process = new ProcessExecutor($event->getIO());
-    $event->getIO()->write("Reset site user");
-    $process->execute($drush . ' user-create ' . $settings['account']['name'] . ' --password="' . $settings['account']['password'] . '" --mail="' . $settings['account']['mail'] . '" -y -r ' . $drupalRoot);
-    $process->execute($drush . ' user-add-role "administrator" --name="' . $settings['account']['name'] . '" -y -r ' . $drupalRoot);
-    $process->execute($drush . ' user-password ' . $settings['account']['name'] . ' --password="' . $settings['account']['password'] . '" -y -r ' . $drupalRoot);
-    $process->execute($drush . ' user-block --name="admin" -y -r ' . $drupalRoot);
+    $event->getIO()->write("====================");
+    $event->getIO()->write("Start Unit Test");
+    $event->getIO()->write("====================");
+
+    foreach($groups as $group) {
+      $process->execute('./bin/phpunit -c ' . $group . '  > ./logs/unit_tests_' . $group . '.log');
+      $process->execute('cat ./logs/unit_tests_' . $group . '.log');
+    }
+    $event->getIO()->write("Tests completed");
   }
 
+  public static function functionalTests(Event $event) {
+    $groups = self::getTestGroups();
+    $process = new ProcessExecutor($event->getIO());
+    $event->getIO()->write("====================");
+    $event->getIO()->write("No functional tests yet");
+    $event->getIO()->write("====================");
+
+    foreach($groups as $group) {
+      $process->execute('./bin/phpunit -c ' . $group . '  > ./logs/unit_tests_' . $group . '.log');
+      $process->execute('cat ./logs/unit_tests_' . $group . '.log');
+    }
+    $event->getIO()->write("Tests completed");
+  }
+
+  // CUSTOM COMNANDS.
+
+  /**
+   * Run Drush commands.
+   *
+   * @param Event $event
+   */
+  public static function doDrush(Event $event) {
+    $drush = self::getDrush();
+    $args = $event->getArguments();
+    $drupalRoot = static::getDrupalRoot();
+    $process = new ProcessExecutor($event->getIO());
+    $process->execute($drush . ' ' . implode(' ', $args) . ' -r ' . $drupalRoot);      
+  }
 
 }

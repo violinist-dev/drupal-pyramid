@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @file
- * Contains \DrupalPyramidTheme\ScriptHandler.
- */
-
 namespace DrupalPyramidTheme;
 
+/**
+ *
+ */
 class ScriptHandler {
 
   /**
-   *
    * Install npm and build assets.
    *
    * @return void
@@ -23,7 +20,10 @@ class ScriptHandler {
     passthru("echo '==============================='");
     passthru("cd {$themePath} && npm install {$env} && npm run build:all");
   }
-  
+
+  /**
+   *
+   */
   public static function update() {
     $env = (getenv('ENV') === 'production') ? '--production' : '';
     $themePath = "./web/themes/contrib/drupal_pyramid_theme/";

@@ -1,0 +1,5 @@
+name: 'MMR Helper'
+type: module
+description: 'Provides drush commands or other features to use during development phase'
+core: 8.x
+package: 'MMR'
