@@ -1,6 +1,8 @@
 # Drupal Pyramid
 
-A starter kit for your Drupal projects with instructions to work on multiple subprojects.
+Small. Simple. Fast.
+
+The best starter kit for your Drupal projects.
 
 ![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=BvpY1y5yRRsxyUxUVDLJ)
 
@@ -11,15 +13,32 @@ All you need is [Composer](https://getcomposer.org/doc/00-intro.md) and [Lando](
 ```
 composer create-project drupal-pyramid/drupal-pyramid <project_name> --stability dev --no-interaction
 cp example.lando.yml .lando
-nano .lando.yml # Edit first line to rename the project (e.g pyramid)
+```
+
+Edit the first line in `.lando.yml` to rename your project (by default it's named _pyramid_):
+
+```
+name: <project_name>
+recipe: drupal8
+config:
+  ...
+```
+
+Start your local with one comand:
+
+```bash
 lando start
 ```
 
-You now have working Drupal website at [https://<project_name>.lndo.site](https://<project_name>.lndo.site)
+Done! 
 
+You now have a working Drupal website at [https://<project_name>.lndo.site](https://<project_name>.lndo.site).
 
-![Small. Simple. Fast.](https://media.giphy.com/media/iqryv05RJMVlm/giphy.gif)
+See your local configuration with:
 
+```bash
+lando info
+```
 
 ---
 
