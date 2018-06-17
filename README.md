@@ -10,8 +10,16 @@ The best starter kit for your Drupal projects.
 
 All you need is [Composer](https://getcomposer.org/doc/00-intro.md) and [Lando](https://docs.devwithlando.io/installation/installing.html).
 
+
+1. Create the project
+
 ```
 composer create-project drupal-pyramid/drupal-pyramid <project_name> --stability dev --no-interaction
+```
+
+2. Create the .lando.yml file
+
+```
 cp example.lando.yml .lando
 ```
 
@@ -24,13 +32,13 @@ config:
   ...
 ```
 
-Start your local with one comand:
+3. Start the machine:
 
 ```bash
 lando start
 ```
 
-Done! 
+**Done!**
 
 You now have a working Drupal website at [https://<project_name>.lndo.site](https://<project_name>.lndo.site).
 
