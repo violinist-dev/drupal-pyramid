@@ -90,22 +90,22 @@
       "DrupalComposer\\DrupalScaffold\\Plugin::scaffold"
     ],
     "pre-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "pre-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "post-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles"
     ],
     "post-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles"
     ],
     "drush": [
       "DrupalPyramid\\composer\\ScriptHandler::doDrush"
     ],
     "generate-salt": [
-      "DrupalProject\\composer\\ScriptHandler::generateSalt"
+      "DrupalPyramid\\composer\\ScriptHandler::generateSalt"
     ],
     "generate-files": [
       "DrupalPyramid\\composer\\ScriptHandler::generateFiles"
@@ -207,7 +207,6 @@
         "#2698425 - Do not reimport existing content": "https://www.drupal.org/files/issues/2018-12-11/default_content-dont-reimport-2698425-109.patch"
       },
       "drupal/paragraphs": {
-        "#2764681 - Allow paragraph type deletion if content exists": "https://www.drupal.org/files/issues/2764681-allow-paragraphs-type-deletion-if-content-exists-55.patch",
         "#2901390 - Langcode NULL when saving embed paragraph entity": "https://www.drupal.org/files/issues/paragraphs-missing-langcode-2901390-9.patch"
       }
     }
