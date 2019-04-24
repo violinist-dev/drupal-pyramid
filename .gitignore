@@ -55,7 +55,7 @@
 /database
 .lando.yml
 .drush.yml
-.gitstats.*
+gitstats.*
 
 # Ignore junk files
 .DS_Store

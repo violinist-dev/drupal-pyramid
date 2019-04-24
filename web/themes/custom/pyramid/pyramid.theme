@@ -1,0 +1,148 @@
+<?php
+
+/**
+ * @file
+ * Contains custom functions for our theming.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
+use Drupal\file\Entity\File;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\views\Views;
+
+/**
+ * Implements hook_form_system_theme_settings_alter().
+ */
+function pyramid_form_system_theme_settings_alter(&$form, FormStateInterface &$form_state, $form_id = NULL) {
+  // Work-around for a core bug affecting admin themes. See issue #943212.
+  // See https://www.drupal.org/docs/8/theming-drupal-8/creating-advanced-theme-settings.
+  if (isset($form_id)) {
+    return;
+  }
+
+  // Let admin user edit the Social block background.
+  $form['prefooter_background'] = [
+    '#title'             => t('Social block background'),
+    '#type'              => 'managed_file',
+    '#upload_location'   => 'public' . '://' . 'backgrounds',
+    '#default_value'     => theme_get_setting('prefooter_background'),
+    '#upload_validators' => [
+      'file_validate_extensions' => ['gif png jpg jpeg'],
+    ],
+  ];
+}
+
+/**
+ * Implements pyramid_preprocess_region().
+ */
+function pyramid_preprocess_page(array &$variables) {
+  if ($files = theme_get_setting('prefooter_background')) {
+    $fid = !empty($files) ? reset($files) : NULL;
+    if ($file = File::load($fid)) {
+      // Unprocessed background image.
+      // $variables['prefooter_background'] = file_create_url($file->getFileUri());
+      // Responsive image render array.
+      $uri            = $file->getFileUri();
+      $smallest_style = 'slider_narrow';
+      $dimensions     = responsive_image_get_image_dimensions($smallest_style, [], $uri);
+      $background     = [
+        '#theme'                     => 'responsive_image',
+        '#width'                     => $dimensions['width'],
+        '#height'                    => $dimensions['height'],
+        '#responsive_image_style_id' => 'slider',
+        '#uri'                       => $file->getFileUri(),
+      ];
+      // Add the file entity to the cache dependencies.
+      // This will clear our cache when this entity updates.
+      $renderer = \Drupal::service('renderer');
+      $renderer->addCacheableDependency($background, $file);
+
+      // Return the render array as block content.
+      $variables['prefooter_background'] = $background;
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_field().
+ */
+function pyramid_preprocess_field(array &$variables) {
+  if ($variables['field_name'] == 'field_keywords') {
+    // Only show the first 3 terms.
+    $variables['items'] = array_splice($variables['items'], 0, 3);
+
+    // Replace the content URL by custom URL to News filter View.
+    foreach (Element::children($variables['items']) as $delta) {
+      $item = &$variables['items'][$delta];
+      $term = $item['content']['#options']['entity'];
+      if ($term instanceof Term) {
+        $item['content']['#url'] = Url::fromRoute('view.news.all', [], ['query' => ['keyword' => $term->id()]]);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_breadcrumb().
+ */
+function pyramid_preprocess_breadcrumb(&$variables) {
+  if (!isset($variables['breadcrumb'])) {
+    return;
+  }
+
+  $route_match         = \Drupal::routeMatch();
+  $current_route_match = $route_match->getCurrentRouteMatch();
+  $route_object        = $route_match->getRouteObject();
+  $route_default       = $route_object->getDefaults();
+
+  if ($node = $current_route_match->getParameter('node')) {
+    $variables['breadcrumb'][] = [
+      'text' => $node->getTitle(),
+    ];
+  }
+  if (isset($route_default['view_id'])) {
+    $view = Views::getView($route_default['view_id']);
+
+    $variables['breadcrumb'][] = [
+      'text' => $view->getTitle(),
+    ];
+  }
+}
+
+/**
+ * Implements template_preprocess_links().
+ */
+function pyramid_preprocess_links(array &$variables) {
+  // Node links.
+  if ($variables['theme_hook_original'] == 'links__node') {
+    if (isset($variables['links'][0]['link'])) {
+      $link = &$variables['links'][0]['link'];
+    }
+    if (isset($variables['links']['node-readmore'])) {
+      $link = &$variables['links']['node-readmore']['link'];
+    }
+    // Add custom CSS class for full click on teaser.
+    if (isset($link)) {
+      $link['#options']['attributes']['class'][] = 'click';
+    }
+  }
+
+  // Language switcher links.
+  if ($variables['theme_hook_original'] == 'links__language_block') {
+    foreach (Element::children($variables['links']) as $key) {
+      // Display language ID instead of name.
+      $variables['links'][$key]['link']['#title'] = $key;
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_input_alter();.
+ */
+function pyramid_suggestions_input_alter(array &$suggestions, array $variables) {
+  if (isset($variables['element']['#id']) && $variables['element']['#id'] == 'pyramid-sitesearch') {
+    $suggestions[] = 'input__site_search';
+  }
+}

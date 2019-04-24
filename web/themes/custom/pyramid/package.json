@@ -1,0 +1,27 @@
+{
+  "name": "pyramid",
+  "version": "1.0.0",
+  "description": "Custom Drupal 8 theme.",
+  "main": "index.js",
+  "scripts": {
+    "reset": "rm -rf ./node_modules/ && npm install",
+    "js": "cp ./node_modules/slick-carousel/slick/slick.js ./js/slick.js",
+    "css": "node-sass --omit-source-map-url sass/ -o css/",
+    "build": "npm run css && npm run js",
+    "watch": "npm run build && npm run css -- --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Matthieu SCARSET",
+    "email": "m@matthieuscarset.com",
+    "url": "https://matthieuscarset.com"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "bulma": "^0.7.4",
+    "node-sass": "^4.11.0"
+  },
+  "dependencies": {
+    "slick-carousel": "^1.8.1"
+  }
+}

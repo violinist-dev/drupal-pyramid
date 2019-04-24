@@ -1,0 +1,25 @@
+preprocess_menus_title: 1
+preprocess_menus_language: 1
+_core:
+  default_config_hash: r2bscyI7dxcz7F6m8kF5pONeT9_k3uEuHdljIa7Vetk
+langcode: fr
+preprocess_menus_language_list:
+  footer: footer
+  main: main
+  social: social
+  account: 0
+  admin: 0
+  devel: 0
+  links: 0
+  tools: 0
+preprocess_menus_icon: 1
+preprocess_menus_icon_list:
+  social: social
+  account: 0
+  admin: 0
+  devel: 0
+  footer: 0
+  links: 0
+  main: 0
+  tools: 0
+menu_link_icon_list: "facebook|Facebook\r\ntwitter|Twitter\r\nrss|RSS\r\nemail|Email"

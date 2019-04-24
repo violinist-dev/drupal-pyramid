@@ -1,5 +1,5 @@
-uuid: a25ad734-b289-4428-b88e-c3ecd40f83e7
-langcode: en
+uuid: c8a7cc17-ceb7-433c-93b3-944d03d5465a
+langcode: fr
 status: true
 dependencies:
   config:
@@ -9,8 +9,6 @@ dependencies:
   module:
     - text
     - user
-_core:
-  default_config_hash: cSv5lDnbIgDug475Hdz3woED2XMqYv3awI-J9u1JLbY
 id: node.page.teaser
 targetEntityType: node
 bundle: page
@@ -19,13 +17,17 @@ content:
   body:
     label: hidden
     type: text_summary_or_trimmed
-    weight: 100
-    region: content
+    weight: 101
     settings:
       trim_length: 600
     third_party_settings: {  }
+    region: content
   links:
-    weight: 101
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
     region: content
 hidden:
+  field_meta_tags: true
+  field_yoast_seo: true
   langcode: true

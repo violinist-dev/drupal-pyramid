@@ -1,0 +1,15 @@
+uuid: dafbd7db-6d21-4ca3-a80f-3fef3e68cc20
+langcode: fr
+status: true
+dependencies: {  }
+name: slider_narrow
+label: 'Slider narrow'
+effects:
+  7dd911a1-ee75-4c89-8948-b78e5a660579:
+    uuid: 7dd911a1-ee75-4c89-8948-b78e5a660579
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 768
+      height: 460
+      anchor: center-center

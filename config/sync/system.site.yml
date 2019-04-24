@@ -1,14 +1,14 @@
-uuid: 255e7b3f-485e-4f4f-aac9-5182cc7e11c8
-name: 'Drush Site-Install'
+uuid: 61ef1701-298d-4c79-adee-3ee9e28fd94c
+name: 'Drupal Pyramid'
 mail: admin@example.com
-slogan: ''
+slogan: 'Kickstarter Drupal website.'
 page:
   403: ''
   404: ''
   front: /node
 admin_compact_mode: false
 weight_select_max: 100
-langcode: en
-default_langcode: en
+langcode: fr
+default_langcode: fr
 _core:
   default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI

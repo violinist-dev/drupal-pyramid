@@ -1,0 +1,22 @@
+uuid: 2ba4e22d-9061-4f42-932d-0ed3f646d14f
+langcode: fr
+status: true
+dependencies: {  }
+id: dev
+label: Dev
+description: ''
+folder: ../config/dev
+module:
+  dblog: 0
+  devel: 0
+  field_ui: 0
+  kint: 0
+  stage_file_proxy: 0
+  views_ui: 0
+theme: {  }
+blacklist:
+  - system.performance
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

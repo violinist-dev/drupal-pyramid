@@ -1,0 +1,24 @@
+uuid: b7c494d9-ca5b-4b3b-82d7-09ff02dacebb
+langcode: fr
+status: true
+dependencies:
+  config:
+    - system.menu.links
+  module:
+    - system
+  theme:
+    - pyramid
+id: pyramid_site_links
+theme: pyramid
+region: header_links
+weight: 0
+provider: null
+plugin: 'system_menu_block:links'
+settings:
+  id: 'system_menu_block:links'
+  label: Links
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+visibility: {  }

@@ -1,0 +1,135 @@
+{#
+/**
+* @file
+* Theme override to display a single page.
+*/
+#}
+
+<header id="top" class="site-header" role="banner">
+
+  <div class="layout-container">
+
+    <div class="header-top columns">
+      {% if page.header_logo %}
+        <div class="column is-one-third">
+          {{ page.header_logo }}
+        </div>
+      {% endif %}
+
+      {% spaceless %}
+        <button role="button" class="menu-burger is-hidden-tablet is-hidden-desktop"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="menu-mobile">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </button>
+      {% endspaceless %}
+
+      <div id="menu-mobile" class="column columns is-hidden-mobile" data-menu-burger="true">
+        <div class="column is-half">
+          {% if page.header_search %}
+            {{ page.header_search }}
+          {% endif %}
+        </div>
+        <div class="column is-one-third">
+          {% if page.header_links %}
+            {{ page.header_links }}
+          {% endif %}
+        </div>
+        <div class="column is-one-quarter">
+          {% if page.header_language %}
+            {{ page.header_language }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% if page.header_menu %}
+      <div class="header-menu is-hidden-mobile" data-menu-burger="true">
+        {{ page.header_menu }}
+      </div>
+    {% endif %}
+
+  </div>
+
+</header>
+
+{% if page.precontent %}
+  <div class="layout-precontent columns">
+    {{ page.precontent }}
+  </div>
+{% endif %}
+
+<main class="site-main" role="main">
+
+  <div class="layout-container">
+    {{ page.breadcrumbs }}
+  </div>
+
+  <div class="layout-container layout-main{% if page.sidebar %} has-sidebar{% endif %}">
+
+    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
+    
+    <div class="columns">
+      {% if page.content %}
+        {% 
+          set content_classes = [
+            'column',
+            page.sidebar ? 'is-two-thirds-tablet',
+            'layout-content'
+          ]
+        %}
+        <div class="{{ content_classes|join(' ') }}">
+          {{ page.content }}
+        </div>
+      {% endif %}
+
+      {% if page.sidebar %}
+        {% 
+          set sidebar_classes = [
+            'column',
+            page.sidebar ? 'is-one-third-tablet',
+            'layout-sidebar'
+          ]
+        %}
+        <aside class="{{ sidebar_classes|join(' ') }}" role="complementary">
+          {{ page.sidebar }}
+        </aside>
+      {% endif %}
+    </div>
+  </div>
+
+</main>
+
+{% if page.prefooter %}
+  {% spaceless %}
+    <div class="layout-prefooter">
+
+      <div class="background-image">
+        {{ prefooter_background }}
+      </div>
+
+      <div class="back-to-top">
+        <a href="#top">
+          {% include '@pyramid/icons/icon.html.twig' with {icon: 'top'} %}
+          <span class="visually-hidden">{{ 'Back to top'|t }}</span>
+        </a>
+      </div>
+
+      <div class="layout-container">
+        {{ page.prefooter }}
+      </div>
+
+    </div>
+  {% endspaceless %}
+{% endif %}
+
+<footer class="site-footer" role="contentinfo">
+  {% if page.footer %}
+    <div class="layout-footer layout-container">
+      {{ page.footer }}
+    </div>
+  {% endif %}
+</footer>

@@ -1,0 +1,106 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+// Common elements.
+.node-title {
+  @include title(1);
+}
+.node-author {
+  margin: 0.5em 0;
+  font-size: 0.9em;
+  color: $primary;
+}
+.field--name-field-media-image {
+  margin-bottom: 1em;
+}
+.field--name-field-keywords {
+  padding: 1em 0;
+
+  .column {
+    max-width: 33%;
+
+    @include touch {
+      padding-top: 0;
+      max-width: none;
+    }
+  }
+
+  a {
+    @include button;
+  }
+}
+.node-readmore {
+  @include readmore;
+}
+
+// Lists.
+.node--page--teaser,
+.node--article--teaser,
+.node--article--sidebar {
+  @include click;
+}
+
+// Columns.
+.paragraph--type--grid {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+// FAQ / Toggle.
+.paragraph--type--faq {
+  position: relative;
+  margin: 1em auto;
+}
+.sign {
+  @include absolute;
+  right: 1em;
+  left: auto;
+  height: 2.5em;
+}
+.sign:before {
+  content: "+";
+  display: inline-block;
+  text-align: center;
+  border-radius: 2em;
+  line-height: 1.2;
+  font-size: 1.6em;
+  padding: 0.125em 0.5em;
+
+  color: $black;
+  background: $gray;
+  transition: all 0.2s linear;
+}
+.toggle-trigger {
+  @include absolute;
+  opacity: 0;
+}
+.toggle-label {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  background: $dark;
+  @include bold;
+  color: $black;
+  border-radius: 30px;
+  padding: 0.75em 1.5em;
+  padding-right: 3em;
+  transition: all 0.2s linear;
+}
+.toggle-content {
+  display: none;
+  margin: 1em auto;
+  padding: 1em;
+  transition: all 0.2s linear;
+}
+.toggle-trigger:checked ~ .toggle-label {
+  color: $white;
+  background: $secondary;
+}
+.toggle-trigger:checked ~ .toggle-content {
+  display: block;
+}
+.toggle-trigger:checked ~ .toggle-label .sign:before {
+  content: "-";
+  color: $white;
+  background: $blue-light;
+}

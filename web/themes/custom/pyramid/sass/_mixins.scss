@@ -1,0 +1,170 @@
+@import "../node_modules/bulma/sass/utilities/mixins.sass";
+
+// Helpers.
+@mixin color($color: $primary) {
+  color: $color;
+}
+@mixin bold {
+  font-weight: $weight-bold;
+}
+@mixin shadow {
+  -webkit-box-shadow: inset 3px 3px 5px 0px rgba(50, 50, 50, 0.3);
+  -moz-box-shadow: inset 3px 3px 5px 0px rgba(50, 50, 50, 0.3);
+  box-shadow: inset 3px 3px 5px 0px rgba(50, 50, 50, 0.3);
+}
+@mixin button {
+  display: block;
+  text-align: center;
+  color: $white;
+  background-color: $secondary;
+  border-radius: 30px;
+  padding: 0.45em 0.75em;
+  @include bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+@mixin readmore {
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: $weight-bold;
+  color: $primary;
+  transition: all 0.25s linear;
+
+  &:after {
+    content: " >> ";
+    display: inline-block;
+    vertical-align: text-top;
+    height: 1em;
+    line-height: 1;
+    margin-left: 0.25rem;
+    transition: margin 0.25s linear;
+
+    // Condense arrow.
+    -webkit-transform: scale(0.7, 1.2);
+    -moz-transform: scale(0.7, 1.2);
+    -ms-transform: scale(0.7, 1.2);
+    -o-transform: scale(0.7, 1.2);
+    transform: scale(0.7, 1.2);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    &:after {
+      margin-left: 0.5rem;
+    }
+  }
+
+  a {
+    color: $primary;
+  }
+}
+@mixin separator {
+  display: block;
+  height: $size-small;
+  width: $size-small * 10;
+  background-color: $secondary;
+  margin: 0.5em 0 1em;
+}
+@mixin click {
+  position: relative;
+
+  .click::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    z-index: 1;
+  }
+}
+@mixin absolute {
+  position: absolute;
+  display: block;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// Text elements.
+@mixin title($size: 1) {
+  @include bold;
+  @include color;
+  line-height: 1.2;
+
+  @if ($size == 1) {
+    font-size: $size-xl;
+  } @else if ($size == 2) {
+    font-size: $size-l;
+  } @else if ($size == 3) {
+    font-size: $size-m;
+  } @else {
+    font-size: $size-s;
+  }
+}
+
+// Form elements.
+@mixin form-element {
+  margin-bottom: $size-small;
+
+  input,
+  select,
+  textarea {
+    display: block;
+    background: none;
+    line-height: 2;
+    border: 1px solid $grey;
+    border-radius: 20px;
+    cursor: pointer;
+    padding-left: 1em;
+    width: 100%;
+
+    @include desktop {
+      display: inline-block;
+      width: auto;
+    }
+  }
+  label {
+    @include form-label;
+  }
+  input,
+  textarea {
+    @include shadow;
+  }
+  select {
+    @include form-select;
+  }
+  textarea {
+    padding: 1em 1.5em;
+  }
+}
+@mixin form-label {
+  display: block;
+  margin-bottom: $size-small;
+  @include bold;
+  cursor: pointer;
+}
+@mixin form-select {
+  /* reset */
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  @include shadow;
+
+  /* custom */
+  padding: 0 0.35em;
+  padding-right: 2em;
+
+  &:focus {
+    border-color: $primary;
+    outline: 0;
+  }
+}

@@ -1,0 +1,9 @@
+uuid: 986d3191-a1dc-4b2e-942b-a6a6de157b6f
+langcode: fr
+status: true
+dependencies: {  }
+id: grid
+label: Colonnes
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

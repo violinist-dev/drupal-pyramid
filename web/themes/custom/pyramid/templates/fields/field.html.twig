@@ -1,0 +1,38 @@
+{%
+  set classes = [
+    'field',
+    'field--name-' ~ field_name|clean_class,
+    'field--type-' ~ field_type|clean_class,
+    'field--label-' ~ label_display,
+    'clearfix',
+  ]
+%}
+
+{%
+  set title_classes = [
+    label_display == 'visually_hidden' ? 'visually-hidden',
+  ]
+%}
+
+
+{% spaceless %}
+  <div{{ attributes.addClass(classes) }}>
+
+    {% if not label_hidden %}
+      <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
+    {% endif %}
+
+    {% block item_wrapper_open %}
+    {% endblock %}
+
+    {% for item in items %}
+      {% block item %}
+        <div{{ item.attributes }}>{{ item.content }}</div>
+      {% endblock %}
+    {% endfor %}
+
+    {% block item_wrapper_close %}
+    {% endblock %}
+
+  </div>
+{% endspaceless %}

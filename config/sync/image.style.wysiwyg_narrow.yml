@@ -1,0 +1,15 @@
+uuid: 3b8ec2c8-1aeb-4169-bd8d-3fde194642b3
+langcode: fr
+status: true
+dependencies: {  }
+name: wysiwyg_narrow
+label: 'WYSIWYG narrow'
+effects:
+  20ff2fa0-3a52-4bb8-86cb-a4d3962cf120:
+    uuid: 20ff2fa0-3a52-4bb8-86cb-a4d3962cf120
+    id: image_scale
+    weight: 1
+    data:
+      width: 640
+      height: null
+      upscale: false

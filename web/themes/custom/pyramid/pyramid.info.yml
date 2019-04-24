@@ -1,0 +1,26 @@
+name: 'Pyramid theme'
+description: 'Custom Drupal 8 theme.'
+package: 'Custom'
+core: 8.x
+type: theme
+base theme: stable
+
+regions:
+  header_logo: 'Header - Logo'
+  header_search: 'Header - Recherche'
+  header_links: 'Header - Liens'
+  header_language: 'Header - Language'
+  header_menu: 'Menu principal'
+  precontent: 'Pré-Contenu'
+  breadcrumbs: "Fil d'ariane"
+  content: 'Contenu'
+  sidebar: 'Barre latérale'
+  prefooter: 'Pré-footer'
+  footer: 'Footer'
+
+libraries:
+  - pyramid/base
+
+libraries-extend:
+  twitter_api_block/base:
+    - pyramid/block.twitter

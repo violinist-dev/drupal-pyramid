@@ -1,0 +1,65 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.layout-container {
+  max-width: $desktop;
+  margin: auto;
+  
+  // Responsiveness
+  @include until-widescreen {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.layout-precontent {
+  margin-bottom: 0 !important;
+}
+
+.site-header {
+  padding-top: 1em;
+  position: relative;
+}
+
+.site-footer {
+  color: $white;
+  background-color: $primary;
+  border-top: 10px solid $secondary;
+  border-bottom: 10px solid $third;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.layout-prefooter {
+  position: relative;
+  margin-top: 1em;
+  padding-top: 4em;
+  padding-bottom: 4em;
+ 
+  @include desktop {
+    padding-top: 6em;
+    padding-bottom: 6em;
+  }
+  
+  .background-image {
+    overflow-y: hidden;
+    @include absolute;
+    z-index: -1;
+  }
+}
+
+.layout-main {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.has-sidebar {
+  @include desktop {
+    .layout-content {
+      padding-right: 3em;
+    }
+    .layout-sidebar {
+      padding-left: 1em;
+    }
+  }
+}

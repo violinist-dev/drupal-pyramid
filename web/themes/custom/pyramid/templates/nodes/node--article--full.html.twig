@@ -1,0 +1,8 @@
+{% extends 'node.html.twig' %}
+
+{% block title %}
+  <a{{ title_attributes.addClass('node-title').setAttribute('href', url).setAttribute('rel', 'bookmark') }}>{{ 'News'|t }}</a>
+  <div class="separator"></div>
+
+  <h1 class="article-title">{{ label }}</h2>
+{% endblock %}

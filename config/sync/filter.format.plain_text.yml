@@ -1,12 +1,12 @@
-uuid: c2676b9e-b1fa-47cf-95d0-94a607418ff1
-langcode: en
+uuid: c76e6f3e-2e24-4efa-91b6-cb652b316707
+langcode: fr
 status: true
 dependencies: {  }
 _core:
   default_config_hash: NIKBt6kw_uPhNI0qtR2DnRf7mSOgAQdx7Q94SKMjXbQ
-name: 'Plain text'
+name: 'Texte brut'
 format: plain_text
-weight: 10
+weight: -9
 filters:
   filter_html_escape:
     id: filter_html_escape

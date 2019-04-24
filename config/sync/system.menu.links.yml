@@ -1,0 +1,8 @@
+uuid: 724c6a4f-4a2b-4d43-b857-e9158432f070
+langcode: fr
+status: true
+dependencies: {  }
+id: links
+label: Links
+description: ''
+locked: false

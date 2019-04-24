@@ -1,0 +1,21 @@
+uuid: 73b1cb01-5ed4-42d6-a371-58724ecc0c22
+langcode: fr
+status: true
+dependencies:
+  module:
+    - pyramid_base
+  theme:
+    - pyramid
+id: pyramid_site_name
+theme: pyramid
+region: header_logo
+weight: 0
+provider: null
+plugin: pyramid_sitename_block
+settings:
+  id: pyramid_sitename_block
+  label: 'Pyramid - Site name'
+  provider: pyramid_base
+  label_display: '0'
+  site_name: Pyramid
+visibility: {  }

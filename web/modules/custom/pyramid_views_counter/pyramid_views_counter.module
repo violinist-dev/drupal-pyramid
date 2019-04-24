@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Contains pyramid_views_counter functionalities.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function pyramid_views_counter_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+
+  if ($entity_type->id() === 'node') {
+    // Add view counter on Node.
+    $fields['views'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Views'))
+      ->setDescription(t("Number of times this content was displayed."))
+      ->setDefaultValue(0)
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('form', [
+        'type'     => 'number',
+        'weight'   => 1,
+        'settings' => [
+          'placeholder' => t('Zero views for now...'),
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE);
+  }
+
+  return $fields;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for a new Node.
+ */
+function pyramid_views_counter_form_node_form_alter(array &$form, FormStateInterface $form_state) {
+  // Display Views counter in sidebar.
+  if (isset($form['meta']) && isset($form['views'])) {
+    $form['views']['#group'] = 'meta';
+
+    // Rework.
+    $form['views']['widget'][0]['#disabled'] = 'disabled';
+    $form['views']['widget'][0]['#readonly'] = 'readonly';
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view_alter() for node entities.
+ */
+function pyramid_views_counter_node_view_alter(array &$build, EntityInterface $node, EntityViewDisplayInterface $display) {
+  // Update the view counter, stating that this user viewed this node.
+  $visitor = \Drupal::currentUser()->isAnonymous();
+  if ($visitor && $display->getOriginalMode() === 'full') {
+    $views = (int) $node->get('views')->getString();
+    $views++;
+    $node->set('views', $views);
+    $node->save();
+  }
+}

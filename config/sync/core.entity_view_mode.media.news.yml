@@ -1,0 +1,10 @@
+uuid: 6ba61568-b576-4f90-90e6-17476671fe25
+langcode: fr
+status: true
+dependencies:
+  module:
+    - media
+id: media.news
+label: Actualités
+targetEntityType: media
+cache: true

@@ -1,0 +1,6 @@
+name: Pyramid Views Counter
+description: Provides a views counter for Drupal entities.
+package: Custom
+type: module
+core: 8.x
+dependencies: { }

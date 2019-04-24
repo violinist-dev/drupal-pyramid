@@ -1,0 +1,32 @@
+@import "../variables";
+
+.block--system-breadcrumb-block {
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+  ol,
+  ul {
+    list-style-type: none;
+  }
+  li {
+    display: inline-block;
+    color: $primary;
+
+    & + li {
+      &::before {
+        content: " > ";
+        display: inline-block;
+        padding: 0 0.25em;
+      }
+    }
+  }
+  a {
+    color: $primary;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * Theme override to display a node.
+ *
+ * See theme Stable comments for available variables.
+ *
+ * @see template_preprocess_node()
+ *
+ */
+#}
+
+{# Load base library. #}
+{{ attach_library('pyramid/node') }}
+
+{# Dynamic library loading based on node bundle. #}
+{%
+  set node_types = [
+    'article',
+    'page',
+  ]
+%}
+{% for type in node_types %}
+  {% if type == node.bundle %}
+    {{ attach_library('pyramid/node.' ~ type) }}
+  {% endif %}
+{% endfor %}
+
+{% block libraries %}
+{# Use this block to add custom libraries in child templates. #}
+{% endblock %}
+
+{%
+  set classes = [
+    'node',
+    'node--' ~ node.bundle|clean_class,
+    view_mode ? 'node--' ~ node.bundle|clean_class ~ '--' ~ view_mode|clean_class,
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+
+  {% block before_title %}
+  {% endblock %}
+
+  {{ title_prefix }}
+  {% block title %}
+    <h1{{ title_attributes.addClass('node-title') }}>{{ label }}</h1>
+    <div class="separator"></div>
+  {% endblock %}
+  {{ title_suffix }}
+
+  <div{{ content_attributes }}>
+    {% block content %}
+      {{ content }}
+    {% endblock %}
+  </div>
+
+  {% block after_content %}
+  {% endblock %}
+
+</article>

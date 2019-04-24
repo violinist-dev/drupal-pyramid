@@ -1,0 +1,101 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.view {
+  .views-row > .node {
+    @include click;
+  }
+  .views-row + .views-row {
+    margin-top: 2em;
+    padding-top: 2em;
+  }
+}
+
+.view-title {
+  @include title;
+
+  &:after {
+    content: " ";
+    @include separator;
+    margin-top: $size-small;
+    margin-bottom: $size-medium;
+  }
+}
+
+// Exposed form.
+.views-exposed-form {
+  .form-item {
+    display: block;
+    @include form-element;
+
+    & + .form-item,
+    & + .form-actions {
+      
+      @include desktop {
+        margin-left: 1em;
+      }
+    }
+
+    @include desktop {
+      display: inline-block;
+    }
+  }
+  label {
+    @include title(4);
+  }
+  .form-item-title input,
+  .form-item-keyword select {
+    @include desktop {
+      min-width: 21em;
+    }
+  }
+  .form-actions {
+    display: inline-block;
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    .form-submit {
+      border: none;
+      @include button;
+      display: inline-block;
+    }
+  }
+
+  // Mobile.
+  @include touch {
+    .form-item-title {
+
+    }
+  }
+}
+
+// Pagination.
+.pager__items {
+  margin: 1em auto;
+  text-align: center;
+}
+.pager__item {
+  display: inline-block;
+  & + .pager__item {
+    margin-left: $size-small;
+  }
+  a {
+    display: block;
+    color: $primary;
+    text-decoration: underline;
+    font-size: $size-medium;
+    padding: 0 0.5em;
+  }
+  &.is-active a {
+    color: $secondary;
+    text-decoration: none;
+  }
+  &--first,
+  &--previous,
+  &--next,
+  &--last {
+    a {
+      text-decoration: none;
+    }
+  }
+}

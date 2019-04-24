@@ -1,0 +1,24 @@
+uuid: ec4ea72b-2fb6-47bd-9716-d8127c8fa289
+langcode: fr
+status: true
+dependencies:
+  config:
+    - image.style.slider_narrow
+    - image.style.slider_wide
+  theme:
+    - pyramid
+id: slider
+label: Slider
+image_style_mappings:
+  -
+    breakpoint_id: pyramid.wide
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: slider_wide
+  -
+    breakpoint_id: pyramid.mobile
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: slider_narrow
+breakpoint_group: pyramid
+fallback_image_style: slider_narrow

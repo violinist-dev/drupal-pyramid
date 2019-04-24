@@ -1,0 +1,23 @@
+uuid: 9a3bc707-352f-48f1-b990-ea3faf827d0d
+langcode: fr
+status: true
+dependencies: {  }
+name: HTML
+format: html
+weight: -10
+filters:
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: 10
+    settings: {  }
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: -10
+    settings:
+      allowed_html: '<em> <strong> <cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h4 id> <h5 id> <h6 id> <div> <p> <hr> <img src alt data-entity-type data-entity-uuid> <u> <sup> <sub> <h2 id class="title"> <h3 id class="subtitle"> <blockquote cite class="quote"> <span class="featured"> <a href hreflang !href accesskey id rel target title class="button">'
+      filter_html_help: true
+      filter_html_nofollow: false

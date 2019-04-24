@@ -1,14 +1,14 @@
 {
-  "name": "drupal-pyramid/drupal-pyramid",
-  "description": "Composer-based template for Drupal projects.",
+  "name": "drupal-pyramid/drupal",
+  "description": "Drupal 8 project kickstarter.",
   "type": "project",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Matthieu SCARSET",
-      "role": "Fullstack Drupal developer",
+      "role": "Developer",
       "email": "m@matthieuscarset.com",
-      "homepage": "http://matthieuscarset.com/"
+      "homepage": "https://matthieuscarset.com"
     }
   ],
   "repositories": [
@@ -18,50 +18,53 @@
     }
   ],
   "require": {
+    "php": ">=5.6",
     "composer/installers": "^1.2",
-    "cweagans/composer-patches": "^1.6",
-    "drupal-composer/drupal-scaffold": "^2.2",
-    "oomphinc/composer-installers-extender": "^1.1",
+    "cweagans/composer-patches": "^1.6.5",
+    "zaporylie/composer-drupal-optimizations": "^1.0",
     "vlucas/phpdotenv": "^2.4",
-    "webflo/drupal-finder": "^1.0.0",
     "webmozart/path-util": "^2.3",
+    "webflo/drupal-finder": "^1.0.0",
+    "drupal-composer/drupal-scaffold": "^2.5",
     "drush/drush": "^9.0.0",
-    "drupal/core": "~8.5.3",
     "drupal/console": "^1.0.2",
-    "drupal/ctools": "^3.0",
+    "drupal/core": "^8.6.0",
     "drupal/memcache": "^2.0@alpha",
-    "drupal/config_ignore": "^2.1",
-    "drupal/config_split": "^1.3",
+    "drupal/config_split": "^1.4",
     "drupal/config_installer": "^1.8",
-    "drupal/entity_browser": "^1.4",
-    "drupal/entity_browser_entity_form": "^1.4",
-    "drupal/inline_entity_form": "^1.0@beta",
-    "drupal/focal_point": "^1.0@beta",
+    "drupal/config_ignore": "^2.1",
+    "drupal/migrate_plus": "^4.0",
+    "drupal/migrate_tools": "^4.0",
+    "drupal/default_content": "^1.0@alpha",
+    "drupal/default_content_extra": "^1.0@beta",
+    "drupal/block_visibility_groups": "^1.3",
+    "drupal/admin_toolbar": "^1.26",
+    "drupal/inline_entity_form": "^1.0@RC",
+    "drupal/media_entity_browser": "^2.0",
+    "drupal/field_group": "^1.0",
+    "drupal/paragraphs": "^1.3",
+    "drupal/metatag": "^1.8",
+    "drupal/pathauto": "^1.3",
+    "drupal/taxonomy_unique": "^2.1",
+    "drupal/menu_link_attributes": "^1.0",
+    "drupal/menu_manipulator": "^1.6",
+    "drupal/ckeditorheight": "^1.3",
+    "drupal/editor_advanced_link": "^1.4",
     "drupal/linkit": "^4.3",
-    "drupal/link_attributes": "^1.2",
-    "drupal/paragraphs": "^1.2",
-    "drupal/metatag": "^1.5",
-    "drupal/pathauto": "^1.2",
-    "drupal/redirect": "^1.2",
-    "drupal/schema_metatag": "^1.2",
-    "drupal/simple_sitemap": "^2.12",
-    "drupal/viewsreference": "^2.0@alpha",
-    "drupal/yoast_seo": "^1.3",
-    "drupal/migrate_plus": "^4.0-beta3",
-    "drupal/migrate_tools": "^4.0-beta3",
-    "drupal/migrate_source_csv": "^2.1"
+    "drupal/search_api": "^1.11",
+    "drupal/search_api_autocomplete": "^1.1",
+    "drupal/facets": "^1.1",
+    "j7mbo/twitter-api-php": "^1.0",
+    "drupal/twitter_api_block": "^1.2",
+    "drupal/redirect": "^1.3",
+    "drupal/simple_sitemap": "^3.1",
+    "drupal/yoast_seo": "^1.5"
   },
   "require-dev": {
-    "behat/mink": "~1.7",
-    "behat/mink-goutte-driver": "~1.2",
-    "jcalderonzumba/gastonjs": "~1.0.2",
-    "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
-    "mikey179/vfsstream": "~1.2",
-    "phpunit/phpunit": ">=4.8.28 <5",
-    "webflo/drupal-core-require-dev": "~8.5.3",
+    "webflo/drupal-core-require-dev": "^8.6.0",
     "drupal/devel": "^1.2",
     "drupal/coder": "^8.2",
-    "drupal/stage_file_proxy": "^1.0@alpha"    
+    "drupal/stage_file_proxy": "^1.0@alpha"
   },
   "conflict": {
     "drupal/drupal": "*"
@@ -83,28 +86,66 @@
     ]
   },
   "scripts": {
-    "drush": "DrupalPyramid\\composer\\ScriptHandler::doDrush",
-    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "generate-salt": "DrupalPyramid\\composer\\ScriptHandler::generateSalt",
-    "generate-files": "DrupalPyramid\\composer\\ScriptHandler::generateFiles",
-    "generate-keys": "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys",
-    "fix-permissions-all": "DrupalPyramid\\composer\\ScriptHandler::fixPermissions",
-    "fix-permissions-keys": "DrupalPyramid\\composer\\ScriptHandler::fixOpenSslKeysPermissions",
+    "drupal-scaffold": [
+      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold"
+    ],
+    "pre-install-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+    ],
+    "pre-update-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+    ],
+    "post-install-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "post-update-cmd": [
+      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "drush": [
+      "DrupalPyramid\\composer\\ScriptHandler::doDrush"
+    ],
+    "generate-salt": [
+      "DrupalProject\\composer\\ScriptHandler::generateSalt"
+    ],
+    "generate-files": [
+      "DrupalPyramid\\composer\\ScriptHandler::generateFiles"
+    ],
+    "generate-keys": [
+      "DrupalPyramid\\composer\\ScriptHandler::generateOpenSslKeys"
+    ],
+    "fix-permissions-all": [
+      "DrupalPyramid\\composer\\ScriptHandler::fixPermissions"
+    ],
+    "fix-permissions-keys": [
+      "DrupalPyramid\\composer\\ScriptHandler::fixOpenSslKeysPermissions"
+    ],
     "fix-permissions": [
       "@fix-permissions-all",
       "@fix-permissions-keys"
     ],
-    "reset-files": "DrupalPyramid\\composer\\ScriptHandler::resetFiles",
-    "clean-npm": "DrupalPyramid\\composer\\ScriptHandler::cleanNpm",
-    "clean-keys": "DrupalPyramid\\composer\\ScriptHandler::cleanKeys",
-    "clean-vendors": "DrupalPyramid\\composer\\ScriptHandler::cleanVendors",
+    "reset-files": [
+      "DrupalPyramid\\composer\\ScriptHandler::resetFiles"
+    ],
+    "clean-npm": [
+      "DrupalPyramid\\composer\\ScriptHandler::cleanNpm"
+    ],
+    "clean-keys": [
+      "DrupalPyramid\\composer\\ScriptHandler::cleanKeys"
+    ],
+    "clean-vendors": [
+      "DrupalPyramid\\composer\\ScriptHandler::cleanVendors"
+    ],
     "clean": [
       "@clean-npm",
       "@clean-keys",
       "@clean-vendors"
     ],
-    "code-check-practice": "DrupalPyramid\\composer\\ScriptHandler::phpcbf",
-    "code-check-standard": "DrupalPyramid\\composer\\ScriptHandler::phpcs",
+    "code-check-practice": [
+      "DrupalPyramid\\composer\\ScriptHandler::phpcbf"
+    ],
+    "code-check-standard": [
+      "DrupalPyramid\\composer\\ScriptHandler::phpcs"
+    ],
     "code-review": [
       "@code-check-practice",
       "@code-check-standard"
@@ -120,24 +161,13 @@
       "@generate-keys",
       "@fix-permissions",
       "@fix-permissions-keys"
-    ],
-    "pre-install-cmd": [
-      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
-    ],
-    "pre-update-cmd": [
-      "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
-    ],
-    "post-install-cmd": [],
-    "post-update-cmd": [
-      "@code-review",
-      "@run-tests"
     ]
   },
   "extra": {
-    "installer-types": [
-      "drupal-config",
-      "drupal-theme-custom"
-    ],
+    "composer-exit-on-patch-failure": true,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    },
     "installer-paths": {
       "web/core": [
         "type:drupal-core"
@@ -161,21 +191,24 @@
         "type:drupal-drush"
       ]
     },
-    "patches": {
-      "drupal/paragraphs": {
-        "#2764681 - Allow paragraph type deletion if content exists": "https://www.drupal.org/files/issues/2764681-allow-paragraphs-type-deletion-if-content-exists-55.patch"
-      }      
-    },
     "drupal-scaffold": {
-      "source": "https://cgit.drupalcode.org/drupal/plain/{path}?h={version}",
-      "excludes": [
-        "sites/example.settings.local.php",
-        "sites/example.settings.php"
-      ],
       "initial": {
-        "sites/default/example.services.development.yml": "sites/default/services.development.yml",
-        "sites/default/example.settings.local.php": "sites/default/settings.local.php",
-        "sites/default/example.settings.php": "sites/default/settings.php"
+        ".editorconfig": "../.editorconfig",
+        ".gitattributes": "../.gitattributes"
+      },
+      "excludes": [
+        "sites/default/default.services.yml",
+        "sites/development.services.yml",
+        "sites/example.settings.local.php"
+      ]
+    },
+    "patches": {
+      "drupal/default_content": {
+        "#2698425 - Do not reimport existing content": "https://www.drupal.org/files/issues/2018-12-11/default_content-dont-reimport-2698425-109.patch"
+      },
+      "drupal/paragraphs": {
+        "#2764681 - Allow paragraph type deletion if content exists": "https://www.drupal.org/files/issues/2764681-allow-paragraphs-type-deletion-if-content-exists-55.patch",
+        "#2901390 - Langcode NULL when saving embed paragraph entity": "https://www.drupal.org/files/issues/paragraphs-missing-langcode-2901390-9.patch"
       }
     }
   }

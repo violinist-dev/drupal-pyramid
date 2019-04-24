@@ -1,0 +1,26 @@
+uuid: bdf4e94a-1e44-4ac4-bf84-5a98b8128008
+langcode: fr
+status: true
+dependencies:
+  module:
+    - language
+    - user
+id: users
+label: Utilisateurs
+type: 'canonical_entities:user'
+pattern: '[current-user:account-name]'
+selection_criteria:
+  cf5ac050-eb44-428c-b6c1-7f52114d0838:
+    id: language
+    langcodes:
+      fr: fr
+      en: en
+    negate: false
+    context_mapping:
+      language: 'user:langcode:language'
+    uuid: cf5ac050-eb44-428c-b6c1-7f52114d0838
+selection_logic: and
+weight: -5
+relationships:
+  'user:langcode:language':
+    label: Language

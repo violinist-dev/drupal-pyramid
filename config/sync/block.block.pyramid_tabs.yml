@@ -1,0 +1,20 @@
+uuid: 9114025c-7322-4d45-8841-150a3c6ea35f
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - pyramid
+id: pyramid_tabs
+theme: pyramid
+region: breadcrumbs
+weight: -5
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Onglets
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

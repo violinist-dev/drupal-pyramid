@@ -1,0 +1,20 @@
+{{ attach_library('pyramid/block.social') }}
+
+<div {{ attributes.addClass('columns', 'is-vcentered', 'block', 'block-social') }}>
+  <div class="column">
+    {# Label. If not displayed, we still provide it for screen readers. #}
+    {% if not configuration.label_display %}
+      {% set title_attributes = title_attributes.addClass('visually-hidden') %}
+    {% endif %}
+    {{ title_prefix }}
+    <h2{{ title_attributes.addClass('column', 'block-title') }}>{{ configuration.label }}</h2>
+    {{ title_suffix }}
+  </div>
+
+  {# Menu. #}
+  <div class="column is-one-third-desktop">
+    {% block content %}
+      {{ content }}
+    {% endblock %}
+  </div>
+</div>

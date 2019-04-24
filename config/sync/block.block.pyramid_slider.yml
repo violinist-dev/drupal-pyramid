@@ -1,0 +1,21 @@
+uuid: ed676556-ac9d-4c47-88e8-2179ef70a4a7
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - pyramid
+id: pyramid_slider
+theme: pyramid
+region: precontent
+weight: 0
+provider: null
+plugin: pyramid_slider_block
+settings:
+  id: pyramid_slider_block
+  label: 'Pyramid - Slider'
+  provider: pyramid_slider_block
+  label_display: '0'
+  slider: 9c7e098e-8b67-4a8d-9c51-e91fc7e136c5
+  medias: ''
+  site_name: ''
+visibility: {  }

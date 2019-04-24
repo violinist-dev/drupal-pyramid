@@ -1,0 +1,33 @@
+uuid: 4a495b51-0bee-48d1-a048-7115f8f60a25
+langcode: fr
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: articles_fr
+label: 'Articles (FR)'
+type: 'canonical_entities:node'
+pattern: 'actualites/[node:title]'
+selection_criteria:
+  8587f706-2d4d-49ab-b282-9598e0b0b21b:
+    id: node_type
+    bundles:
+      article: article
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 8587f706-2d4d-49ab-b282-9598e0b0b21b
+  6cbe26e9-4cad-488f-bc9f-5a1d7ed1331f:
+    id: language
+    langcodes:
+      fr: fr
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 6cbe26e9-4cad-488f-bc9f-5a1d7ed1331f
+selection_logic: and
+weight: -8
+relationships:
+  'node:langcode:language':
+    label: Language

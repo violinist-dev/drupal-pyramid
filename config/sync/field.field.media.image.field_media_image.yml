@@ -1,17 +1,12 @@
-uuid: 58018e22-7c62-4f6b-8ccc-cd2f183baf69
-langcode: en
+uuid: e91ed264-53c1-4e99-be71-595cece1d589
+langcode: fr
 status: true
 dependencies:
   config:
     - field.storage.media.field_media_image
     - media.type.image
-  enforced:
-    module:
-      - media
   module:
     - image
-_core:
-  default_config_hash: pzPA-2JwyxlJ3qMb4L9viAnhNhbEhl2couH8A3FO020
 id: media.image.field_media_image
 field_name: field_media_image
 entity_type: media
@@ -23,6 +18,7 @@ translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
+  file_extensions: 'png gif jpg jpeg'
   alt_field: true
   alt_field_required: true
   title_field: false
@@ -36,7 +32,6 @@ settings:
     width: null
     height: null
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
   handler: 'default:file'
   handler_settings: {  }

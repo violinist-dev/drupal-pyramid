@@ -1,0 +1,15 @@
+uuid: 679ba851-f20b-4004-bb6c-f9711e2234ce
+langcode: fr
+status: true
+dependencies: {  }
+name: slider_wide
+label: 'Slider wide'
+effects:
+  bb89ee73-a78e-4c94-9df9-483af99b7f4f:
+    uuid: bb89ee73-a78e-4c94-9df9-483af99b7f4f
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1900
+      height: 460
+      anchor: center-center

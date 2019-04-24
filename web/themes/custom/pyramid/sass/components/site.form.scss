@@ -1,0 +1,39 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.user-login-form,
+.user-register-form,
+.webform-submission-form {
+  .form-item {
+    display: block;
+    @include form-element;
+
+    input,
+    select,
+    textarea {
+      padding: 1em 1.5em;
+      border-radius: 2em;
+
+      @include desktop {
+        width: 100%;
+      }
+    }
+  }
+  label {
+    @include title(4);
+  }
+  .form-item-message {
+    margin-top: 2em;
+  }
+  .form-actions {
+    display: inline-block;
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    .form-submit {
+      border: none;
+      @include button;
+      display: inline-block;
+    }
+  }
+}
