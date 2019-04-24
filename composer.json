@@ -96,10 +96,10 @@
       "DrupalPyramid\\composer\\ScriptHandler::checkComposerVersion"
     ],
     "post-install-cmd": [
-      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles"
+      "DrupalPyramid\\composer\\ScriptHandler::generateFiles"
     ],
     "post-update-cmd": [
-      "DrupalPyramid\\composer\\ScriptHandler::createRequiredFiles"
+      "DrupalPyramid\\composer\\ScriptHandler::generateFiles"
     ],
     "drush": [
       "DrupalPyramid\\composer\\ScriptHandler::doDrush"
@@ -150,10 +150,6 @@
       "@code-check-practice",
       "@code-check-standard"
     ],
-    "run-tests": [
-      "DrupalPyramid\\composer\\ScriptHandler::unitTests",
-      "DrupalPyramid\\composer\\ScriptHandler::functionalTests"
-    ],
     "first-install": [
       "@drupal-scaffold",
       "@generate-files",
@@ -161,6 +157,10 @@
       "@generate-keys",
       "@fix-permissions",
       "@fix-permissions-keys"
+    ],
+    "run-tests": [
+      "DrupalPyramid\\composer\\ScriptHandler::unitTests",
+      "DrupalPyramid\\composer\\ScriptHandler::functionalTests"
     ]
   },
   "extra": {
