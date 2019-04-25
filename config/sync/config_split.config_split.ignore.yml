@@ -11,7 +11,7 @@ theme: {  }
 blacklist:
   - 'ignore_*'
 graylist:
-  - 'system.*'
+  - system.site
 graylist_dependents: true
 graylist_skip_equal: true
 weight: 0

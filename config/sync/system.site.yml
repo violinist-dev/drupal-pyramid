@@ -1,10 +1,10 @@
 uuid: 61ef1701-298d-4c79-adee-3ee9e28fd94c
-name: 'Drupal Pyramid'
-mail: admin@example.com
-slogan: 'Kickstarter Drupal website.'
+name: Drupal
+mail: webmaster@domain.com
+slogan: 'Your website slogan here.'
 page:
-  403: ''
-  404: ''
+  403: /access-denied
+  404: /page-not-found
   front: /node
 admin_compact_mode: false
 weight_select_max: 100
