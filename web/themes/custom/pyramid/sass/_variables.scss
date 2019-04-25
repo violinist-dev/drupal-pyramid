@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+@import "../node_modules/bulma/sass/utilities/initial-variables.sass";
+@import "../node_modules/bulma/sass/utilities/functions.sass";
+@import "../node_modules/bulma/sass/utilities/derived-variables.sass";
+@import "../node_modules/bulma/sass/utilities/mixins.sass";
+@import "../node_modules/bulma/sass/utilities/controls.sass";
+
+$turquoise: #55c4ef;
+$blue-light: #96d8f2;
+$blue: #55c4ef;
+$blue-grey: #017CC9;
+$navy: #002456;
+$grey: #dfe0db;
+$gray: #ddd;
+$dark: #ccc;
+$black: #010101;
+$white: #ffffff;
+
+$primary: $navy;
+$secondary: $blue;
+$third: $blue-grey;
+
+$size-s: $size-small * 1.4;
+$size-m: $size-normal * 1.6;
+$size-l: $size-large * 1.4;
+$size-xl: $size-large * 1.6;
+
+$link-hover: $secondary;

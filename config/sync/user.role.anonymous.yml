@@ -1,17 +1,13 @@
-uuid: 5e5c3727-0ac7-4b64-a6ba-fb29ddf76214
-langcode: en
+uuid: 1d718e7d-8041-410a-9a4e-d00f751f9d63
+langcode: fr
 status: true
 dependencies: {  }
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
 id: anonymous
-label: 'Anonymous user'
-weight: 0
+label: 'Utilisateur anonyme'
+weight: -10
 is_admin: false
 permissions:
-  - 'access comments'
   - 'access content'
-  - 'access site-wide contact form'
-  - 'search content'
-  - 'use text format restricted_html'
   - 'view media'

@@ -1,0 +1,15 @@
+uuid: 160f058a-97d6-45e5-ac7e-8f6698d1acdc
+langcode: fr
+status: true
+dependencies: {  }
+name: wysiwyg_wide
+label: 'WYSIWYG wide'
+effects:
+  c83c9b0a-c41e-4f79-8b8c-98f53a267762:
+    uuid: c83c9b0a-c41e-4f79-8b8c-98f53a267762
+    id: image_scale
+    weight: 1
+    data:
+      width: 960
+      height: null
+      upscale: true

@@ -1,0 +1,20 @@
+uuid: f9d25aab-05ee-464d-b1eb-1b6cbc19a173
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - pyramid
+id: pyramid_breadcrumbs
+theme: pyramid
+region: breadcrumbs
+weight: -4
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: 'Fils d''Ariane'
+  provider: system
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,26 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+a.sitename {
+  color: $secondary;
+  font-weight: $weight-bold;
+  text-transform: uppercase;
+  font-size: $size-2;
+  line-height: 1.1;
+
+  @include mobile {
+    display: block;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 0.5em;
+    border-bottom: 5px solid $secondary;
+  }
+}
+
+.block--pyramid-sitelogo-block {
+  max-width: 10em;
+  margin: auto;
+  text-align: center;
+}

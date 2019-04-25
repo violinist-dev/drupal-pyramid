@@ -1,0 +1,15 @@
+{% extends 'field.html.twig' %}
+
+{% block item_wrapper_open %}
+<div class="columns">
+{% endblock %}
+
+{% block item %}
+  <div{{ item.attributes.addClass('column') }}>{{ item.content }}</div>
+{% endblock %}
+
+{% block item_wrapper_close %}
+</div>
+{% endblock %}
+
+

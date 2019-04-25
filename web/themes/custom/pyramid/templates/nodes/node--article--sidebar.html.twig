@@ -1,0 +1,10 @@
+{% extends 'node.html.twig' %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+  {{ content.field_image }}
+  <h3 class="node-title">{{ label}}</h3>
+  {{ content|without('field_image') }}
+{% endblock %}

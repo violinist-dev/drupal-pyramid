@@ -1,5 +1,5 @@
-uuid: fb4ab5aa-b44c-43b0-8ccf-5784d5c29bf5
-langcode: en
+uuid: 17090e58-b1d1-4cdd-bf94-4a1122474a54
+langcode: fr
 status: true
 dependencies:
   module:
@@ -7,6 +7,6 @@ dependencies:
 _core:
   default_config_hash: Mz9qWr1kUYK0mjRAGDsr5XS6PvtZ24en_7ndt-pyWe4
 id: node.teaser
-label: Teaser
+label: Accroche
 targetEntityType: node
 cache: true

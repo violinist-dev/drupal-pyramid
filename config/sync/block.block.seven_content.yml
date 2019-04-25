@@ -1,17 +1,15 @@
-uuid: cfdaff1b-c5ba-4de9-8ea4-3cf37f4d6b2c
-langcode: en
+uuid: 35d3fb5d-b83d-4bc4-ac1b-d406fa2c4cd4
+langcode: fr
 status: true
 dependencies:
   module:
     - system
   theme:
     - seven
-_core:
-  default_config_hash: YRY68JWkaUiGeZlWMv1nzeIgDm0ZZwXYgpqUpLFzwAY
 id: seven_content
 theme: seven
 region: content
-weight: 0
+weight: -2
 provider: null
 plugin: system_main_block
 settings:

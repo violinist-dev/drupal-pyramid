@@ -1,0 +1,38 @@
+@import "./variables";
+@import "./mixins";
+
+h2.title {
+  @include title(2);
+  margin: 1em auto 0.5em auto;
+}
+h3.subtitle {
+  @include title(3);
+  margin: 1em auto 0.5em auto;
+}
+blockquote.quote {
+  padding: $size-large;
+  text-indent: $size-normal;
+}
+span.featured {
+  font-size: $size-large;
+  display: block;
+  margin: 1em auto;
+  color: $secondary;
+  @include bold;
+}
+a.button {
+  @include button;
+}
+div.separator {
+  @include separator;
+}
+
+.field--type-text-with-summary {
+  p {
+    margin-bottom: $size-small;
+  }
+  img {
+    margin-top: $size-small;
+    margin-bottom: $size-small;
+  }
+}

@@ -1,56 +1,55 @@
-uuid: 529da321-ed3e-40f7-bcb8-ce182913956b
-langcode: en
+uuid: 80a0caa0-f283-43e0-937c-76b18df86112
+langcode: fr
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.article.body
-    - field.field.node.article.comment
+    - field.field.node.article.field_content
     - field.field.node.article.field_image
-    - field.field.node.article.field_tags
-    - image.style.medium
+    - field.field.node.article.field_keywords
+    - field.field.node.article.field_meta_tags
+    - field.field.node.article.field_yoast_seo
     - node.type.article
   module:
-    - image
     - text
     - user
-_core:
-  default_config_hash: 4NcL2hSQZBpJbYtNuh5jC6kyQTcAc1m5bQpTegEWEso
 id: node.article.teaser
 targetEntityType: node
 bundle: article
 mode: teaser
 content:
   body:
-    type: text_summary_or_trimmed
+    label: hidden
+    type: text_default
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_image:
+    type: entity_reference_entity_view
     weight: 0
     region: content
-    settings:
-      trim_length: 600
-    third_party_settings: {  }
     label: hidden
-  field_image:
-    type: image
-    weight: -1
-    region: content
     settings:
-      image_style: medium
-      image_link: content
+      view_mode: news
+      link: false
     third_party_settings: {  }
-    label: hidden
-  field_tags:
+  field_keywords:
     type: entity_reference_label
-    weight: 10
+    weight: 2
     region: content
+    label: hidden
     settings:
       link: true
     third_party_settings: {  }
-    label: above
   links:
-    weight: 100
+    weight: 3
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
-  comment: true
-  field_image: true
-  field_tags: true
+  field_content: true
+  field_meta_tags: true
+  field_yoast_seo: true
   langcode: true

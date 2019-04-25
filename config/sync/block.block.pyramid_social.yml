@@ -1,0 +1,24 @@
+uuid: 0fb75643-d5c5-4838-80a8-8847b739fb89
+langcode: fr
+status: true
+dependencies:
+  config:
+    - system.menu.social
+  module:
+    - system
+  theme:
+    - pyramid
+id: pyramid_social
+theme: pyramid
+region: prefooter
+weight: 0
+provider: null
+plugin: 'system_menu_block:social'
+settings:
+  id: 'system_menu_block:social'
+  label: 'Restez Connecte'
+  provider: system
+  label_display: visible
+  level: 1
+  depth: 0
+visibility: {  }

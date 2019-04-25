@@ -1,0 +1,37 @@
+uuid: aefafb02-042c-42fc-80ba-34deb8ac3cd2
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.slider.field_slides
+    - paragraphs.paragraphs_type.slider
+  module:
+    - paragraphs
+id: paragraph.slider.default
+targetEntityType: paragraph
+bundle: slider
+mode: default
+content:
+  field_slides:
+    type: paragraphs
+    weight: 0
+    settings:
+      title: Slide
+      title_plural: Slide
+      edit_mode: closed
+      closed_mode: summary
+      autocollapse: all
+      closed_mode_threshold: 0
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: slide
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: '0'
+        add_above: '0'
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

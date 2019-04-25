@@ -1,0 +1,24 @@
+uuid: 61a49bb1-7b19-45ae-8d64-0da3c5401bec
+langcode: fr
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - pyramid
+id: pyramid_main_menu
+theme: pyramid
+region: header_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+visibility: {  }

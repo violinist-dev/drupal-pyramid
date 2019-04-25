@@ -1,0 +1,10 @@
+uuid: 0647eb04-1f36-45bc-be6f-36f0f36b0636
+langcode: fr
+status: true
+dependencies:
+  module:
+    - media
+id: media.slider
+label: Slider
+targetEntityType: media
+cache: true

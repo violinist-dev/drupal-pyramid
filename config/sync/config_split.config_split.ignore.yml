@@ -1,0 +1,17 @@
+uuid: 42beac8d-4523-4b03-b339-c9326a4fe47b
+langcode: fr
+status: true
+dependencies: {  }
+id: ignore
+label: Ignore
+description: ''
+folder: ../config/ignore
+module: {  }
+theme: {  }
+blacklist:
+  - 'ignore_*'
+graylist:
+  - 'system.*'
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

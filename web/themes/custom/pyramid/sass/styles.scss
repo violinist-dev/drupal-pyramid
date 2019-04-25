@@ -1,0 +1,15 @@
+@charset "utf-8";
+@import "variables";
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+@import "../node_modules/bulma/sass/base/_all.sass";
+@import "../node_modules/bulma/sass/grid/_all.sass";
+
+svg {
+  // Automatic sizing..
+  height: auto;
+
+  // Automatic colors.
+  .colorize {
+    fill: currentColor;
+  }
+}

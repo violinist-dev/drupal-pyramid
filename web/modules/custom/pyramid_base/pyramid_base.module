@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Contains pyramid_base functionalities.
+ */
+
+use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_views_pre_build().
+ */
+function pyramid_base_views_pre_build(ViewExecutable $view) {
+  $filters = $view->getExposedInput();
+
+  if ($view->id() == 'news') {
+    // Filter in the body too.
+    if (isset($filters['title']) && isset($filters['body']) && empty($filters['body'])) {
+      $filters['body'] = $filters['title'];
+      $filters         = $view->setExposedInput($filters);
+    }
+  }
+
+}
+
+/**
+ * Implement hook_form_FORM_ID_alter() for the Views exposed forms..
+ */
+function pyramid_base_form_views_exposed_form_alter(&$form, $form_state) {
+  // Edit sort by filter.
+  if (isset($form['sort_by']) && isset($form['sort_order'])) {
+    $form['sort_by']['#access']   = FALSE;
+    $form['sort_order']['#title'] = $form['sort_by']['#title'];
+  }
+
+  // Hide body filter.
+  if (isset($form['body'])) {
+    $form['body']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_node_links_alter().
+ */
+function pyramid_base_node_links_alter(array &$links, Node $entity, array &$context) {
+
+  $view_mode_with_custom_links = ['news', 'sidebar', 'teaser'];
+  if (in_array($context['view_mode'], $view_mode_with_custom_links) && empty($links['node']['#links'])) {
+    $options          = ['absolute' => TRUE];
+    $url              = Url::fromRoute('entity.node.canonical', ['node' => $entity->id()], $options);
+    $link_title       = $entity->getTitle();
+    $links['pyramid'] = [
+      '#theme' => "links__node",
+      '#links' => [
+        [
+          'title'      => t('Read more<span class="visually-hidden"> about @title</span>', [
+            '@title' => $entity->getTitle(),
+          ]),
+          'url'        => $url,
+          'attributes' => [
+            'class' => ['node-readmore'],
+            'rel'   => 'tag',
+            'title' => $link_title,
+          ],
+        ],
+      ],
+    ];
+  }
+}

@@ -1,0 +1,20 @@
+uuid: b0189dff-4f7d-43fd-b933-a1a151a0dc8e
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - pyramid
+id: pyramid_content
+theme: pyramid
+region: content
+weight: -6
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Contenu de la page principale'
+  provider: system
+  label_display: '0'
+visibility: {  }

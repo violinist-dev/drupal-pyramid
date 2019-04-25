@@ -1,0 +1,21 @@
+uuid: c3d772aa-0f6a-438a-b6c0-24330a789610
+langcode: fr
+status: true
+dependencies:
+  module:
+    - pyramid_base
+  theme:
+    - pyramid
+id: pyramid_sitesearch
+theme: pyramid
+region: header_search
+weight: 0
+provider: null
+plugin: pyramid_sitesearch_block
+settings:
+  id: pyramid_sitesearch_block
+  label: 'Pyramid - Site search'
+  provider: pyramid_base
+  label_display: '0'
+  placeholder: 'Type your search and press enter...'
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: 21ee104e-a49f-4db4-b3ae-30607d784781
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.slide.field_image
+    - paragraphs.paragraphs_type.slide
+id: paragraph.slide.default
+targetEntityType: paragraph
+bundle: slide
+mode: default
+content:
+  field_image:
+    type: entity_reference_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: slider
+      link: false
+    third_party_settings: {  }
+    region: content
+hidden: {  }

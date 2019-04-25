@@ -1,0 +1,20 @@
+uuid: 98010a31-a84e-4787-95e3-b8da02d773eb
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - pyramid
+id: pyramid_messages
+theme: pyramid
+region: breadcrumbs
+weight: -6
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  provider: system
+  label_display: '0'
+visibility: {  }

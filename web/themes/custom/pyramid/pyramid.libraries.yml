@@ -1,0 +1,107 @@
+base:
+  version: VERSION
+  css:
+    base:
+      css/styles.css: { weight: -10 }
+    component:
+      css/components/site.layout.css: { weight: -10 }
+      css/components/site.menu.css: { weight: -10 }
+      css/components/site.branding.css: { weight: -10 }
+    theme:
+      css/wysiwyg.css: { weight: -10 }
+  js:
+    js/menu.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+
+# Admin block
+block.admin_messages:
+  version: VERSION
+  css:
+    theme:
+      css/blocks/block.admin_messages.css: { weight: -10 }
+
+# Admin messages
+block.admin_tabs:
+  version: VERSION
+  css:
+    theme:
+      css/blocks/block.admin_tabs.css: { weight: -10 }
+
+# Breadcrumbs block
+block.breadcrumbs:
+  version: VERSION
+  css:
+    theme:
+      css/blocks/block.breadcrumbs.css: { weight: -10 }
+
+# Social block
+block.social:
+  version: VERSION
+  css:
+    theme:
+      css/blocks/block.social.css: { weight: -10 }
+      
+# Search block
+block.search:
+  version: VERSION
+  css:
+    theme:
+      css/blocks/block.search.css: { weight: -10 }
+
+# Slider block
+block.slider:
+  version: VERSION
+  css:
+    theme:
+      css/blocks/block.slider.css: { weight: -10 }
+  js:
+    js/slick.js: {}
+    js/slider.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+
+# Twitter block
+block.twitter:
+  version: VERSION
+  css:
+    theme:
+      css/blocks/block.twitter.css: { weight: -10 }
+
+# View base
+view:
+  version: VERSION
+  css:
+    theme:
+      css/views/view.css: { weight: -10 }
+  js:
+    js/views.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+
+# Form base
+form:
+  version: VERSION
+  css:
+    theme:
+      css/components/site.form.css: { weight: -10 }
+
+# Node base
+node:
+  version: VERSION
+  css:
+    theme:
+      css/nodes/node.css: { weight: -10 }
+
+# Node Article
+node.article:
+  version: VERSION
+  css:
+    theme:
+      css/nodes/node.article.css: { weight: -10 }

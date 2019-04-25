@@ -1,0 +1,11 @@
+{% extends 'node.html.twig' %}
+
+{% block title %}
+  <h3{{ title_attributes.addClass('node-title').setAttribute('href', url).setAttribute('rel', 'bookmark') }}>{{ label }}</h3>
+
+  <div{{ author_attributes.addClass('node-author') }}>
+    {% trans %}{{ date }} by {{ author_name }}{% endtrans %}
+  </div>
+
+  <div class="separator"></div>
+{% endblock %}

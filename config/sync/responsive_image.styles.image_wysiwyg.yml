@@ -1,0 +1,24 @@
+uuid: d92381ba-0848-4666-a03c-9b2e487b0190
+langcode: fr
+status: true
+dependencies:
+  config:
+    - image.style.wysiwyg_narrow
+    - image.style.wysiwyg_wide
+  theme:
+    - pyramid
+id: image_wysiwyg
+label: 'Image wysiwyg'
+image_style_mappings:
+  -
+    breakpoint_id: pyramid.wide
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: wysiwyg_wide
+  -
+    breakpoint_id: pyramid.mobile
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: wysiwyg_narrow
+breakpoint_group: pyramid
+fallback_image_style: '_original image_'

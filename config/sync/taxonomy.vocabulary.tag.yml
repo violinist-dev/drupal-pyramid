@@ -1,0 +1,9 @@
+uuid: 5d6c1dfa-3c65-45c9-b974-b428a0c4e230
+langcode: fr
+status: true
+dependencies: {  }
+name: Mots-clefs
+vid: tag
+description: ''
+hierarchy: 0
+weight: 0

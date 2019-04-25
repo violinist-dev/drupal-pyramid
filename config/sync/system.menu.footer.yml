@@ -1,10 +1,10 @@
-uuid: 5d8b05fb-74f0-4114-8d81-2879ec4ad945
-langcode: en
+uuid: 60ff3bfe-d6e8-44fd-ace9-ece3d69a2497
+langcode: fr
 status: true
 dependencies: {  }
 _core:
   default_config_hash: 7yrlW5z9zdg2eBucB2GPqXKSMQfH9lSRSO4DbWF7AFc
 id: footer
-label: Footer
-description: 'Site information links'
+label: 'Pied de page'
+description: 'Liens d''informations sur le site'
 locked: true

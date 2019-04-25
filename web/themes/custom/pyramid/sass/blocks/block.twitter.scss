@@ -1,0 +1,20 @@
+@import "../variables";
+@import "../../node_modules/bulma/sass/utilities/derived-variables.sass";
+
+.block--twitter-api-block {
+  .form-item {
+    display: none;
+  }
+  .block-title {
+    font-size: $size-medium;
+    text-transform: uppercase;
+    color: $secondary;
+  }
+  .icon {
+    color: $secondary;
+
+    svg {
+      width: $size-large;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+@import "../variables";
+@import "../mixins";
+
+.block-social {
+  .block-title {
+    text-align: center;
+    @include title(2);
+    color: $white;
+
+    @include desktop {
+      text-align: initial;
+    }
+  }
+
+  .menu-item {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .icon {
+    display: inline-block;
+    line-height: 0;
+    border-radius: 30px;
+    background: $white;
+    padding: $size-small;
+
+    svg {
+      width: 1.5em;
+      height: 1.5em;
+    }
+
+    .colorize {
+      color: $primary;
+    }
+  }
+}

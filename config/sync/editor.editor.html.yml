@@ -1,0 +1,62 @@
+uuid: 472a2baa-58df-412a-8815-c8b677f4540e
+langcode: fr
+status: true
+dependencies:
+  config:
+    - filter.format.html
+  module:
+    - ckeditor
+format: html
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formats
+          items:
+            - Bold
+            - Italic
+            - Underline
+            - Superscript
+            - Subscript
+            - JustifyLeft
+            - JustifyCenter
+            - JustifyRight
+            - Styles
+            - RemoveFormat
+        -
+          name: Liens
+          items:
+            - Linkit
+            - DrupalUnlink
+        -
+          name: Listes
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Média
+          items:
+            - Blockquote
+            - DrupalImage
+        -
+          name: Tools
+          items:
+            - Source
+            - ShowBlocks
+  plugins:
+    stylescombo:
+      styles: "h2.title|Titre (H2)\r\nh3.subtitle|Sous titre (H3)\r\nblockquote.quote|Citation\r\nspan.featured|Mis en avant\r\na.button|Button"
+    language:
+      language_list: un
+    linkit:
+      linkit_profile: link
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

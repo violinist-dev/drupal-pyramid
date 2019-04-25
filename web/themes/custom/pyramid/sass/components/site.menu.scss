@@ -1,0 +1,246 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+// Global menu things.
+.menu-item a {
+  display: block;
+}
+.menu-burger {
+  color: $primary;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  height: 4rem;
+  width: 5rem;
+
+  background: none;
+  border: none;
+
+  span {
+    background-color: currentColor;
+    display: block;
+    height: 2px;
+    left: calc(50% - 1em);
+    position: absolute;
+    transform-origin: center;
+    transition-duration: 86ms;
+    transition-property: background-color, opacity, transform;
+    transition-timing-function: ease-out;
+    width: 2em;
+  }
+  span:nth-child(1) {
+    top: calc(50% - 10px);
+  }
+  span:nth-child(2) {
+    top: calc(50% - 1px);
+  }
+  span:nth-child(3) {
+    top: calc(50% + 8px);
+  }
+
+  // On hover.
+  &.is-active {
+    span:nth-child(1) {
+      -webkit-transform: translateY(3px) rotate(45deg);
+      transform: translateY(3px) rotate(45deg);
+    }
+    span:nth-child(2) {
+      opacity: 0;
+    }
+    span:nth-child(3) {
+      -webkit-transform: translateY(-15px) rotate(-45deg);
+      transform: translateY(-15px) rotate(-45deg);
+    }
+  }
+}
+
+// Header positionning.
+.header-top {
+  &.columns:not(:last-child) {
+    @include touch {
+      margin-bottom: -$size-small;
+    }
+  }
+
+  .menu-burger {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+  }
+}
+.header-menu {
+  padding-top: $size-large;
+}
+
+// Dropdown menu.
+.menu.is-dropdown {
+  position: relative;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+  ul {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: $white;
+  }
+  input[type="checkbox"]:checked ~ ul {
+    display: block;
+  }
+  input[type="checkbox"] ~ label {
+    display: block;
+    cursor: pointer;
+  }
+
+  // SVG styling.
+  .icon {
+    display: inline-block;
+    position: absolute;
+    width: 1em;
+    top: 0;
+    right: 0;
+    z-index: -1;
+  }
+}
+
+// Header menu.
+.menu--links {
+  color: $primary;
+  text-transform: uppercase;
+  .menu-item a {
+    color: $primary;
+    line-height: 1.8;
+  }
+  .dropdown-trigger {
+    border-bottom: 1px solid $primary;
+    margin-bottom: 1em;
+  }
+}
+
+// Main menu.
+.menu--main {
+  .menu-item {
+    text-align: center;
+  }
+  a {
+    display: inline-block;
+    width: auto;
+    color: $primary;
+    text-transform: uppercase;
+    line-height: 2;
+
+    &:after {
+      content: " ";
+      height: 5px;
+      width: 125%;
+      margin-left: -12%;
+
+      display: block;
+      position: relative;
+      background: none;
+    }
+
+    &:hover,
+    &:focus,
+    &:active,
+    .is-active & {
+      color: $secondary;
+      font-weight: $weight-bold;
+
+      &:after {
+        background-color: $secondary;
+      }
+    }
+  }
+}
+
+// Language switcher.
+.block--language li {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 0.4em;
+}
+.block--language li + li {
+  border-left: 1px solid $primary;
+  padding-left: 0.3em;
+}
+.language-link {
+  color: $primary;
+  text-transform: uppercase;
+
+  &.is-active {
+    font-weight: $weight-bold;
+  }
+}
+
+// Footer menu.
+.menu--footer {
+  margin-top: 2em;
+  text-align: center;
+
+  .menu-item {
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: 0.3em;
+    padding-left: 0.5em;
+
+    a {
+      color: $white;
+    }
+
+    & + .menu-item {
+      border-left: 1px solid $white;
+    }
+  }
+}
+
+// Social menu.
+.menu--social {
+  text-align: right;
+
+  .menu-item a {
+    color: $white;
+  }
+
+  @include mobile {
+    text-align: center;
+  }
+}
+
+// Back to top.
+// Technically not a menu, but it's OK to have it here.
+.back-to-top {
+  text-align: center;
+
+  a {
+    display: inline-block;
+    margin: auto;
+    width: auto;
+    line-height: 0;
+
+    padding: $size-small;
+    border-radius: 30px;
+    background-color: $secondary;
+  }
+
+  svg {
+    width: 1.5em;
+    height: 1.5em;
+
+    .colorize {
+      fill: $white;
+
+      // Force bold effect.
+      stroke: $white;
+      stroke-width: 3em;
+    }
+  }
+
+  .layout-prefooter & {
+    position: absolute;
+    top: -1.5em;
+    right: 0;
+    left: 0;
+  }
+}

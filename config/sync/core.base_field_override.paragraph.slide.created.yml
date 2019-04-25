@@ -1,0 +1,18 @@
+uuid: 8a7d5793-0155-4595-a074-40caf46bfa05
+langcode: fr
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.slide
+id: paragraph.slide.created
+field_name: created
+entity_type: paragraph
+bundle: slide
+label: 'Écrit le'
+description: 'Heure de création du paragraphe.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

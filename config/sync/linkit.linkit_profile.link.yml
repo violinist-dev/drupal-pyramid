@@ -1,0 +1,33 @@
+uuid: 97071323-f63e-44f5-952a-2509d02306e9
+langcode: fr
+status: true
+dependencies:
+  module:
+    - node
+id: link
+label: Lien
+description: ''
+attributes:
+  id:
+    id: id
+    weight: -10
+    settings: {  }
+  title:
+    id: title
+    weight: -9
+    settings:
+      automatic_title: true
+  relationship:
+    id: relationship
+    weight: -8
+    settings: {  }
+matchers:
+  94fb9800-fe2a-423b-b322-664a1add43f2:
+    uuid: 94fb9800-fe2a-423b-b322-664a1add43f2
+    id: 'entity:node'
+    weight: 0
+    settings:
+      result_description: Contenu
+      bundles: {  }
+      group_by_bundle: true
+      include_unpublished: false

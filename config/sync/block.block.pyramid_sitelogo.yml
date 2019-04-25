@@ -1,0 +1,21 @@
+uuid: 17f836be-102c-4639-ad0f-92aa8d8cc0ac
+langcode: fr
+status: true
+dependencies:
+  module:
+    - pyramid_base
+  theme:
+    - pyramid
+id: pyramid_sitelogo
+theme: pyramid
+region: footer
+weight: -2
+provider: null
+plugin: pyramid_sitelogo_block
+settings:
+  id: pyramid_sitelogo_block
+  label: 'Pyramid - Site logo'
+  provider: pyramid_base
+  label_display: '0'
+  site_slogan: 'L''ocean en reference'
+visibility: {  }

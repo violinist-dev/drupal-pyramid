@@ -1,0 +1,9 @@
+{% extends 'node--article--teaser.html.twig' %}
+
+{% block before_title %}
+{{ content.field_image }}
+{% endblock %}
+
+{% block content %}
+{{ content|without('field_image') }}
+{% endblock %}

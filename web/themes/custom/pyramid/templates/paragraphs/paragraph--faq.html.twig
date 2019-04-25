@@ -1,0 +1,23 @@
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+
+{% set pid = paragraph.id() %}
+
+<section{{ attributes.addClass(classes) }}>
+  {% block content %}
+    <input type="checkbox" id="{{ pid }}" class="toggle-trigger" />
+    <label for="{{ pid }}" class="toggle-label">
+      <span class="text">{{ content.field_title }}</span>
+      <span class="sign"></span>
+    </label>
+    <div class="toggle-content">
+      {{ content.field_wysiwyg }}
+    </div>
+  {% endblock %}
+</section>

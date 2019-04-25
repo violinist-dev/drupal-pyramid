@@ -1,15 +1,17 @@
-uuid: 2e20f84c-adff-48be-8bbc-49a7fb1c8e51
-langcode: en
+uuid: 3824a9e0-f161-49a9-807f-20760ef59a32
+langcode: fr
 status: true
 dependencies:
   config:
     - field.field.node.page.body
+    - field.field.node.page.field_meta_tags
+    - field.field.node.page.field_yoast_seo
     - node.type.page
   module:
+    - metatag
     - path
     - text
-_core:
-  default_config_hash: sb0qCkzU_8mNq29NehYAU8jCBXWPLeX0UN8sYFVGVcw
+    - yoast_seo
 id: node.page.default
 targetEntityType: node
 bundle: page
@@ -17,19 +19,32 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 31
-    region: content
+    weight: 121
     settings:
       rows: 9
       summary_rows: 3
       placeholder: ''
     third_party_settings: {  }
+    region: content
   created:
     type: datetime_timestamp
     weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_meta_tags:
+    weight: 122
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
+  field_yoast_seo:
+    weight: 123
+    settings:
+      body: body
+    third_party_settings: {  }
+    type: yoast_seo_widget
+    region: content
   langcode:
     type: language_select
     weight: 2
@@ -72,13 +87,30 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 5
-    region: content
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+    region: content
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  views:
+    type: number
+    weight: 1
+    settings:
+      placeholder: 'Zero views for now...'
+    region: content
     third_party_settings: {  }
 hidden: {  }

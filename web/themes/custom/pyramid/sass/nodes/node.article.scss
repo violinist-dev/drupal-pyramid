@@ -1,0 +1,26 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+
+.node--article--teaser {
+  .node-title {
+    @include title(2);
+  }
+}
+
+.article-title {
+  @include title(3);
+  margin-top: $size-medium;
+  margin-bottom: $size-medium;
+}
+
+.node--article--sidebar {
+  padding-bottom: 2em;
+  margin-bottom: 2em;
+  border-bottom: 2px solid $secondary;
+
+  .node-title {
+    @include title(4);
+    margin-bottom: $size-medium;
+  }
+}
+

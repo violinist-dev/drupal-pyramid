@@ -1,9 +1,0 @@
-uuid: 2404f900-f0c2-43fb-bdba-93da416a659b
-langcode: en
-status: true
-dependencies: {  }
-id: hero
-label: Hero
-icon_uuid: null
-description: ''
-behavior_plugins: {  }

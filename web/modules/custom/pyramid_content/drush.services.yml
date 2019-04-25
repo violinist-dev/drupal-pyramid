@@ -1,6 +1,0 @@
-services:
-  pyramid_content.commands:
-    class: \Drupal\pyramid_content\Commands\PyramidContentCommands
-    arguments: []
-    tags:
-      - { name: drush.command }

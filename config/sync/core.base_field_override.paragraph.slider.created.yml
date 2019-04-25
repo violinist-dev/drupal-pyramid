@@ -1,0 +1,18 @@
+uuid: ece41dcf-afcc-4698-98b8-407012a2b7ee
+langcode: fr
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.slider
+id: paragraph.slider.created
+field_name: created
+entity_type: paragraph
+bundle: slider
+label: 'Écrit le'
+description: 'Heure de création du paragraphe.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created
