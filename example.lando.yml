@@ -40,9 +40,9 @@ tooling:
 # ==========================
 proxy:
   pma:
-    - pma.kline.lndo.site
+    - pma.pyramid.lndo.site
   mailhog:
-    - mail.kline.lndo.site
+    - mail.pyramid.lndo.site
 #  appserver:
 #    - "yoursite.lndo.site"
 #    - "*.yousite.lndo.site"
