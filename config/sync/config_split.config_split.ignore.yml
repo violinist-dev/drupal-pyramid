@@ -8,8 +8,10 @@ description: ''
 folder: ../config/ignore
 module: {  }
 theme: {  }
-blacklist: {  }
-graylist: {  }
+blacklist:
+  - 'ignore_*'
+graylist:
+  - 'system.*'
 graylist_dependents: true
 graylist_skip_equal: true
 weight: 0

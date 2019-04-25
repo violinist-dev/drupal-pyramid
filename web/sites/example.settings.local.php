@@ -77,7 +77,7 @@ if ($env == 'local') {
 }
 
 // Configuration management.
-$config_split_folders['ignore'] = TRUE;
+$config_split_folders['ignore'] = TRUE; // Always activated.
 $config_split_folders['dev']    = ($env == 'local' || $env == 'dev');
 $config_split_folders['stage']  = $env == 'stage';
 $config_split_folders['prod']   = $env == 'prod';

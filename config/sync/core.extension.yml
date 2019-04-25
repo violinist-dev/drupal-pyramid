@@ -33,7 +33,6 @@ module:
   page_cache: 0
   path: 0
   pyramid_base: 0
-  pyramid_views_counter: 0
   redirect: 0
   responsive_image: 0
   simple_sitemap: 0
