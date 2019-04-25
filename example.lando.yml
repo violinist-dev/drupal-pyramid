@@ -62,7 +62,7 @@ events:
     - echo "First install from config"
     - echo "=========================="
     - appserver: "cd $LANDO_MOUNT/ && composer first-install"
-    - appserver: "cd $LANDO_MOUNT/ && composer drush site-install config_installer -y"
+    - appserver: "cd $LANDO_MOUNT/ && composer drush site-install config_installer"
     - appserver: "cd $LANDO_MOUNT/ && composer drush upwd admin admin"
     - appserver: "cd $LANDO_MOUNT/ && composer drush en pyramid_content"
     - appserver: "cd $LANDO_MOUNT/ && composer drush pmu pyramid_content default_content default_content_extra hal serialization"
