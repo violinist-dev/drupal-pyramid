@@ -1,5 +1,5 @@
 {
-  "name": "drupal-example",
+  "name": "drupal-pyramid",
   "version": "1.0.0",
   "description": "A wonderful Drupal 8 composer-based project.",
   "main": "composer.json",
