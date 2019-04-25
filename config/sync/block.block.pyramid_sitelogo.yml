@@ -17,5 +17,5 @@ settings:
   label: 'Pyramid - Site logo'
   provider: pyramid_base
   label_display: '0'
-  site_slogan: 'L''ocean en reference'
+  site_slogan: 'Le sable en reference'
 visibility: {  }
